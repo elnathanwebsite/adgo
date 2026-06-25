@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - aDGo</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css">
+    <!-- SortableJS for drag & drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #4F46E5;
+            --bg-color: #f4f6f9;
+        }
+        body { 
+            background-color: var(--bg-color); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- Styles untuk Auth / Login --- */
+        #auth-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4F46E5 0%, #818cf8 100%);
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .auth-header {
+            background: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .auth-body {
+            padding: 30px;
+        }
+
+        /* --- Styles untuk Dashboard --- */
+        #dashboard-section {
+            display: none;
+            min-height: 100vh;
+        }
+        .sidebar { min-height: 100vh; background: linear-gradient(180deg, #343a40 0%, #1e2226 100%); color: white; position: fixed; z-index: 100; width: 250px; transition: all 0.3s; }
+        .main-content { margin-left: 250px; padding: 20px; transition: all 0.3s; }
+        
+        .sidebar .nav-link { color: rgba(255,255,255,0.8); margin-bottom: 5px; border-radius: 8px; cursor: pointer; transition: all 0.2s; padding: 10px 15px; }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active { 
+            background: var(--primary-color); 
+            color: white; 
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+            transform: translateX(5px);
+        }
+        
+        .post-img-thumb { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #e9ecef; transition: all 0.3s; }
+        .post-img-thumb:hover { transform: scale(1.05); }
+        
+        /* Card Styling */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .card:hover {
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Table Improvements */
+        .table thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .table tbody tr {
+            border-bottom: 1px solid #f1f1f1;
+            transition: all 0.2s;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.002);
+        }
+        
+        /* Drag & Drop Styling */
+        .sortable-ghost {
+            opacity: 0.4;
+            background: #c8ebfb;
+        }
+        
+        .sortable-chosen {
+            background-color: #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .drag-handle {
+            cursor: grab;
+            color: #6c757d;
+            font-size: 1.2rem;
+            padding: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .drag-handle:hover {
+            color: var(--primary-color);
+        }
+        
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+        
+        /* Position Badge */
+        .position-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* Action Buttons */
+        .action-btn { 
+            padding: 8px 12px; 
+            font-size: 0.85rem; 
+            margin-right: 5px; 
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Toast Notification Styles */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .custom-toast {
+            min-width: 300px;
+            background: white;
+            border-left: 5px solid;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        .toast-success { border-color: #28a745; }
+        .toast-error { border-color: #dc3545; }
+        .toast-info { border-color: #17a2b8; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Badge Colors for Categories */
+        .badge-technology { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .badge-news { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .badge-promo { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .badge-article { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .badge-tutorial { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        
+        .badge-ecommerce { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
+        .badge-company { background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); color: #333; }
+        .badge-landing { background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); }
+        .badge-system { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+        .badge-custom { background: linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%); color: #333; }
+        
+        /* Responsive Mobile */
+        @media (max-width: 768px) {
+            .sidebar { margin-left: -250px; }
+            .sidebar.active { margin-left: 0; }
+            .main-content { margin-left: 0; }
+            .drag-handle { display: none; }
+            .position-badge { width: 30px; height: 30px; font-size: 0.9rem; }
+        }
+        
+        /* Loading Spinner */
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NOTIFIKASI TOAST CONTAINER -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- BAGIAN 1: LOGIN (AUTH SECTION) -->
+    <div id="auth-section">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h3 class="fw-bold text-primary mb-0">aDGo Admin</h3>
+                <p class="text-muted small mt-2">Masuk untuk mengelola website</p>
+            </div>
+            <div class="auth-body bg-white">
+                
+                <!-- Form Login Saja -->
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label class="form-label">Email Address</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            <input type="email" class="form-control" id="loginEmail" required placeholder="admin@adgo.com">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" class="form-control" id="loginPass" required placeholder="******">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm">
+                        <i class="fas fa-sign-in-alt me-2"></i> Masuk Sekarang
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- BAGIAN 2: DASHBOARD ADMIN -->
+    <div id="dashboard-section">
+        <div class="d-flex">
+            <!-- Sidebar -->
+            <nav class="sidebar d-md-block p-3">
+                <div class="position-sticky pt-3">
+                    <h4 class="text-center mb-4 text-primary">Admin aDGo</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="nav-posts" onclick="switchView('posts')">
+                                <i class="fas fa-newspaper me-2"></i> Postingan Blog
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav-projects" onclick="switchView('projects')">
+                                <i class="fas fa-briefcase me-2"></i> Project Portofolio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html" target="_blank">
+                                <i class="fas fa-globe me-2"></i> Lihat Website
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <div class="text-muted small px-3 mb-2">AKUN: 
+                                <span id="userEmailDisplay" class="text-white fw-bold">...</span>
+                            </div>
+                            <button class="nav-link w-100 text-start bg-danger text-white" onclick="window.logoutUser()">
+                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="main-content w-100">
+                
+                <!-- VIEW: POSTS -->
+                <div id="view-posts">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+                        <h1 class="h2">Kelola Postingan Blog</h1>
+                        <div>
+                            <button type="button" class="btn btn-secondary shadow-sm me-2" onclick="window.savePostOrder()">
+                                <i class="fas fa-save me-1"></i> Simpan Urutan
+                            </button>
+                            <button type="button" class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#addPostModal" id="btnOpenModalAddPost">
+                                <i class="fas fa-plus me-1"></i> Tambah Postingan
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Table Posts -->
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white py-3">
+                            <h6 class="mb-0">
+                                <i class="fas fa-bars me-2"></i> Drag & Drop untuk mengubah urutan postingan
+                                <small class="text-muted ms-2">(Geser dengan ikon <i class="fas fa-grip-vertical"></i>)</small>
+                            </h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 50px;" class="text-center">Posisi</th>
+                                            <th style="width: 60px;" class="text-center">Drag</th>
+                                            <th style="width: 100px;">Gambar</th>
+                                            <th>Judul & Konten</th>
+                                            <th>Kategori</th>
+                                            <th style="width: 150px; text-align: center;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="postsTableBody">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-5">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="visually-hidden">Memuat...</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: PROJECTS -->
+                <div id="view-projects" style="display: none;">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+                        <h1 class="h2">Kelola Project Portofolio</h1>
+                        <div>
+                            <button type="button" class="btn btn-secondary shadow-sm me-2" onclick="window.saveProjectOrder()">
+                                <i class="fas fa-save me-1"></i> Simpan Urutan
+                            </button>
+                            <button type="button" class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#addProjectModal" id="btnOpenModalAddProject">
+                                <i class="fas fa-plus me-1"></i> Tambah Project
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Table Projects -->
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white py-3">
+                            <h6 class="mb-0">
+                                <i class="fas fa-bars me-2"></i> Drag & Drop untuk mengubah urutan project
+                                <small class="text-muted ms-2">(Geser dengan ikon <i class="fas fa-grip-vertical"></i>)</small>
+                            </h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 50px;" class="text-center">Posisi</th>
+                                            <th style="width: 60px;" class="text-center">Drag</th>
+                                            <th style="width: 100px;">Gambar</th>
+                                            <th>Nama Project</th>
+                                            <th>Kategori</th>
+                                            <th style="width: 150px; text-align: center;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="projectsTableBody">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-5">
+                                                <div class="spinner-border text-success" role="status">
+                                                    <span class="visually-hidden">Memuat...</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL: TAMBAH/EDIT POSTINGAN -->
+    <div class="modal fade" id="addPostModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalTitle">Tambah Postingan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="postForm">
+                        <input type="hidden" id="postId">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Judul Postingan</label>
+                            <input type="text" class="form-control" id="editTitle" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Kategori</label>
+                                <select class="form-select" id="editCategory" required>
+                                    <option value="Teknologi">Teknologi</option>
+                                    <option value="Berita">Berita</option>
+                                    <option value="Promo">Promo</option>
+                                    <option value="Artikel">Artikel</option>
+                                    <option value="Tutorial">Tutorial</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Nama Penulis</label>
+                                <input type="text" class="form-control" id="editAuthor" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Detail Postingan</label>
+                            <textarea class="form-control" id="editContent" rows="4" required></textarea>
+                        </div>
+                        <!-- Gambar Section -->
+                        <div class="card bg-light">
+                            <div class="card-header py-2">
+                                <ul class="nav nav-tabs card-header-tabs" id="photoTabPost" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#content-upload-post">Upload</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#content-link-post">Link</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="content-upload-post">
+                                        <input type="file" class="form-control" id="editPhotoFile" accept="image/*">
+                                        <div id="currentImagePreviewPost" class="mt-2 d-none">
+                                            <img src="" id="imgPreviewPost" style="max-height: 100px;">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="content-link-post">
+                                        <input type="url" class="form-control" id="editPhotoLink" placeholder="https://...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="window.savePost()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: TAMBAH/EDIT PROJECT -->
+    <div class="modal fade" id="addProjectModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="projectModalTitle">Tambah Project</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="projectForm">
+                        <input type="hidden" id="projectId">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nama Project</label>
+                            <input type="text" class="form-control" id="projTitle" required placeholder="Contoh: Website Toko Baju">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Kategori</label>
+                                <select class="form-select" id="projCategory" required>
+                                    <option value="E-Commerce">E-Commerce</option>
+                                    <option value="Company Profile">Company Profile</option>
+                                    <option value="Landing Page">Landing Page</option>
+                                    <option value="Sistem Informasi">Sistem Informasi</option>
+                                    <option value="Custom Web">Custom Web</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Link Live Website</label>
+                                <input type="url" class="form-control" id="projLink" required placeholder="https://website-klien.com">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Deskripsi Singkat</label>
+                            <textarea class="form-control" id="projDesc" rows="3" required placeholder="Jelaskan fitur utama project ini..."></textarea>
+                        </div>
+                        <!-- Gambar Section Project -->
+                        <div class="card bg-light">
+                            <div class="card-header py-2">
+                                <ul class="nav nav-tabs card-header-tabs" id="photoTabProj" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#content-upload-proj">Upload</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#content-link-proj">Link</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="content-upload-proj">
+                                        <input type="file" class="form-control" id="projPhotoFile" accept="image/*">
+                                        <div id="currentImagePreviewProj" class="mt-2 d-none">
+                                            <small>Preview:</small><br>
+                                            <img src="" id="imgPreviewProj" style="max-height: 100px;">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="content-link-proj">
+                                        <input type="url" class="form-control" id="projPhotoLink" placeholder="https://...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-success" onclick="window.saveProject()">Simpan Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Firebase & App Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase, ref, push, onValue, update, remove, set } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+        import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCBHQfZ-spUiMIm0DCuAyFhh5oQicoMTW0",
+            authDomain: "ethan-el-nathan.firebaseapp.com",
+            databaseURL: "https://ethan-el-nathan-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "ethan-el-nathan",
+            storageBucket: "ethan-el-nathan.appspot.com",
+            messagingSenderId: "1079423989695",
+            appId: "1:1079423989695:web:a95fe3485340efe3d9130a",
+            measurementId: "G-1RXN929QD4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const storage = getStorage(app);
+        const auth = getAuth(app);
+        
+        // Refs
+        const postsRef = ref(db, 'posts');
+        const projectsRef = ref(db, 'projects');
+        
+        // Data Arrays untuk drag & drop
+        let postsArray = [];
+        let projectsArray = [];
+        let sortablePosts = null;
+        let sortableProjects = null;
+
+        // --- HELPER: TOAST ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `custom-toast toast-${type}`;
+            let iconClass = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle');
+            toast.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas ${iconClass} fa-lg me-3 text-${type}"></i>
+                    <span>${message}</span>
+                </div>
+                <button type="button" class="btn-close ms-3" onclick="this.parentElement.remove()"></button>`;
+            container.appendChild(toast);
+            setTimeout(() => { 
+                toast.style.opacity = '0'; 
+                setTimeout(() => toast.remove(), 300); 
+            }, 3000);
+        }
+
+        // --- AUTH ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('auth-section').style.display = 'none';
+                document.getElementById('dashboard-section').style.display = 'block';
+                document.getElementById('userEmailDisplay').textContent = user.email;
+                initSortableLists();
+            } else {
+                document.getElementById('auth-section').style.display = 'flex';
+                document.getElementById('dashboard-section').style.display = 'none';
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPass').value);
+                showToast('Login Berhasil!', 'success');
+                e.target.reset();
+            } catch (error) {
+                showToast('Login Gagal: ' + error.message, 'error');
+            }
+        });
+
+        window.logoutUser = () => {
+            signOut(auth).then(() => showToast('Logout Berhasil', 'info')).catch(e => showToast(e.message, 'error'));
+        };
+
+        // --- NAVIGATION LOGIC ---
+        window.switchView = (viewName) => {
+            document.querySelectorAll('.sidebar .nav-link').forEach(el => el.classList.remove('active'));
+            document.getElementById('nav-' + viewName).classList.add('active');
+
+            document.getElementById('view-posts').style.display = viewName === 'posts' ? 'block' : 'none';
+            document.getElementById('view-projects').style.display = viewName === 'projects' ? 'block' : 'none';
+            
+            if (viewName === 'posts') {
+                initSortablePosts();
+            } else if (viewName === 'projects') {
+                initSortableProjects();
+            }
+        };
+
+        // --- DRAG & DROP INITIALIZATION ---
+        function initSortableLists() {
+            initSortablePosts();
+            initSortableProjects();
+        }
+
+        function initSortablePosts() {
+            const tbody = document.getElementById('postsTableBody');
+            if (!tbody) return;
+            
+            if (sortablePosts) sortablePosts.destroy();
+            
+            sortablePosts = Sortable.create(tbody, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                handle: '.drag-handle',
+                onEnd: function() {
+                    updatePostPositions();
+                }
+            });
+        }
+
+        function initSortableProjects() {
+            const tbody = document.getElementById('projectsTableBody');
+            if (!tbody) return;
+            
+            if (sortableProjects) sortableProjects.destroy();
+            
+            sortableProjects = Sortable.create(tbody, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                handle: '.drag-handle',
+                onEnd: function() {
+                    updateProjectPositions();
+                }
+            });
+        }
+
+        function updatePostPositions() {
+            const rows = document.querySelectorAll('#postsTableBody tr');
+            rows.forEach((row, index) => {
+                const positionCell = row.querySelector('.position-badge');
+                if (positionCell) {
+                    positionCell.textContent = index + 1;
+                    const postId = row.dataset.id;
+                    if (postId) {
+                        postsArray[index].order = index + 1;
+                    }
+                }
+            });
+        }
+
+        function updateProjectPositions() {
+            const rows = document.querySelectorAll('#projectsTableBody tr');
+            rows.forEach((row, index) => {
+                const positionCell = row.querySelector('.position-badge');
+                if (positionCell) {
+                    positionCell.textContent = index + 1;
+                    const projectId = row.dataset.id;
+                    if (projectId) {
+                        projectsArray[index].order = index + 1;
+                    }
+                }
+            });
+        }
+
+        // --- SAVE ORDER FUNCTIONS ---
+        window.savePostOrder = async () => {
+            const updates = {};
+            const rows = document.querySelectorAll('#postsTableBody tr');
+            
+            rows.forEach((row, index) => {
+                const postId = row.dataset.id;
+                if (postId) {
+                    updates[`posts/${postId}/order`] = index + 1;
+                }
+            });
+            
+            try {
+                await update(ref(db), updates);
+                showToast('Urutan postingan berhasil disimpan!', 'success');
+            } catch (error) {
+                showToast('Gagal menyimpan urutan: ' + error.message, 'error');
+            }
+        };
+
+        window.saveProjectOrder = async () => {
+            const updates = {};
+            const rows = document.querySelectorAll('#projectsTableBody tr');
+            
+            rows.forEach((row, index) => {
+                const projectId = row.dataset.id;
+                if (projectId) {
+                    updates[`projects/${projectId}/order`] = index + 1;
+                }
+            });
+            
+            try {
+                await update(ref(db), updates);
+                showToast('Urutan project berhasil disimpan!', 'success');
+            } catch (error) {
+                showToast('Gagal menyimpan urutan: ' + error.message, 'error');
+            }
+        };
+
+        // --- BLOG POSTS LOGIC ---
+        onValue(postsRef, (snapshot) => {
+            const tbody = document.getElementById('postsTableBody');
+            tbody.innerHTML = '';
+            const data = snapshot.val();
+            
+            if(!data) { 
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Belum ada data postingan.</td></tr>'; 
+                postsArray = [];
+                return; 
+            }
+            
+            postsArray = Object.entries(data).map(([key, post]) => ({
+                id: key,
+                ...post,
+                order: post.order || 999
+            }));
+            
+            // Sort by order
+            postsArray.sort((a, b) => a.order - b.order);
+            
+            postsArray.forEach((post, index) => {
+                const badgeClass = getPostBadgeClass(post.category);
+                tbody.innerHTML += `
+                    <tr data-id="${post.id}">
+                        <td class="text-center">
+                            <div class="position-badge">${index + 1}</div>
+                        </td>
+                        <td class="text-center">
+                            <div class="drag-handle">
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                        </td>
+                        <td>
+                            <img src="${post.imageUrl || 'https://via.placeholder.com/80'}" 
+                                 class="post-img-thumb" 
+                                 alt="${post.title}">
+                        </td>
+                        <td>
+                            <strong>${post.title}</strong>
+                            <br>
+                            <small class="text-muted">${(post.content || '').substring(0, 60)}...</small>
+                            <br>
+                            <small><i class="fas fa-user"></i> ${post.author}</small>
+                        </td>
+                        <td>
+                            <span class="badge ${badgeClass}">${post.category}</span>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-warning action-btn text-white" onclick="window.editPost('${post.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger action-btn" onclick="window.deletePost('${post.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>`;
+            });
+            
+            setTimeout(() => initSortablePosts(), 100);
+        });
+
+        function getPostBadgeClass(category) {
+            const map = {
+                'Teknologi': 'badge-technology',
+                'Berita': 'badge-news',
+                'Promo': 'badge-promo',
+                'Artikel': 'badge-article',
+                'Tutorial': 'badge-tutorial'
+            };
+            return map[category] || 'bg-secondary';
+        }
+
+        function getProjectBadgeClass(category) {
+            const map = {
+                'E-Commerce': 'badge-ecommerce',
+                'Company Profile': 'badge-company',
+                'Landing Page': 'badge-landing',
+                'Sistem Informasi': 'badge-system',
+                'Custom Web': 'badge-custom'
+            };
+            return map[category] || 'bg-secondary';
+        }
+
+        window.savePost = async () => {
+            const id = document.getElementById('postId').value;
+            const title = document.getElementById('editTitle').value;
+            const cat = document.getElementById('editCategory').value;
+            const authName = document.getElementById('editAuthor').value;
+            const content = document.getElementById('editContent').value;
+            const fileInput = document.getElementById('editPhotoFile');
+            const linkInput = document.getElementById('editPhotoLink').value;
+            const isUpload = document.querySelector('#photoTabPost .active').innerText === 'Upload';
+
+            if(!title) return showToast('Judul wajib diisi', 'error');
+
+            try {
+                let updateData = { 
+                    title, 
+                    category: cat, 
+                    author: authName, 
+                    content,
+                    updatedAt: Date.now()
+                };
+                
+                if(isUpload && fileInput.files.length > 0) {
+                    const snapshot = await uploadBytes(sRef(storage, 'post_images/' + Date.now() + '_' + fileInput.files[0].name), fileInput.files[0]);
+                    updateData.imageUrl = await getDownloadURL(snapshot.ref);
+                } else if(!isUpload && linkInput) {
+                    updateData.imageUrl = linkInput;
+                }
+
+                if(id) {
+                    await update(ref(db, 'posts/' + id), updateData);
+                } else {
+                    updateData.createdAt = Date.now();
+                    updateData.order = postsArray.length + 1;
+                    await push(postsRef, updateData);
+                }
+                
+                bootstrap.Modal.getInstance(document.getElementById('addPostModal')).hide();
+                showToast('Postingan berhasil disimpan!', 'success');
+                document.getElementById('postForm').reset();
+            } catch (e) { 
+                showToast('Gagal menyimpan: ' + e.message, 'error'); 
+            }
+        };
+
+        window.editPost = async (key) => {
+            onValue(ref(db, 'posts/' + key), (snap) => {
+                const p = snap.val();
+                document.getElementById('postId').value = key;
+                document.getElementById('editTitle').value = p.title;
+                document.getElementById('editCategory').value = p.category;
+                document.getElementById('editAuthor').value = p.author;
+                document.getElementById('editContent').value = p.content;
+                if (p.imageUrl) {
+                    document.getElementById('editPhotoLink').value = p.imageUrl;
+                }
+                document.getElementById('postModalTitle').innerText = 'Edit Postingan';
+                new bootstrap.Modal(document.getElementById('addPostModal')).show();
+            }, {onlyOnce: true});
+        };
+
+        window.deletePost = (key) => {
+            if(confirm('Yakin ingin menghapus postingan ini?')) {
+                remove(ref(db, 'posts/' + key))
+                    .then(() => showToast('Postingan berhasil dihapus', 'success'))
+                    .catch(e => showToast('Gagal menghapus: ' + e.message, 'error'));
+            }
+        };
+
+        // --- PROJECTS LOGIC ---
+        onValue(projectsRef, (snapshot) => {
+            const tbody = document.getElementById('projectsTableBody');
+            tbody.innerHTML = '';
+            const data = snapshot.val();
+            
+            if(!data) { 
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Belum ada data project.</td></tr>'; 
+                projectsArray = [];
+                return; 
+            }
+            
+            projectsArray = Object.entries(data).map(([key, proj]) => ({
+                id: key,
+                ...proj,
+                order: proj.order || 999
+            }));
+            
+            // Sort by order
+            projectsArray.sort((a, b) => a.order - b.order);
+            
+            projectsArray.forEach((proj, index) => {
+                tbody.innerHTML += `
+                    <tr data-id="${proj.id}">
+                        <td class="text-center">
+                            <div class="position-badge">${index + 1}</div>
+                        </td>
+                        <td class="text-center">
+                            <div class="drag-handle">
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                        </td>
+                        <td>
+                            <img src="${proj.imageUrl || 'https://via.placeholder.com/80'}" 
+                                 class="post-img-thumb" 
+                                 alt="${proj.title}">
+                        </td>
+                        <td>
+                            <strong>${proj.title}</strong>
+                            <br>
+                            <small class="text-muted">${(proj.description || '').substring(0, 60)}...</small>
+                        </td>
+                        <td>
+                            <span class="badge ${getProjectBadgeClass(proj.category)}">${proj.category}</span>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-warning action-btn text-white" onclick="window.editProject('${proj.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger action-btn" onclick="window.deleteProject('${proj.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>`;
+            });
+            
+            setTimeout(() => initSortableProjects(), 100);
+        });
+
+        window.saveProject = async () => {
+            const id = document.getElementById('projectId').value;
+            const title = document.getElementById('projTitle').value;
+            const category = document.getElementById('projCategory').value;
+            const link = document.getElementById('projLink').value;
+            const desc = document.getElementById('projDesc').value;
+            const fileInput = document.getElementById('projPhotoFile');
+            const linkInput = document.getElementById('projPhotoLink').value;
+            const isUpload = document.querySelector('#photoTabProj .active').innerText === 'Upload';
+
+            if(!title || !link) return showToast('Judul & Link wajib diisi', 'error');
+
+            try {
+                let updateData = { 
+                    title, 
+                    category, 
+                    link, 
+                    description: desc,
+                    updatedAt: Date.now()
+                };
+                
+                if(isUpload && fileInput.files.length > 0) {
+                    const snapshot = await uploadBytes(sRef(storage, 'project_images/' + Date.now() + '_' + fileInput.files[0].name), fileInput.files[0]);
+                    updateData.imageUrl = await getDownloadURL(snapshot.ref);
+                } else if(!isUpload && linkInput) {
+                    updateData.imageUrl = linkInput;
+                }
+
+                if(id) {
+                    await update(ref(db, 'projects/' + id), updateData);
+                } else {
+                    updateData.createdAt = Date.now();
+                    updateData.order = projectsArray.length + 1;
+                    await push(projectsRef, updateData);
+                }
+                
+                bootstrap.Modal.getInstance(document.getElementById('addProjectModal')).hide();
+                showToast('Project berhasil disimpan!', 'success');
+                document.getElementById('projectForm').reset();
+            } catch (e) { 
+                showToast('Gagal menyimpan: ' + e.message, 'error'); 
+            }
+        };
+
+        window.editProject = (key) => {
+            onValue(ref(db, 'projects/' + key), (snap) => {
+                const p = snap.val();
+                document.getElementById('projectId').value = key;
+                document.getElementById('projTitle').value = p.title;
+                document.getElementById('projCategory').value = p.category;
+                document.getElementById('projLink').value = p.link;
+                document.getElementById('projDesc').value = p.description;
+                if (p.imageUrl) {
+                    document.getElementById('projPhotoLink').value = p.imageUrl;
+                }
+                document.getElementById('projectModalTitle').innerText = 'Edit Project';
+                new bootstrap.Modal(document.getElementById('addProjectModal')).show();
+            }, {onlyOnce: true});
+        };
+
+        window.deleteProject = (key) => {
+            if(confirm('Yakin ingin menghapus project ini?')) {
+                remove(ref(db, 'projects/' + key))
+                    .then(() => showToast('Project berhasil dihapus', 'success'))
+                    .catch(e => showToast('Gagal menghapus: ' + e.message, 'error'));
+            }
+        };
+
+        // Modal Reset on Open
+        document.getElementById('btnOpenModalAddPost').addEventListener('click', () => {
+            document.getElementById('postForm').reset();
+            document.getElementById('postId').value = '';
+            document.getElementById('postModalTitle').innerText = 'Tambah Postingan';
+        });
+        
+        document.getElementById('btnOpenModalAddProject').addEventListener('click', () => {
+            document.getElementById('projectForm').reset();
+            document.getElementById('projectId').value = '';
+            document.getElementById('projectModalTitle').innerText = 'Tambah Project';
+        });
+
+    </script>
+</body>
+</html>
