@@ -93,6 +93,64 @@
         font-size: 18px;
         font-weight: 600;
       }
+      
+      /* Portfolio custom styles for preview images & premium overlay */
+      .portfolio-link-wrap {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .portfolio-img {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: top center;
+        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .portfolio-link-wrap:hover .portfolio-img {
+        transform: scale(1.08);
+      }
+      .portfolio-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 22, 38, 0.85); /* Premium dark overlay matching hero.overlay */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        color: #fff;
+      }
+      .portfolio-link-wrap:hover .portfolio-overlay {
+        opacity: 1;
+      }
+      .portfolio-overlay span.fa {
+        font-size: 28px;
+        color: #2b98f0; /* Accent color matching theme */
+        margin-bottom: 10px;
+        transform: translateY(15px);
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease;
+      }
+      .portfolio-overlay .overlay-text {
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        font-size: 11px;
+        color: #ffffff;
+        transform: translateY(15px);
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .portfolio-link-wrap:hover .portfolio-overlay span.fa,
+      .portfolio-link-wrap:hover .portfolio-overlay .overlay-text {
+        transform: translateY(0);
+      }
     </style>
   </head>
   <body>
@@ -486,7 +544,13 @@
           <div class="col-md-6 col-lg-3 ftco-animate mb-4">
             <div style="border: 1px solid #e6e6e6; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 420px; display: flex; flex-direction: column;">
               <div style="flex: 1; position: relative; overflow: hidden; background: #f8f9fa;">
-                <iframe src="https://dapoergenzricebowl.biz.id/" style="width: 200%; height: 200%; border: none; transform: scale(0.5); transform-origin: 0 0;" loading="lazy"></iframe>
+                <a href="https://dapoergenzricebowl.biz.id/" target="_blank" class="portfolio-link-wrap">
+                  <div class="portfolio-img" style="background-image: url('img/portfolio-1.jpg');"></div>
+                  <div class="portfolio-overlay">
+                    <span class="fa fa-external-link"></span>
+                    <span class="overlay-text">Lihat Website</span>
+                  </div>
+                </a>
               </div>
               <div class="p-3 text-center" style="background: #ffffff; border-top: 1px solid #eee;">
                 <h5 class="mb-1" style="font-size: 16px; font-weight: 600;"><a href="https://dapoergenzricebowl.biz.id/" target="_blank" class="text-dark">Dapoer Gen Z Ricebowl</a></h5>
@@ -500,7 +564,13 @@
           <div class="col-md-6 col-lg-3 ftco-animate mb-4">
             <div style="border: 1px solid #e6e6e6; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 420px; display: flex; flex-direction: column;">
               <div style="flex: 1; position: relative; overflow: hidden; background: #f8f9fa;">
-                <iframe src="https://hubumkbangkabelitung.id/" style="width: 200%; height: 200%; border: none; transform: scale(0.5); transform-origin: 0 0;" loading="lazy"></iframe>
+                <a href="https://hubumkbangkabelitung.id/" target="_blank" class="portfolio-link-wrap">
+                  <div class="portfolio-img" style="background-image: url('img/portfolio-2.jpg');"></div>
+                  <div class="portfolio-overlay">
+                    <span class="fa fa-external-link"></span>
+                    <span class="overlay-text">Lihat Website</span>
+                  </div>
+                </a>
               </div>
               <div class="p-3 text-center" style="background: #ffffff; border-top: 1px solid #eee;">
                 <h5 class="mb-1" style="font-size: 16px; font-weight: 600;"><a href="https://hubumkbangkabelitung.id/" target="_blank" class="text-dark">Hub UMKM Bangka Belitung</a></h5>
@@ -514,7 +584,13 @@
           <div class="col-md-6 col-lg-3 ftco-animate mb-4">
             <div style="border: 1px solid #e6e6e6; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 420px; display: flex; flex-direction: column;">
               <div style="flex: 1; position: relative; overflow: hidden; background: #f8f9fa;">
-                <iframe src="https://sman1lubukbesar.likesyou.org/?i=1" style="width: 200%; height: 200%; border: none; transform: scale(0.5); transform-origin: 0 0;" loading="lazy"></iframe>
+                <a href="https://sman1lubukbesar.likesyou.org/?i=1" target="_blank" class="portfolio-link-wrap">
+                  <div class="portfolio-img" style="background-image: url('img/portfolio-3.jpg');"></div>
+                  <div class="portfolio-overlay">
+                    <span class="fa fa-external-link"></span>
+                    <span class="overlay-text">Lihat Website</span>
+                  </div>
+                </a>
               </div>
               <div class="p-3 text-center" style="background: #ffffff; border-top: 1px solid #eee;">
                 <h5 class="mb-1" style="font-size: 16px; font-weight: 600;"><a href="https://sman1lubukbesar.likesyou.org/?i=1" target="_blank" class="text-dark">SMA Negeri 1 Lubuk Besar</a></h5>
@@ -528,7 +604,13 @@
           <div class="col-md-6 col-lg-3 ftco-animate mb-4">
             <div style="border: 1px solid #e6e6e6; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 420px; display: flex; flex-direction: column;">
               <div style="flex: 1; position: relative; overflow: hidden; background: #f8f9fa;">
-                <iframe src="https://tokocamp.22web.org/?i=1" style="width: 200%; height: 200%; border: none; transform: scale(0.5); transform-origin: 0 0;" loading="lazy"></iframe>
+                <a href="https://tokocamp.22web.org/?i=1" target="_blank" class="portfolio-link-wrap">
+                  <div class="portfolio-img" style="background-image: url('img/portfolio-4.jpg');"></div>
+                  <div class="portfolio-overlay">
+                    <span class="fa fa-external-link"></span>
+                    <span class="overlay-text">Lihat Website</span>
+                  </div>
+                </a>
               </div>
               <div class="p-3 text-center" style="background: #ffffff; border-top: 1px solid #eee;">
                 <h5 class="mb-1" style="font-size: 16px; font-weight: 600;"><a href="https://tokocamp.22web.org/?i=1" target="_blank" class="text-dark">Toko Camp</a></h5>
