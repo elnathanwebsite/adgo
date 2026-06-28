@@ -216,6 +216,44 @@
         border-color: #2b98f0;
         transform: rotate(90deg) scale(1.05);
       }
+
+      /* Custom Language Dropdown Switcher */
+      .ftco-navbar-light .navbar-nav > .nav-item.dropdown:hover > .dropdown-menu {
+        display: block;
+      }
+      .lang-switcher-dropdown {
+        background: #111827 !important;
+        border: 1px solid rgba(43, 152, 240, 0.3) !important;
+        border-radius: 8px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+        margin-top: 0 !important;
+        padding: 8px 0 !important;
+      }
+      .lang-switcher-dropdown .dropdown-item {
+        color: #e5e7eb !important;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 20px !important;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent !important;
+      }
+      .lang-switcher-dropdown .dropdown-item:hover {
+        background: #2b98f0 !important;
+        color: #ffffff !important;
+      }
+      .lang-switcher-dropdown .dropdown-item.active {
+        background: rgba(43, 152, 240, 0.1) !important;
+        color: #2b98f0 !important;
+      }
+      .lang-toggle-btn {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
     </style>
   </head>
   <body>
@@ -233,7 +271,7 @@
 			<div class="container">
 				<div class="row justify-content-between">
 						<div class="col-12 col-md d-flex align-items-center">
-							<p class="mb-0 phone"><span class="mailus">Hubungi Kami:</span> <a href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank">+62 831 8066 7700</a> or <span class="mailus">Email:</span> <a href="mailto:afansurifan@gmail.com">afansurifan@gmail.com</a></p>
+							<p class="mb-0 phone"><span class="mailus" data-translate="topbar_contact">Hubungi Kami:</span> <a href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank">+62 831 8066 7700</a> or <span class="mailus" data-translate="topbar_email">Email:</span> <a href="mailto:afansurifan@gmail.com">afansurifan@gmail.com</a></p>
 						</div>
 						<div class="col-12 col-md d-flex justify-content-md-end">
 							<div class="social-media">
@@ -252,20 +290,29 @@
 	    <div class="container">
 	    	<a class="navbar-brand" href="index.html">aDGo<span>Online</span></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="fa fa-bars"></span> Menu
+	        <span class="fa fa-bars"></span> <span data-translate="navbar_menu">Menu</span>
 	      </button>
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	        	<li class="nav-item active"><a href="#home" class="nav-link">Home</a></li>
-	        	<li class="nav-item"><a href="#about" class="nav-link">Tentang</a></li>
-	        	<li class="nav-item"><a href="#services" class="nav-link">Layanan</a></li>
-	        	<li class="nav-item"><a href="#features" class="nav-link">Keunggulan</a></li>
-	        	<li class="nav-item"><a href="#portfolio" class="nav-link">Portfolio</a></li>
-	        	<li class="nav-item"><a href="#pricing" class="nav-link">Harga</a></li>
-	        	<li class="nav-item"><a href="#testimonial" class="nav-link">Testimoni</a></li>
-	        	<li class="nav-item"><a href="#contact" class="nav-link">Kontak</a></li>
+	        	<li class="nav-item active"><a href="#home" class="nav-link" data-translate="nav_home">Home</a></li>
+	        	<li class="nav-item"><a href="#about" class="nav-link" data-translate="nav_about">Tentang</a></li>
+	        	<li class="nav-item"><a href="#services" class="nav-link" data-translate="nav_services">Layanan</a></li>
+	        	<li class="nav-item"><a href="#features" class="nav-link" data-translate="nav_features">Keunggulan</a></li>
+	        	<li class="nav-item"><a href="#portfolio" class="nav-link" data-translate="nav_portfolio">Portfolio</a></li>
+	        	<li class="nav-item"><a href="#pricing" class="nav-link" data-translate="nav_pricing">Harga</a></li>
+	        	<li class="nav-item"><a href="#testimonial" class="nav-link" data-translate="nav_testimonial">Testimoni</a></li>
+	        	<li class="nav-item"><a href="#contact" class="nav-link" data-translate="nav_contact">Kontak</a></li>
+            <li class="nav-item dropdown ml-lg-2">
+              <a class="nav-link dropdown-toggle lang-toggle-btn" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span id="currentLangIcon"><img src="https://flagcdn.com/w20/id.png" alt="ID" style="width: 18px; vertical-align: middle; margin-right: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border-radius: 1px;"></span> <span id="currentLangText" data-translate="lang_btn">ID</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right lang-switcher-dropdown" aria-labelledby="langDropdown">
+                <a class="dropdown-item active" href="#" id="langOptId" onclick="event.preventDefault(); switchLang('id')"><span><img src="https://flagcdn.com/w20/id.png" alt="ID" style="width: 18px; vertical-align: middle; margin-right: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.2);"></span> Indonesia</a>
+                <a class="dropdown-item" href="#" id="langOptEn" onclick="event.preventDefault(); switchLang('en')"><span><img src="https://flagcdn.com/w20/gb.png" alt="EN" style="width: 18px; vertical-align: middle; margin-right: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.2);"></span> English</a>
+              </div>
+            </li>
 	        </ul>
-          <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Halo+aDGo%2C+saya+ingin+konsultasi+pembuatan+website&type=phone_number&app_absent=0" target="_blank" class="btn btn-primary rounded-pill py-2 px-4 ml-3 d-none d-lg-block">Konsultasi</a>
+          <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Halo+aDGo%2C+saya+ingin+konsultasi+pembuatan+website&type=phone_number&app_absent=0" id="navConsultBtn" target="_blank" class="btn btn-primary rounded-pill py-2 px-4 ml-3 d-none d-lg-block" data-translate="nav_consult">Konsultasi</a>
 	      </div>
 	    </div>
 	  </nav>
@@ -276,10 +323,10 @@
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
           <div class="col-md-6 ftco-animate">
-          	<h2 class="subheading">Elevate Your Business to the Digital Era</h2>
-          	<h1 class="mb-4">Hadirkan wajah baru bisnis Anda di dunia digital.</h1>
-            <p class="text-light mb-4">Kami menyediakan layanan website profesional yang aman dan terpercaya dengan biaya efisien. Majukan usaha Anda sekarang, karena kami bangga dapat SUPPORT UMKM INDONESIA.</p>
-            <p><a href="#about" class="btn btn-primary mr-md-4 py-2 px-4">Pelajari Lebih Lanjut <span class="fa fa-arrow-right ml-1"></span></a></p>
+          	<h2 class="subheading" data-translate="hero_subheading">Elevate Your Business to the Digital Era</h2>
+          	<h1 class="mb-4" data-translate="hero_heading">Hadirkan wajah baru bisnis Anda di dunia digital.</h1>
+            <p class="text-light mb-4" data-translate="hero_desc">Kami menyediakan layanan website profesional yang aman dan terpercaya dengan biaya efisien. Majukan usaha Anda sekarang, karena kami bangga dapat SUPPORT UMKM INDONESIA.</p>
+            <p><a href="#about" class="btn btn-primary mr-md-4 py-2 px-4"><span data-translate="hero_btn">Pelajari Lebih Lanjut</span> <span class="fa fa-arrow-right ml-1"></span></a></p>
           </div>
         </div>
       </div>
@@ -295,27 +342,27 @@
 	    					<div class="row justify-content-center">
 									<div class="col-12 col-md d-flex align-items-center pt-4 pt-md-0">
 										<div class="form-group py-md-4 py-2 px-4 px-md-0">
-											<label for="clientName">Nama Lengkap</label>
-				              <input type="text" class="form-control" id="clientName" placeholder="Nama Anda" required>
+											<label for="clientName" data-translate="form_name_label">Nama Lengkap</label>
+				              <input type="text" class="form-control" id="clientName" placeholder="Nama Anda" data-translate-placeholder="form_name_placeholder" required>
 				            </div>
 									</div>
 									<div class="col-12 col-md d-flex align-items-center">
 										<div class="form-group py-md-4 py-2 px-4 px-md-0">
-											<label for="clientPhone">Nomor WhatsApp</label>
-				              <input type="text" class="form-control" id="clientPhone" placeholder="Contoh: 08123456789" required>
+											<label for="clientPhone" data-translate="form_phone_label">Nomor WhatsApp</label>
+				              <input type="text" class="form-control" id="clientPhone" placeholder="Contoh: 08123456789" data-translate-placeholder="form_phone_placeholder" required>
 				            </div>
 									</div>
 									<div class="col-12 col-md d-flex align-items-center">
 										<div class="form-group py-md-4 py-2 px-4 px-md-0">
-											<label for="packageSelect">Pilih Paket Website</label>
+											<label for="packageSelect" data-translate="form_package_label">Pilih Paket Website</label>
 				    					<div class="form-field">
 		          					<div class="select-wrap">
 		                      <div class="icon"><span class="fa fa-chevron-down"></span></div>
 		                      <select id="packageSelect" class="form-control">
-		                      	<option value="WHS (Website Hosting SEO)">Paket WHS (Website Hosting SEO)</option>
-		                        <option value="Landing Page (Rp 50K)">Paket Landing Page - Rp 50K</option>
-		                        <option value="UMKM Start (Rp 150K)">Paket UMKM Start - Rp 150K</option>
-		                        <option value="Business Custom (Rp 500K)">Paket Business Custom - Rp 500K</option>
+		                      	<option value="WHS (Website Hosting SEO)" data-translate="form_opt_whs">Paket WHS (Website Hosting SEO)</option>
+		                        <option value="Landing Page (Rp 50K)" data-translate="form_opt_landing">Paket Landing Page - Rp 50K</option>
+		                        <option value="UMKM Start (Rp 150K)" data-translate="form_opt_umkm">Paket UMKM Start - Rp 150K</option>
+		                        <option value="Business Custom (Rp 500K+)" data-translate="form_opt_business">Paket Business Custom - Rp 500K+</option>
 		                      </select>
 		                    </div>
 				              </div>
@@ -323,14 +370,14 @@
 									</div>
 									<div class="col-12 col-md d-flex align-items-center pb-4 pb-md-0">
 										<div class="form-group py-md-4 py-2 px-4 px-md-0">
-											<label for="clientNote">Catatan Tambahan (Opsional)</label>
-				              <input type="text" class="form-control" id="clientNote" placeholder="Tulis catatan tambahan...">
+											<label for="clientNote" data-translate="form_note_label">Catatan Tambahan (Opsional)</label>
+				              <input type="text" class="form-control" id="clientNote" placeholder="Tulis catatan tambahan..." data-translate-placeholder="form_note_placeholder">
 				    				</div>
 									</div>
 									<div class="col-12 col-md d-flex align-items-center align-items-stretch">
 										<div class="form-group py-md-4 py-2 px-4 px-md-0 d-flex align-items-stretch bg-primary" style="margin-bottom: 0;">
 				              <button type="button" onclick="sendFormWhatsapp()" class="btn btn-primary py-3 px-4 w-100" style="border-radius: 0;">
-                        Pesan via WA <span class="fa fa-whatsapp ml-1"></span>
+                        <span data-translate="form_submit_btn">Pesan via WA</span> <span class="fa fa-whatsapp ml-1"></span>
                       </button>
 				            </div>
 									</div>
@@ -349,20 +396,20 @@
     				<div class="img d-flex align-items-center justify-content-center py-5 py-md-0" style="background-image:url(img/tentang.jpg);">
     					<div class="time-open-wrap">
     						<div class="desc p-4">
-		    					<h2>Jam Operasional</h2>
+		    					<h2 data-translate="about_hours_title">Jam Operasional</h2>
 			              <div class="opening-hours">
-			              	<h4>Hari Kerja:</h4>
+			              	<h4 data-translate="about_hours_workdays">Hari Kerja:</h4>
                       <p class="pl-3">
-                        <span><strong>Senin – Sabtu:</strong> 09:00 - 18:00 WIB</span>
+                        <span><strong data-translate="about_hours_mon_sat">Senin – Sabtu:</strong> 09:00 - 18:00 WIB</span>
                       </p>
-                      <h4>Hari Libur:</h4>
+                      <h4 data-translate="about_hours_holidays">Hari Libur:</h4>
                       <p class="pl-3">
-                        <span>Hari Minggu & Hari Libur Nasional</span>
+                        <span data-translate="about_hours_holiday_desc">Hari Minggu & Hari Libur Nasional</span>
                       </p>
 			              </div>
 		    				</div>
 								<div class="desc p-4 bg-secondary">
-									<h3 class="heading">Konsultasi Cepat (Call/WA)</h3>
+									<h3 class="heading" data-translate="about_consult_title">Konsultasi Cepat (Call/WA)</h3>
 									<span class="phone">+62 831 8066 7700</span>
 								</div>
     					</div>
@@ -371,9 +418,9 @@
     			<div class="col-md-6 pl-md-5 pt-md-5">
     				<div class="row justify-content-start py-5">
 		          <div class="col-md-12 heading-section ftco-animate">
-		          	<span class="subheading">Tentang aDGo</span>
-		            <h2 class="mb-4">Kelola & Tingkatkan Bisnis Anda ke Level Berikutnya</h2>
-		            <p>Kami hadir sebagai mitra digital untuk membantu bisnis Anda berkembang. Dengan kombinasi desain profesional dan teknologi terkini, kami memastikan website Anda tidak hanya menarik, tetapi juga fungsional dan menguntungkan. UMKM Indonesia adalah kebanggaan kami untuk didukung.</p>
+		          	<span class="subheading" data-translate="about_subheading">Tentang aDGo</span>
+		            <h2 class="mb-4" data-translate="about_heading">Kelola & Tingkatkan Bisnis Anda ke Level Berikutnya</h2>
+		            <p data-translate="about_desc">Kami hadir sebagai mitra digital untuk membantu bisnis Anda berkembang. Dengan kombinasi desain profesional dan teknologi terkini, kami memastikan website Anda tidak hanya menarik, tetapi juga fungsional dan menguntungkan. UMKM Indonesia adalah kebanggaan kami untuk didukung.</p>
 		          </div>
 		        </div>
 						<div class="row ftco-counter py-5" id="section-counter">
@@ -383,7 +430,7 @@
 		                <strong class="number" data-number="150">0</strong><span>+</span>
 		              </div>
 		              <div class="text">
-		              	<span>Website <br>Dibuat</span>
+		              	<span data-translate="about_counter_web">Website <br>Dibuat</span>
 		              </div>
 		            </div>
 		          </div>
@@ -393,7 +440,7 @@
 		                <strong class="number" data-number="100">0</strong><span>+</span>
 		              </div>
 		              <div class="text">
-		              	<span>UMKM <br>Terbantu</span>
+		              	<span data-translate="about_counter_umkm">UMKM <br>Terbantu</span>
 		              </div>
 		            </div>
 		          </div>
@@ -403,7 +450,7 @@
 		                <strong class="number" data-number="99">0</strong><span>%</span>
 		              </div>
 		              <div class="text">
-		              	<span>Kepuasan <br>Klien</span>
+		              	<span data-translate="about_counter_satisfaction">Kepuasan <br>Klien</span>
 		              </div>
 		            </div>
 		          </div>
@@ -417,8 +464,8 @@
     	<div class="container">
     		<div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading">Layanan Kami</span>
-            <h2>Bagaimana Kami Membantu Anda</h2>
+          	<span class="subheading" data-translate="services_subheading">Layanan Kami</span>
+            <h2 data-translate="services_heading">Bagaimana Kami Membantu Anda</h2>
           </div>
         </div>
     		<div class="row">
@@ -428,8 +475,8 @@
             		<span class="fa fa-code"></span>
               </div>
               <div class="media-body pl-3">
-                <h3 class="heading">Custom Web Development</h3>
-                <p>Membangun website unik dari nol sesuai identitas dan kebutuhan bisnis Anda, bukan sekadar template instan.</p>
+                <h3 class="heading" data-translate="serv1_title">Custom Web Development</h3>
+                <p data-translate="serv1_desc">Membangun website unik dari nol sesuai identitas dan kebutuhan bisnis Anda, bukan sekadar template instan.</p>
               </div>
             </div>
           </div>
@@ -439,8 +486,8 @@
             		<span class="fa fa-wrench"></span>
               </div>
               <div class="media-body pl-3">
-                <h3 class="heading">Update & Maintenance</h3>
-                <p>Jaminan performa prima. Dukungan perbaikan bug, peningkatan keamanan, dan penambahan fitur secara berkala.</p>
+                <h3 class="heading" data-translate="serv2_title">Update & Maintenance</h3>
+                <p data-translate="serv2_desc">Jaminan performa prima. Dukungan perbaikan bug, peningkatan keamanan, dan penambahan fitur secara berkala.</p>
               </div>
             </div>
           </div>
@@ -450,8 +497,8 @@
             		<span class="fa fa-handshake-o"></span>
               </div>
               <div class="media-body pl-3">
-                <h3 class="heading">Layanan Fleksibel</h3>
-                <p>Konsultasi bebas untuk menyesuaikan fitur proyek berdasarkan target budget, waktu, dan tujuan bisnis Anda.</p>
+                <h3 class="heading" data-translate="serv3_title">Layanan Fleksibel</h3>
+                <p data-translate="serv3_desc">Konsultasi bebas untuk menyesuaikan fitur proyek berdasarkan target budget, waktu, dan tujuan bisnis Anda.</p>
               </div>
             </div> 
           </div>
@@ -462,8 +509,8 @@
             		<span class="fa fa-search"></span>
               </div>
               <div class="media-body pl-3">
-                <h3 class="heading">Optimalisasi SEO</h3>
-                <p>Struktur website yang ramah mesin pencari agar bisnis Anda mudah berada di halaman pertama Google.</p>
+                <h3 class="heading" data-translate="serv4_title">Optimalisasi SEO</h3>
+                <p data-translate="serv4_desc">Struktur website yang ramah mesin pencari agar bisnis Anda mudah berada di halaman pertama Google.</p>
               </div>
             </div> 
           </div>
@@ -474,8 +521,8 @@
             		<span class="fa fa-paint-brush"></span>
               </div>
               <div class="media-body pl-3">
-                <h3 class="heading">Desain Eksklusif</h3>
-                <p>Visual premium rancangan desainer profesional untuk membangun kredibilitas brand di mata pelanggan.</p>
+                <h3 class="heading" data-translate="serv5_title">Desain Eksklusif</h3>
+                <p data-translate="serv5_desc">Visual premium rancangan desainer profesional untuk membangun kredibilitas brand di mata pelanggan.</p>
               </div>
             </div>
           </div>
@@ -485,8 +532,8 @@
             		<span class="fa fa-mobile"></span>
               </div>
               <div class="media-body pl-3">
-                <h3 class="heading">Akses Multi-Device</h3>
-                <p>Website responsif 100% yang otomatis menyesuaikan tampilan di HP, tablet, maupun layar desktop.</p>
+                <h3 class="heading" data-translate="serv6_title">Akses Multi-Device</h3>
+                <p data-translate="serv6_desc">Website responsif 100% yang otomatis menyesuaikan tampilan di HP, tablet, maupun layar desktop.</p>
               </div>
             </div>
           </div>
@@ -499,9 +546,9 @@
 				<div class="row">
 					<div class="col-md-12 col-lg-3 pr-md-4 pb-lg-0 pb-4">
 						<div class="heading-section ftco-animate text-center text-lg-left">
-	          	<span class="subheading">Keunggulan</span>
-	            <h2>Mengapa Memilih Kami?</h2>
-	            <p>Solusi digital terbaik untuk mendukung pertumbuhan bisnis Anda dengan standar teknologi modern.</p>
+	          	<span class="subheading" data-translate="features_subheading">Keunggulan</span>
+	            <h2 data-translate="features_heading">Mengapa Memilih Kami?</h2>
+	            <p data-translate="features_desc">Solusi digital terbaik untuk mendukung pertumbuhan bisnis Anda dengan standar teknologi modern.</p>
 	          </div>
 					</div>
 					<div class="col-md-4 col-lg-3 ftco-animate d-flex">
@@ -510,9 +557,9 @@
 								<div class="img align-self-stretch" style="background-image: url(img/overview-1.jpg);"></div>
 							</div>
 							<div class="text pt-3 px-3 pb-4 text-center">
-								<h3>Desain Modern</h3>
-								<span class="position mb-2">Aesthetic & Responsive</span>
-                <p class="small text-muted">Setiap website dirancang agar memukau dan berfungsi sempurna di semua perangkat.</p>
+								<h3 data-translate="feat1_title">Desain Modern</h3>
+								<span class="position mb-2" data-translate="feat1_subtitle">Aesthetic & Responsive</span>
+                <p class="small text-muted" data-translate="feat1_desc">Setiap website dirancang agar memukau dan berfungsi sempurna di semua perangkat.</p>
 							</div>
 						</div>
 					</div>
@@ -522,9 +569,9 @@
 								<div class="img align-self-stretch" style="background-image: url(img/overview-2.jpg);"></div>
 							</div>
 							<div class="text pt-3 px-3 pb-4 text-center">
-								<h3>Teknologi Terkini</h3>
-								<span class="position mb-2">Fast, Secure & SEO Ready</span>
-                <p class="small text-muted">Struktur kode standar global yang cepat dimuat, aman dari serangan cyber, dan ramah SEO.</p>
+								<h3 data-translate="feat2_title">Teknologi Terkini</h3>
+								<span class="position mb-2" data-translate="feat2_subtitle">Fast, Secure & SEO Ready</span>
+                <p class="small text-muted" data-translate="feat2_desc">Struktur kode standar global yang cepat dimuat, aman dari serangan cyber, dan ramah SEO.</p>
 							</div>
 						</div>
 					</div>
@@ -534,9 +581,9 @@
 								<div class="img align-self-stretch" style="background-image: url(img/overview-3.jpg);"></div>
 							</div>
 							<div class="text pt-3 px-3 pb-4 text-center">
-								<h3>Dukungan Penuh</h3>
-								<span class="position mb-2">24/7 Response & Maintenance</span>
-                <p class="small text-muted">Pendampingan penuh setelah website selesai, siap membantu kendala teknis Anda.</p>
+								<h3 data-translate="feat3_title">Dukungan Penuh</h3>
+								<span class="position mb-2" data-translate="feat3_subtitle">24/7 Response & Maintenance</span>
+                <p class="small text-muted" data-translate="feat3_desc">Pendampingan penuh setelah website selesai, siap membantu kendala teknis Anda.</p>
 							</div>
 						</div>
 					</div>
@@ -548,8 +595,8 @@
       <div class="container">
         <div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section heading-section-white text-center ftco-animate">
-          	<span class="subheading">Testimoni</span>
-            <h2>Apa Kata Klien Kami?</h2>
+          	<span class="subheading" data-translate="testi_subheading">Testimoni</span>
+            <h2 data-translate="testi_heading">Apa Kata Klien Kami?</h2>
           </div>
         </div>
         <div class="row ftco-animate">
@@ -563,10 +610,10 @@
                     	<div class="user-img" style="background-image: url(img/testimonial-1.jpg)"></div>
                     	<div class="pl-3">
 		                    <p class="name">Budi Santoso</p>
-		                    <span class="position">Owner Batik Kencana</span>
+		                    <span class="position" data-translate="testi1_position">Owner Batik Kencana</span>
 		                  </div>
 	                  </div>
-                    <p class="mb-1">Awalnya saya gaptek soal website, tapi timnya sabar banget jelasin. Sekarang Batik saya bisa dilihat pembeli dari luar kota. Orderan via WA jadi makin lancar!</p>
+                    <p class="mb-1" data-translate="testi1_content">Awalnya saya gaptek soal website, tapi timnya sabar banget jelasin. Sekarang Batik saya bisa dilihat pembeli dari luar kota. Orderan via WA jadi makin lancar!</p>
                   </div>
                 </div>
               </div>
@@ -578,10 +625,10 @@
                     	<div class="user-img" style="background-image: url(img/testimonial-2.jpg)"></div>
                     	<div class="pl-3">
 		                    <p class="name">Siska Amalia</p>
-		                    <span class="position">Founder Glow Skin</span>
+		                    <span class="position" data-translate="testi2_position">Founder Glow Skin</span>
 		                  </div>
 	                  </div>
-                    <p class="mb-1">Desainnya estetik dan kekinian banget, pas sama brand skincare aku. Loading website juga cepet, jadi customer nggak kabur pas mau checkout. Recommended!</p>
+                    <p class="mb-1" data-translate="testi2_content">Desainnya estetik dan kekinian banget, pas sama brand skincare aku. Loading website juga cepet, jadi customer nggak kabur pas mau checkout. Recommended!</p>
                   </div>
                 </div>
               </div>
@@ -593,10 +640,10 @@
                     	<div class="user-img" style="background-image: url(img/testimonial-3.jpg)"></div>
                     	<div class="pl-3">
 		                    <p class="name">Hendra Wijaya</p>
-		                    <span class="position">Pemilik Warung Steak 88</span>
+		                    <span class="position" data-translate="testi3_position">Pemilik Warung Steak 88</span>
 		                  </div>
 	                  </div>
-                    <p class="mb-1">Sangat puas dengan fitur dashboard adminnya. Saya bisa update menu makanan dan liat laporan penjualan harian dengan mudah lewat HP. Mantap!</p>
+                    <p class="mb-1" data-translate="testi3_content">Sangat puas dengan fitur dashboard adminnya. Saya bisa update menu makanan dan liat laporan penjualan harian dengan mudah lewat HP. Mantap!</p>
                   </div>
                 </div>
               </div>
@@ -610,8 +657,8 @@
 			<div class="container">
 				<div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-12 heading-section text-center ftco-animate">
-          	<span class="subheading">Portfolio</span>
-            <h2>Project Terbaru Kami</h2>
+          	<span class="subheading" data-translate="portfolio_subheading">Portfolio</span>
+            <h2 data-translate="portfolio_heading">Project Terbaru Kami</h2>
           </div>
         </div>
 				<div class="row">
@@ -623,14 +670,14 @@
                   <div class="portfolio-img" style="background-image: url('img/portfolio-1.jpg');"></div>
                   <div class="portfolio-overlay">
                     <span class="fa fa-external-link"></span>
-                    <span class="overlay-text">Lihat Website</span>
+                    <span class="overlay-text" data-translate="portfolio_overlay_text">Lihat Website</span>
                   </div>
                 </a>
               </div>
               <div class="p-3 text-center" style="background: #ffffff; border-top: 1px solid #eee;">
                 <h5 class="mb-1" style="font-size: 16px; font-weight: 600;"><a href="https://dapoergenzricebowl.biz.id/" target="_blank" class="text-dark">Dapoer Gen Z Ricebowl</a></h5>
                 <span class="text-primary small d-block mb-2" style="font-weight: 500;">E-Commerce</span>
-                <a href="https://dapoergenzricebowl.biz.id/" target="_blank" class="btn btn-primary py-1 px-3" style="font-size: 11px; text-transform: none; letter-spacing: 0;">Kunjungi <i class="fa fa-external-link ml-1"></i></a>
+                <a href="https://dapoergenzricebowl.biz.id/" target="_blank" class="btn btn-primary py-1 px-3" style="font-size: 11px; text-transform: none; letter-spacing: 0;"><span data-translate="portfolio_btn">Kunjungi</span> <i class="fa fa-external-link ml-1"></i></a>
               </div>
             </div>
           </div>
@@ -643,14 +690,14 @@
                   <div class="portfolio-img" style="background-image: url('img/portfolio-2.jpg');"></div>
                   <div class="portfolio-overlay">
                     <span class="fa fa-external-link"></span>
-                    <span class="overlay-text">Lihat Website</span>
+                    <span class="overlay-text" data-translate="portfolio_overlay_text">Lihat Website</span>
                   </div>
                 </a>
               </div>
               <div class="p-3 text-center" style="background: #ffffff; border-top: 1px solid #eee;">
                 <h5 class="mb-1" style="font-size: 16px; font-weight: 600;"><a href="https://hubumkbangkabelitung.id/" target="_blank" class="text-dark">Hub UMKM Bangka Belitung</a></h5>
                 <span class="text-primary small d-block mb-2" style="font-weight: 500;">Company Profile</span>
-                <a href="https://hubumkbangkabelitung.id/" target="_blank" class="btn btn-primary py-1 px-3" style="font-size: 11px; text-transform: none; letter-spacing: 0;">Kunjungi <i class="fa fa-external-link ml-1"></i></a>
+                <a href="https://hubumkbangkabelitung.id/" target="_blank" class="btn btn-primary py-1 px-3" style="font-size: 11px; text-transform: none; letter-spacing: 0;"><span data-translate="portfolio_btn">Kunjungi</span> <i class="fa fa-external-link ml-1"></i></a>
               </div>
             </div>
           </div>
@@ -663,14 +710,14 @@
                   <div class="portfolio-img" style="background-image: url('img/portfolio-3.jpg');"></div>
                   <div class="portfolio-overlay">
                     <span class="fa fa-external-link"></span>
-                    <span class="overlay-text">Lihat Website</span>
+                    <span class="overlay-text" data-translate="portfolio_overlay_text">Lihat Website</span>
                   </div>
                 </a>
               </div>
               <div class="p-3 text-center" style="background: #ffffff; border-top: 1px solid #eee;">
                 <h5 class="mb-1" style="font-size: 16px; font-weight: 600;"><a href="https://sman1lubukbesar.likesyou.org/?i=1" target="_blank" class="text-dark">SMA Negeri 1 Lubuk Besar</a></h5>
                 <span class="text-primary small d-block mb-2" style="font-weight: 500;">School Website</span>
-                <a href="https://sman1lubukbesar.likesyou.org/?i=1" target="_blank" class="btn btn-primary py-1 px-3" style="font-size: 11px; text-transform: none; letter-spacing: 0;">Kunjungi <i class="fa fa-external-link ml-1"></i></a>
+                <a href="https://sman1lubukbesar.likesyou.org/?i=1" target="_blank" class="btn btn-primary py-1 px-3" style="font-size: 11px; text-transform: none; letter-spacing: 0;"><span data-translate="portfolio_btn">Kunjungi</span> <i class="fa fa-external-link ml-1"></i></a>
               </div>
             </div>
           </div>
@@ -683,14 +730,14 @@
                   <div class="portfolio-img" style="background-image: url('img/portfolio-4.jpg');"></div>
                   <div class="portfolio-overlay">
                     <span class="fa fa-external-link"></span>
-                    <span class="overlay-text">Lihat Website</span>
+                    <span class="overlay-text" data-translate="portfolio_overlay_text">Lihat Website</span>
                   </div>
                 </a>
               </div>
               <div class="p-3 text-center" style="background: #ffffff; border-top: 1px solid #eee;">
                 <h5 class="mb-1" style="font-size: 16px; font-weight: 600;"><a href="https://tokocamp.22web.org/?i=1" target="_blank" class="text-dark">Toko Camp</a></h5>
                 <span class="text-primary small d-block mb-2" style="font-weight: 500;">E-Commerce</span>
-                <a href="https://tokocamp.22web.org/?i=1" target="_blank" class="btn btn-primary py-1 px-3" style="font-size: 11px; text-transform: none; letter-spacing: 0;">Kunjungi <i class="fa fa-external-link ml-1"></i></a>
+                <a href="https://tokocamp.22web.org/?i=1" target="_blank" class="btn btn-primary py-1 px-3" style="font-size: 11px; text-transform: none; letter-spacing: 0;"><span data-translate="portfolio_btn">Kunjungi</span> <i class="fa fa-external-link ml-1"></i></a>
               </div>
             </div>
           </div>
@@ -702,8 +749,8 @@
       <div class="container">
         <div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading">Edukasi & Artikel</span>
-            <h2>Blog & Kabar Terbaru</h2>
+          	<span class="subheading" data-translate="blog_subheading">Edukasi & Artikel</span>
+            <h2 data-translate="blog_heading">Blog & Kabar Terbaru</h2>
           </div>
         </div>
         <div class="row d-flex">
@@ -715,12 +762,12 @@
               	<div class="posted mb-3 d-flex">
               		<div class="img author" style="background-image: url(img/person_2.jpg);"></div>
               		<div class="desc pl-3">
-              			<span>Ditulis oleh Admin aDGo</span>
-              			<span>25 Juni 2026</span>
+              			<span data-translate="blog_author">Ditulis oleh Admin aDGo</span>
+              			<span data-translate="blog_date_1">25 Juni 2026</span>
               		</div>
               	</div>
-                <h3 class="heading"><a href="#contact">Pentingnya Website untuk UMKM di Era Digital</a></h3>
-                <p>Bagaimana website profesional membantu UMKM memperluas jangkauan pasar dan meningkatkan kepercayaan pelanggan secara signifikan.</p>
+                <h3 class="heading"><a href="#contact" data-translate="blog_title_1">Pentingnya Website untuk UMKM di Era Digital</a></h3>
+                <p data-translate="blog_desc_1">Bagaimana website profesional membantu UMKM memperluas jangkauan pasar dan meningkatkan kepercayaan pelanggan secara signifikan.</p>
               </div>
             </div>
           </div>
@@ -732,12 +779,12 @@
               	<div class="posted mb-3 d-flex">
               		<div class="img author" style="background-image: url(img/person_3.jpg);"></div>
               		<div class="desc pl-3">
-              			<span>Ditulis oleh Admin aDGo</span>
-              			<span>24 Juni 2026</span>
+              			<span data-translate="blog_author">Ditulis oleh Admin aDGo</span>
+              			<span data-translate="blog_date_2">24 Juni 2026</span>
               		</div>
               	</div>
-                <h3 class="heading"><a href="#contact">Cara Optimasi SEO Agar Website Tampil di Google</a></h3>
-                <p>Panduan praktis SEO dasar bagi pelaku usaha pemula agar websitenya mudah ditemukan calon pembeli di halaman pertama mesin pencari.</p>
+                <h3 class="heading"><a href="#contact" data-translate="blog_title_2">Cara Optimasi SEO Agar Website Tampil di Google</a></h3>
+                <p data-translate="blog_desc_2">Panduan praktis SEO dasar bagi pelaku usaha pemula agar websitenya mudah ditemukan calon pembeli di halaman pertama mesin pencari.</p>
               </div>
             </div>
           </div>
@@ -749,12 +796,12 @@
               	<div class="posted mb-3 d-flex">
               		<div class="img author" style="background-image: url(img/person_1.jpg);"></div>
               		<div class="desc pl-3">
-              			<span>Ditulis oleh Admin aDGo</span>
-              			<span>22 Juni 2026</span>
+              			<span data-translate="blog_author">Ditulis oleh Admin aDGo</span>
+              			<span data-translate="blog_date_3">22 Juni 2026</span>
               		</div>
               	</div>
-                <h3 class="heading"><a href="#contact">Tips Memilih Domain dan Hosting yang Tepat</a></h3>
-                <p>Ketahui perbedaan berbagai jenis domain dan server hosting untuk memilih paket terbaik yang stabil dan hemat anggaran.</p>
+                <h3 class="heading"><a href="#contact" data-translate="blog_title_3">Tips Memilih Domain dan Hosting yang Tepat</a></h3>
+                <p data-translate="blog_desc_3">Ketahui perbedaan berbagai jenis domain dan server hosting untuk memilih paket terbaik yang stabil dan hemat anggaran.</p>
               </div>
             </div>
           </div>
@@ -767,9 +814,9 @@
     	<div class="container">
     		<div class="row justify-content-center">
     			<div class="col-md-8 text-center">
-    				<h2>Siap Mewujudkan Website Impian Anda?</h2>
-    				<p class="text-light">Konsultasikan kebutuhan digital bisnis Anda dengan tim kami secara gratis melalui WhatsApp!</p>
-            <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Halo+aDGo%2C+saya+ingin+konsultasi+pembuatan+website&type=phone_number&app_absent=0" target="_blank" class="btn btn-primary px-5 py-3 rounded-pill mt-3">Konsultasi Gratis <i class="fa fa-whatsapp ml-1"></i></a>
+    				<h2 data-translate="cta_title">Siap Mewujudkan Website Impian Anda?</h2>
+    				<p class="text-light" data-translate="cta_desc">Konsultasikan kebutuhan digital bisnis Anda dengan tim kami secara gratis melalui WhatsApp!</p>
+            <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Halo+aDGo%2C+saya+ingin+konsultasi+pembuatan+website&type=phone_number&app_absent=0" id="ctaConsultBtn" target="_blank" class="btn btn-primary px-5 py-3 rounded-pill mt-3"><span data-translate="cta_btn">Konsultasi Gratis</span> <i class="fa fa-whatsapp ml-1"></i></a>
     			</div>
     		</div>
     	</div>
@@ -779,8 +826,8 @@
     	<div class="container">
     		<div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading mb-3">Paket &amp; Harga</span>
-            <h2>Pilihan Paket Hemat</h2>
+          	<span class="subheading mb-3" data-translate="price_subheading">Paket &amp; Harga</span>
+            <h2 data-translate="price_heading">Pilihan Paket Hemat</h2>
           </div>
         </div>
     		<div class="row">
@@ -788,19 +835,19 @@
 	          <div class="block-7">
 	            <div class="text-center">
 	            	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-file-text-o"></span></div>
-	            	<h4 class="heading-2">Landing Page</h4>
+	            	<h4 class="heading-2" data-translate="p1_title">Landing Page</h4>
 		            <span class="price"><span class="number" style="font-size: 40px;">Rp 50K</span></span>
 		            
 		            <ul class="pricing-text mb-5 text-left pl-4">
 		              <li><span class="fa fa-check mr-2 text-success"></span>HTML5 & CSS3 Modern</li>
 		              <li><span class="fa fa-check mr-2 text-success"></span>Responsive Layout (HP/PC)</li>
-		              <li><span class="fa fa-check mr-2 text-success"></span>Revisi Ringan</li>
-		              <li><span class="fa fa-check mr-2 text-success"></span><b>Free Host & Domain .my.id</b></li>
-		              <li class="text-muted"><span class="fa fa-times mr-2 text-danger"></span>Javascript Interaktif</li>
-		              <li class="text-muted"><span class="fa fa-times mr-2 text-danger"></span>Database & Admin Panel</li>
+		              <li><span class="fa fa-check mr-2 text-success"></span><span data-translate="p1_feat_revisi">Revisi Ringan</span></li>
+		              <li><span class="fa fa-check mr-2 text-success"></span><b><span data-translate="p1_feat_domain">Free Host & Domain .my.id</span></b></li>
+		              <li class="text-muted"><span class="fa fa-times mr-2 text-danger"></span><span data-translate="p1_feat_js">Javascript Interaktif</span></li>
+		              <li class="text-muted"><span class="fa fa-times mr-2 text-danger"></span><span data-translate="p1_feat_db">Database & Admin Panel</span></li>
 		            </ul>
 
-		            <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Saya+mau+pesan+paket+Landing+Page+Rp+50K&type=phone_number&app_absent=0" target="_blank" class="btn btn-primary px-4 py-3">Pesan Paket</a>
+		            <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Saya+mau+pesan+paket+Landing+Page+Rp+50K&type=phone_number&app_absent=0" id="priceBtn1" target="_blank" class="btn btn-primary px-4 py-3" data-translate="price_btn_order">Pesan Paket</a>
 	            </div>
 	          </div>
 	        </div>
@@ -808,19 +855,19 @@
 	          <div class="block-7 active">
 	            <div class="text-center">
 	            <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-rocket"></span></div>
-            	<h4 class="heading-2">UMKM Start</h4>
+            	<h4 class="heading-2" data-translate="p2_title">UMKM Start</h4>
 	            <span class="price"><span class="number" style="font-size: 40px;">Rp 150K</span></span>
 	            
 	            <ul class="pricing-text mb-5 text-left pl-4">
 	              <li><span class="fa fa-check mr-2 text-success"></span>HTML, CSS & JavaScript</li>
-	              <li><span class="fa fa-check mr-2 text-success"></span>Backend PHP & Database</li>
-	              <li><span class="fa fa-check mr-2 text-success"></span>Dashboard Admin</li>
-	              <li><span class="fa fa-check mr-2 text-success"></span><b>Free Host & Domain .biz.id</b></li>
-	              <li><span class="fa fa-check mr-2 text-success"></span>Fitur Dinamis (CRUD)</li>
-	              <li><span class="fa fa-check mr-2 text-success"></span>Prioritas Support</li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><span data-translate="p2_feat_backend">Backend PHP & Database</span></li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><span data-translate="p2_feat_dashboard">Dashboard Admin</span></li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><b><span data-translate="p2_feat_domain">Free Host & Domain .biz.id</span></b></li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><span data-translate="p2_feat_crud">Fitur Dinamis (CRUD)</span></li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><span data-translate="p2_feat_support">Prioritas Support</span></li>
 	            </ul>
 
-	            <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Saya+mau+pesan+paket+UMKM+Start+Rp+150K&type=phone_number&app_absent=0" target="_blank" class="btn btn-primary px-4 py-3">Paling Laris</a>
+	            <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Saya+mau+pesan+paket+UMKM+Start+Rp+150K&type=phone_number&app_absent=0" id="priceBtn2" target="_blank" class="btn btn-primary px-4 py-3" data-translate="price_btn_bestseller">Paling Laris</a>
 	            </div>
 	          </div>
 	        </div>
@@ -828,19 +875,19 @@
 	          <div class="block-7">
 	            <div class="text-center">
 	            	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-cogs"></span></div>
-            	<h4 class="heading-2">Business Custom</h4>
-	            <span class="price"><span class="number" style="font-size: 40px;">Rp 500K</span></span>
+            	<h4 class="heading-2" data-translate="p3_title">Business Custom</h4>
+	            <span class="price"><span class="number" style="font-size: 40px;">Rp 500K+</span></span>
 	            
 	            <ul class="pricing-text mb-5 text-left pl-4">
 	              <li><span class="fa fa-check mr-2 text-success"></span>Full Custom / WordPress</li>
-	              <li><span class="fa fa-check mr-2 text-success"></span>Fitur Kompleks Request</li>
-	              <li><span class="fa fa-check mr-2 text-success"></span>Database Skala Besar</li>
-	              <li><span class="fa fa-check mr-2 text-success"></span><b>Free Host & Domain .my.id</b></li>
-	              <li><span class="fa fa-check mr-2 text-success"></span>Full Maintenance</li>
-	              <li><span class="fa fa-check mr-2 text-success"></span>Prioritas Utama</li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><span data-translate="p3_feat_complex">Fitur Kompleks Request</span></li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><span data-translate="p3_feat_db">Database Skala Besar</span></li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><b><span data-translate="p3_feat_domain">Free Host & Domain .my.id</span></b></li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><span data-translate="p3_feat_maintenance">Full Maintenance</span></li>
+	              <li><span class="fa fa-check mr-2 text-success"></span><span data-translate="p3_feat_priority">Prioritas Utama</span></li>
 	            </ul>
 
-	            <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Saya+mau+pesan+paket+Business+Custom+Rp+500K&type=phone_number&app_absent=0" target="_blank" class="btn btn-primary px-4 py-3">Hubungi Kami</a>
+	            <a href="https://api.whatsapp.com/send/?phone=6283180667700&text=Saya+mau+pesan+paket+Business+Custom+Rp+500K%2B&type=phone_number&app_absent=0" id="priceBtn3" target="_blank" class="btn btn-primary px-4 py-3" data-translate="price_btn_contact">Hubungi Kami</a>
 	            </div>
 	          </div>
 	        </div>
@@ -849,9 +896,9 @@
         <div class="row mt-5">
           <div class="col-12 text-center">
             <div class="p-4 rounded price-item-note">
-              <h5 class="text-primary"><i class="fa fa-info-circle mr-2"></i>Catatan Penting</h5>
-              <p class="mb-1 text-dark">Seluruh paket di atas sudah termasuk <strong>Free Hosting & Domain (.my.id atau .biz.id)</strong>.</p>
-              <p class="mb-0 text-muted small">Anda juga bisa memesan <strong>Custom Domain (.com / .net / .id / dll)</strong> dan <strong>Custom Hosting</strong> dengan penyesuaian harga.</p>
+              <h5 class="text-primary"><i class="fa fa-info-circle mr-2"></i><span data-translate="price_note_title">Catatan Penting</span></h5>
+              <p class="mb-1 text-dark" data-translate="price_note_1">Seluruh paket di atas sudah termasuk <strong>Free Hosting & Domain (.my.id atau .biz.id)</strong>.</p>
+              <p class="mb-0 text-muted small" data-translate="price_note_2">Anda juga bisa memesan <strong>Custom Domain (.com / .net / .id / dll)</strong> dan <strong>Custom Hosting</strong> dengan penyesuaian harga.</p>
             </div>
           </div>
         </div>
@@ -862,20 +909,20 @@
       <div class="container">
         <div class="row justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section text-center ftco-animate">
-            <span class="subheading">Hubungi Kami</span>
-            <h2>Kontak & Lokasi</h2>
+            <span class="subheading" data-translate="contact_subheading">Hubungi Kami</span>
+            <h2 data-translate="contact_heading">Kontak & Lokasi</h2>
           </div>
         </div>
         <div class="row block-9">
           <div class="col-md-4 d-flex">
             <div class="info-wrap bg-primary w-100 p-4 text-white">
-              <h3 class="mb-4 text-white">Info Detail</h3>
+              <h3 class="mb-4 text-white" data-translate="contact_info_title">Info Detail</h3>
               <div class="dbox w-100 d-flex align-items-center mb-3">
                 <div class="icon d-flex align-items-center justify-content-center bg-white text-primary mr-3" style="width: 40px; height: 40px; border-radius: 50%; min-width: 40px;">
                   <span class="fa fa-map-marker"></span>
                 </div>
                 <div class="text">
-                  <p class="mb-0"><span>Lokasi:</span> Selindung Baru, Pangkal Pinang</p>
+                  <p class="mb-0"><span data-translate="contact_info_location_label">Lokasi:</span> <span data-translate="contact_info_location_val">Selindung Baru, Pangkal Pinang</span></p>
                 </div>
               </div>
               <div class="dbox w-100 d-flex align-items-center mb-3">
@@ -883,7 +930,7 @@
                   <span class="fa fa-phone"></span>
                 </div>
                 <div class="text">
-                  <p class="mb-0"><span>Telepon/WA:</span> <a href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank" class="text-white">+62 831 8066 7700</a></p>
+                  <p class="mb-0"><span data-translate="contact_info_phone_label">Telepon/WA:</span> <a href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank" class="text-white">+62 831 8066 7700</a></p>
                 </div>
               </div>
               <div class="dbox w-100 d-flex align-items-center mb-3">
@@ -906,22 +953,22 @@
           </div>
           <div class="col-md-8 d-flex">
             <form id="contactForm" class="bg-light p-4 p-md-5 contact-form w-100">
-              <input type="hidden" name="_subject" value="Pesan Baru dari Website WHS!">
+              <input type="hidden" name="_subject" id="mailSubjectHidden" value="Pesan Baru dari Website WHS!">
               <input type="hidden" name="_captcha" value="false">
               <div class="form-group">
-                <input type="text" class="form-control" name="name" id="name" placeholder="Nama Anda" required>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Nama Anda" data-translate-placeholder="contact_form_name_placeholder" required>
               </div>
               <div class="form-group">
-                <input type="email" class="form-control" name="email" id="email" placeholder="Email Anda" required>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email Anda" data-translate-placeholder="contact_form_email_placeholder" required>
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" name="message_subject" id="subject" placeholder="Subjek" required>
+                <input type="text" class="form-control" name="message_subject" id="subject" placeholder="Subjek" data-translate-placeholder="contact_form_subject_placeholder" required>
               </div>
               <div class="form-group">
-                <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Pesan Anda" required></textarea>
+                <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Pesan Anda" data-translate-placeholder="contact_form_msg_placeholder" required></textarea>
               </div>
               <div class="form-group">
-                <button type="submit" id="btnSubmit" class="btn btn-primary py-3 px-5">Kirim Pesan</button>
+                <button type="submit" id="btnSubmit" class="btn btn-primary py-3 px-5" data-translate="contact_form_submit_btn">Kirim Pesan</button>
               </div>
             </form>
           </div>
@@ -934,7 +981,7 @@
 				<div class="row">
 					<div class="col-md-6 col-lg-3 mb-4 mb-md-0">
 						<h2 class="footer-heading">aDGo</h2>
-						<p>Mitra terpercaya untuk pengembangan solusi digital profesional yang aman, cepat, dan efisien bagi UMKM Indonesia.</p>
+						<p data-translate="footer_desc">Mitra terpercaya untuk pengembangan solusi digital profesional yang aman, cepat, dan efisien bagi UMKM Indonesia.</p>
 						<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-4">
               <li class="ftco-animate"><a href="https://www.instagram.com/elnathaners/" target="_blank"><span class="fa fa-instagram"></span></a></li>
               <li class="ftco-animate"><a href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank"><span class="fa fa-whatsapp"></span></a></li>
@@ -942,32 +989,32 @@
             </ul>
 					</div>
 					<div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-						<h2 class="footer-heading">Layanan Kami</h2>
+						<h2 class="footer-heading" data-translate="footer_services_title">Layanan Kami</h2>
 						<ul class="list-unstyled">
-              <li><a href="#services" class="py-1 d-block">Pembuatan Website</a></li>
-              <li><a href="#services" class="py-1 d-block">Jasa SEO Google</a></li>
-              <li><a href="#services" class="py-1 d-block">Hosting & Domain</a></li>
-              <li><a href="#services" class="py-1 d-block">Landing Page UMKM</a></li>
-              <li><a href="#services" class="py-1 d-block">Maintenance Web</a></li>
+              <li><a href="#services" class="py-1 d-block" data-translate="footer_serv1">Pembuatan Website</a></li>
+              <li><a href="#services" class="py-1 d-block" data-translate="footer_serv2">Jasa SEO Google</a></li>
+              <li><a href="#services" class="py-1 d-block" data-translate="footer_serv3">Hosting & Domain</a></li>
+              <li><a href="#services" class="py-1 d-block" data-translate="footer_serv4">Landing Page UMKM</a></li>
+              <li><a href="#services" class="py-1 d-block" data-translate="footer_serv5">Maintenance Web</a></li>
             </ul>
 					</div>
 					<div class="col-md-6 col-lg-3 pl-lg-5 mb-4 mb-md-0">
-						<h2 class="footer-heading">Tautan Cepat</h2>
+						<h2 class="footer-heading" data-translate="footer_links_title">Tautan Cepat</h2>
 						<ul class="list-unstyled">
-              <li><a href="#home" class="py-1 d-block">Home</a></li>
-              <li><a href="#about" class="py-1 d-block">Tentang Kami</a></li>
-              <li><a href="#services" class="py-1 d-block">Layanan</a></li>
-              <li><a href="#portfolio" class="py-1 d-block">Portfolio</a></li>
-              <li><a href="#pricing" class="py-1 d-block">Daftar Harga</a></li>
-              <li><a href="#contact" class="py-1 d-block">Kontak</a></li>
+              <li><a href="#home" class="py-1 d-block" data-translate="nav_home">Home</a></li>
+              <li><a href="#about" class="py-1 d-block" data-translate="footer_link_about">Tentang Kami</a></li>
+              <li><a href="#services" class="py-1 d-block" data-translate="nav_services">Layanan</a></li>
+              <li><a href="#portfolio" class="py-1 d-block" data-translate="nav_portfolio">Portfolio</a></li>
+              <li><a href="#pricing" class="py-1 d-block" data-translate="footer_link_pricing">Daftar Harga</a></li>
+              <li><a href="#contact" class="py-1 d-block" data-translate="nav_contact">Kontak</a></li>
             </ul>
 					</div>
 					<div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-						<h2 class="footer-heading">Newsletter</h2>
-						<p>Dapatkan informasi promo dan tips digital marketing terbaru dari kami.</p>
+						<h2 class="footer-heading" data-translate="footer_newsletter_title">Newsletter</h2>
+						<p data-translate="footer_newsletter_desc">Dapatkan informasi promo dan tips digital marketing terbaru dari kami.</p>
             <form action="#" class="subscribe-form mt-4">
               <div class="form-group d-flex">
-                <input type="text" class="form-control rounded-left" placeholder="Email Anda">
+                <input type="text" class="form-control rounded-left" placeholder="Email Anda" data-translate-placeholder="footer_email_placeholder">
                 <button type="submit" class="submit rounded-right"><span class="fa fa-paper-plane"></span></button>
               </div>
             </form>
@@ -976,7 +1023,7 @@
 				<div class="row mt-5">
           <div class="col-md-12 text-center">
             <p class="copyright">
-              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | aDGo Digital Solution
+              Copyright &copy;<script>document.write(new Date().getFullYear());</script> <span data-translate="footer_copy">All rights reserved</span> | aDGo Digital Solution
             </p>
           </div>
         </div>
@@ -1002,25 +1049,435 @@
 
     <!-- Custom Script Logic for Forms -->
     <script>
+      // Active language state, default to 'id'
+      let currentLang = localStorage.getItem('adgo_lang') || 'id';
+
+      // Translation Dictionary
+      const translations = {
+        id: {
+          page_title: "aDGo - Agency Digital Go Online",
+          lang_btn: "ID",
+          topbar_contact: "Hubungi Kami:",
+          topbar_email: "Email:",
+          navbar_menu: "Menu",
+          nav_home: "Home",
+          nav_about: "Tentang",
+          nav_services: "Layanan",
+          nav_features: "Keunggulan",
+          nav_portfolio: "Portfolio",
+          nav_pricing: "Harga",
+          nav_testimonial: "Testimoni",
+          nav_contact: "Kontak",
+          nav_consult: "Konsultasi",
+          hero_subheading: "Elevate Your Business to the Digital Era",
+          hero_heading: "Hadirkan wajah baru bisnis Anda di dunia digital.",
+          hero_desc: "Kami menyediakan layanan website profesional yang aman dan terpercaya dengan biaya efisien. Majukan usaha Anda sekarang, karena kami bangga dapat SUPPORT UMKM INDONESIA.",
+          hero_btn: "Pelajari Lebih Lanjut",
+          form_name_label: "Nama Lengkap",
+          form_name_placeholder: "Nama Anda",
+          form_phone_label: "Nomor WhatsApp",
+          form_phone_placeholder: "Contoh: 08123456789",
+          form_package_label: "Pilih Paket Website",
+          form_opt_whs: "Paket WHS (Website Hosting SEO)",
+          form_opt_landing: "Paket Landing Page - Rp 50K",
+          form_opt_umkm: "Paket UMKM Start - Rp 150K",
+          form_opt_business: "Paket Business Custom - Rp 500K+",
+          form_note_label: "Catatan Tambahan (Opsional)",
+          form_note_placeholder: "Tulis catatan tambahan...",
+          form_submit_btn: "Pesan via WA",
+          about_hours_title: "Jam Operasional",
+          about_hours_workdays: "Hari Kerja:",
+          about_hours_mon_sat: "Senin – Sabtu:",
+          about_hours_holidays: "Hari Libur:",
+          about_hours_holiday_desc: "Hari Minggu & Hari Libur Nasional",
+          about_consult_title: "Konsultasi Cepat (Call/WA)",
+          about_subheading: "Tentang aDGo",
+          about_heading: "Kelola & Tingkatkan Bisnis Anda ke Level Berikutnya",
+          about_desc: "Kami hadir sebagai mitra digital untuk membantu bisnis Anda berkembang. Dengan kombinasi desain profesional dan teknologi terkini, kami memastikan website Anda tidak hanya menarik, tetapi juga fungsional dan menguntungkan. UMKM Indonesia adalah kebanggaan kami untuk didukung.",
+          about_counter_web: "Website <br>Dibuat",
+          about_counter_umkm: "UMKM <br>Terbantu",
+          about_counter_satisfaction: "Kepuasan <br>Klien",
+          services_subheading: "Layanan Kami",
+          services_heading: "Bagaimana Kami Membantu Anda",
+          serv1_title: "Custom Web Development",
+          serv1_desc: "Membangun website unik dari nol sesuai identitas dan kebutuhan bisnis Anda, bukan sekadar template instan.",
+          serv2_title: "Update & Maintenance",
+          serv2_desc: "Jaminan performa prima. Dukungan perbaikan bug, peningkatan keamanan, dan penambahan fitur secara berkala.",
+          serv3_title: "Layanan Fleksibel",
+          serv3_desc: "Konsultasi bebas untuk menyesuaikan fitur proyek berdasarkan target budget, waktu, dan tujuan bisnis Anda.",
+          serv4_title: "Optimalisasi SEO",
+          serv4_desc: "Struktur website yang ramah mesin pencari agar bisnis Anda mudah berada di halaman pertama Google.",
+          serv5_title: "Desain Eksklusif",
+          serv5_desc: "Visual premium rancangan desainer profesional untuk membangun kredibilitas brand di mata pelanggan.",
+          serv6_title: "Akses Multi-Device",
+          serv6_desc: "Website responsif 100% yang otomatis menyesuaikan tampilan di HP, tablet, maupun layar desktop.",
+          features_subheading: "Keunggulan",
+          features_heading: "Mengapa Memilih Kami?",
+          features_desc: "Solusi digital terbaik untuk mendukung pertumbuhan bisnis Anda dengan standar teknologi modern.",
+          feat1_title: "Desain Modern",
+          feat1_subtitle: "Aesthetic & Responsive",
+          feat1_desc: "Setiap website dirancang agar memukau dan berfungsi sempurna di semua perangkat.",
+          feat2_title: "Teknologi Terkini",
+          feat2_subtitle: "Fast, Secure & SEO Ready",
+          feat2_desc: "Struktur kode standar global yang cepat dimuat, aman dari serangan cyber, dan ramah SEO.",
+          feat3_title: "Dukungan Penuh",
+          feat3_subtitle: "24/7 Response & Maintenance",
+          feat3_desc: "Pendampingan penuh setelah website selesai, siap membantu kendala teknis Anda.",
+          testi_subheading: "Testimoni",
+          testi_heading: "Apa Kata Klien Kami?",
+          testi1_position: "Owner Batik Kencana",
+          testi1_content: "Awalnya saya gaptek soal website, tapi timnya sabar banget jelasin. Sekarang Batik saya bisa dilihat pembeli dari luar kota. Orderan via WA jadi makin lancar!",
+          testi2_position: "Founder Glow Skin",
+          testi2_content: "Desainnya estetik dan kekinian banget, pas sama brand skincare aku. Loading website juga cepet, jadi customer nggak kabur pas mau checkout. Recommended!",
+          testi3_position: "Pemilik Warung Steak 88",
+          testi3_content: "Sangat puas dengan fitur dashboard adminnya. Saya bisa update menu makanan dan liat laporan penjualan harian dengan mudah lewat HP. Mantap!",
+          portfolio_subheading: "Portfolio",
+          portfolio_heading: "Project Terbaru Kami",
+          portfolio_overlay_text: "Lihat Website",
+          portfolio_btn: "Kunjungi",
+          blog_subheading: "Edukasi & Artikel",
+          blog_heading: "Blog & Kabar Terbaru",
+          blog_author: "Ditulis oleh Admin aDGo",
+          blog_date_1: "25 Juni 2026",
+          blog_title_1: "Pentingnya Website untuk UMKM di Era Digital",
+          blog_desc_1: "Bagaimana website profesional membantu UMKM memperluas jangkauan pasar dan meningkatkan kepercayaan pelanggan secara signifikan.",
+          blog_date_2: "24 Juni 2026",
+          blog_title_2: "Cara Optimasi SEO Agar Website Tampil di Google",
+          blog_desc_2: "Panduan praktis SEO dasar bagi pelaku usaha pemula agar websitenya mudah ditemukan calon pembeli di halaman pertama mesin pencari.",
+          blog_date_3: "22 Juni 2026",
+          blog_title_3: "Tips Memilih Domain dan Hosting yang Tepat",
+          blog_desc_3: "Ketahui perbedaan berbagai jenis domain dan server hosting untuk memilih paket terbaik yang stabil dan hemat anggaran.",
+          cta_title: "Siap Mewujudkan Website Impian Anda?",
+          cta_desc: "Konsultasikan kebutuhan digital bisnis Anda dengan tim kami secara gratis melalui WhatsApp!",
+          cta_btn: "Konsultasi Gratis",
+          price_subheading: "Paket & Harga",
+          price_heading: "Pilihan Paket Hemat",
+          p1_title: "Landing Page",
+          p1_feat_revisi: "Revisi Ringan",
+          p1_feat_domain: "Free Host & Domain .my.id",
+          p1_feat_js: "Javascript Interaktif",
+          p1_feat_db: "Database & Admin Panel",
+          price_btn_order: "Pesan Paket",
+          p2_title: "UMKM Start",
+          p2_feat_backend: "Backend PHP & Database",
+          p2_feat_dashboard: "Dashboard Admin",
+          p2_feat_domain: "Free Host & Domain .biz.id",
+          p2_feat_crud: "Fitur Dinamis (CRUD)",
+          p2_feat_support: "Prioritas Support",
+          price_btn_bestseller: "Paling Laris",
+          p3_title: "Business Custom",
+          p3_feat_complex: "Fitur Kompleks Request",
+          p3_feat_db: "Database Skala Besar",
+          p3_feat_domain: "Free Host & Domain .my.id",
+          p3_feat_maintenance: "Full Maintenance",
+          p3_feat_priority: "Prioritas Utama",
+          price_btn_contact: "Hubungi Kami",
+          price_note_title: "Catatan Penting",
+          price_note_1: "Seluruh paket di atas sudah termasuk <strong>Free Hosting & Domain (.my.id atau .biz.id)</strong>.",
+          price_note_2: "Anda juga bisa memesan <strong>Custom Domain (.com / .net / .id / dll)</strong> dan <strong>Custom Hosting</strong> dengan penyesuaian harga.",
+          contact_subheading: "Hubungi Kami",
+          contact_heading: "Kontak & Lokasi",
+          contact_info_title: "Info Detail",
+          contact_info_location_label: "Lokasi:",
+          contact_info_location_val: "Selindung Baru, Pangkal Pinang",
+          contact_info_phone_label: "Telepon/WA:",
+          contact_form_name_placeholder: "Nama Anda",
+          contact_form_email_placeholder: "Email Anda",
+          contact_form_subject_placeholder: "Subjek",
+          contact_form_msg_placeholder: "Pesan Anda",
+          contact_form_submit_btn: "Kirim Pesan",
+          footer_desc: "Mitra terpercaya untuk pengembangan solusi digital profesional yang aman, cepat, dan efisien bagi UMKM Indonesia.",
+          footer_services_title: "Layanan Kami",
+          footer_serv1: "Pembuatan Website",
+          footer_serv2: "Jasa SEO Google",
+          footer_serv3: "Hosting & Domain",
+          footer_serv4: "Landing Page UMKM",
+          footer_serv5: "Maintenance Web",
+          footer_links_title: "Tautan Cepat",
+          footer_link_about: "Tentang Kami",
+          footer_link_pricing: "Daftar Harga",
+          footer_newsletter_title: "Newsletter",
+          footer_newsletter_desc: "Dapatkan informasi promo dan tips digital marketing terbaru dari kami.",
+          footer_email_placeholder: "Email Anda",
+          footer_copy: "All rights reserved"
+        },
+        en: {
+          page_title: "aDGo - Digital Agency Go Online",
+          lang_btn: "EN",
+          topbar_contact: "Contact Us:",
+          topbar_email: "Email:",
+          navbar_menu: "Menu",
+          nav_home: "Home",
+          nav_about: "About",
+          nav_services: "Services",
+          nav_features: "Advantages",
+          nav_portfolio: "Portfolio",
+          nav_pricing: "Pricing",
+          nav_testimonial: "Testimonials",
+          nav_contact: "Contact",
+          nav_consult: "Consultation",
+          hero_subheading: "Elevate Your Business to the Digital Era",
+          hero_heading: "Bring a new face to your business in the digital world.",
+          hero_desc: "We provide professional, secure, and reliable website services with efficient costs. Advance your business now, as we are proud to SUPPORT INDONESIAN MSMEs.",
+          hero_btn: "Learn More",
+          form_name_label: "Full Name",
+          form_name_placeholder: "Your Name",
+          form_phone_label: "WhatsApp Number",
+          form_phone_placeholder: "Example: 08123456789",
+          form_package_label: "Choose Website Package",
+          form_opt_whs: "WHS Package (Website Hosting SEO)",
+          form_opt_landing: "Landing Page Package - Rp 50K",
+          form_opt_umkm: "UMKM Start Package - Rp 150K",
+          form_opt_business: "Business Custom Package - Rp 500K+",
+          form_note_label: "Additional Notes (Optional)",
+          form_note_placeholder: "Write additional notes...",
+          form_submit_btn: "Order via WA",
+          about_hours_title: "Operating Hours",
+          about_hours_workdays: "Working Days:",
+          about_hours_mon_sat: "Monday – Saturday:",
+          about_hours_holidays: "Holidays:",
+          about_hours_holiday_desc: "Sundays & National Holidays",
+          about_consult_title: "Quick Consultation (Call/WA)",
+          about_subheading: "About aDGo",
+          about_heading: "Manage & Scale Your Business to the Next Level",
+          about_desc: "We are here as your digital partner to help your business grow. With a combination of professional design and the latest technology, we ensure your website is not only attractive, but also functional and profitable. Supporting Indonesian MSMEs is our pride.",
+          about_counter_web: "Websites <br>Created",
+          about_counter_umkm: "MSMEs <br>Assisted",
+          about_counter_satisfaction: "Client <br>Satisfaction",
+          services_subheading: "Our Services",
+          services_heading: "How We Help You",
+          serv1_title: "Custom Web Development",
+          serv1_desc: "Building a unique website from scratch tailored to your business identity and needs, not just instant templates.",
+          serv2_title: "Update & Maintenance",
+          serv2_desc: "Guaranteed prime performance. Support for bug fixes, security enhancements, and regular feature additions.",
+          serv3_title: "Flexible Services",
+          serv3_desc: "Free consultation to customize project features based on your target budget, timeframe, and business goals.",
+          serv4_title: "SEO Optimization",
+          serv4_desc: "Search engine friendly website structure to help your business rank easily on the first page of Google.",
+          serv5_title: "Exclusive Design",
+          serv5_desc: "Premium visuals crafted by professional designers to build brand credibility in the eyes of customers.",
+          serv6_title: "Multi-Device Access",
+          serv6_desc: "100% responsive website that automatically adapts to mobile, tablet, and desktop screens.",
+          features_subheading: "Why Us",
+          features_heading: "Why Choose Us?",
+          features_desc: "The best digital solution to support your business growth with modern technology standards.",
+          feat1_title: "Modern Design",
+          feat1_subtitle: "Aesthetic & Responsive",
+          feat1_desc: "Each website is designed to look stunning and function perfectly on all devices.",
+          feat2_title: "Latest Technology",
+          feat2_subtitle: "Fast, Secure & SEO Ready",
+          feat2_desc: "Global standard code structure that is fast-loading, secure from cyber attacks, and SEO-friendly.",
+          feat3_title: "Full Support",
+          feat3_subtitle: "24/7 Response & Maintenance",
+          feat3_desc: "Full guidance after the website is finished, ready to help with your technical issues.",
+          testi_subheading: "Testimonials",
+          testi_heading: "What Our Clients Say",
+          testi1_position: "Owner of Batik Kencana",
+          testi1_content: "Initially, I was tech-illiterate about websites, but the team was very patient in explaining. Now my Batik can be seen by buyers from other cities. Orders via WA are smoother than ever!",
+          testi2_position: "Founder of Glow Skin",
+          testi2_content: "The design is very aesthetic and trendy, perfect for my skincare brand. The website loading speed is also fast, so customers don't leave during checkout. Recommended!",
+          testi3_position: "Owner of Warung Steak 88",
+          testi3_content: "Highly satisfied with the admin dashboard features. I can easily update the menu items and view daily sales reports right from my phone. Excellent!",
+          portfolio_subheading: "Portfolio",
+          portfolio_heading: "Our Latest Projects",
+          portfolio_overlay_text: "View Website",
+          portfolio_btn: "Visit",
+          blog_subheading: "Education & Articles",
+          blog_heading: "Blog & Latest News",
+          blog_author: "Written by aDGo Admin",
+          blog_date_1: "June 25, 2026",
+          blog_title_1: "The Importance of Websites for MSMEs in the Digital Era",
+          blog_desc_1: "How professional websites help MSMEs expand market reach and significantly build customer trust.",
+          blog_date_2: "June 24, 2026",
+          blog_title_2: "How to Optimize SEO to Rank Your Website on Google",
+          blog_desc_2: "Practical basic SEO guide for beginners so their website is easily found by potential buyers on the search engine's first page.",
+          blog_date_3: "June 22, 2026",
+          blog_title_3: "Tips for Choosing the Right Domain and Hosting",
+          blog_desc_3: "Understand the differences between domain and server hosting types to select the best stable and budget-friendly package.",
+          cta_title: "Ready to Realize Your Dream Website?",
+          cta_desc: "Consult your business's digital needs with our team for free via WhatsApp!",
+          cta_btn: "Free Consultation",
+          price_subheading: "Packages & Pricing",
+          price_heading: "Budget-Friendly Packages",
+          p1_title: "Landing Page",
+          p1_feat_revisi: "Light Revisions",
+          p1_feat_domain: "Free Hosting & Domain .my.id",
+          p1_feat_js: "Interactive Javascript",
+          p1_feat_db: "Database & Admin Panel",
+          price_btn_order: "Order Package",
+          p2_title: "UMKM Start",
+          p2_feat_backend: "PHP Backend & Database",
+          p2_feat_dashboard: "Admin Dashboard",
+          p2_feat_domain: "Free Hosting & Domain .biz.id",
+          p2_feat_crud: "Dynamic Features (CRUD)",
+          p2_feat_support: "Priority Support",
+          price_btn_bestseller: "Best Seller",
+          p3_title: "Business Custom",
+          p3_feat_complex: "Complex Feature Requests",
+          p3_feat_db: "Large Scale Database",
+          p3_feat_domain: "Free Hosting & Domain .my.id",
+          p3_feat_maintenance: "Full Maintenance",
+          p3_feat_priority: "Top Priority",
+          price_btn_contact: "Contact Us",
+          price_note_title: "Important Note",
+          price_note_1: "All the packages above already include <strong>Free Hosting & Domain (.my.id or .biz.id)</strong>.",
+          price_note_2: "You can also order <strong>Custom Domains (.com / .net / .id / etc.)</strong> and <strong>Custom Hosting</strong> with price adjustments.",
+          contact_subheading: "Contact Us",
+          contact_heading: "Contact & Location",
+          contact_info_title: "Detailed Info",
+          contact_info_location_label: "Location:",
+          contact_info_location_val: "Selindung Baru, Pangkal Pinang",
+          contact_info_phone_label: "Phone/WA:",
+          contact_form_name_placeholder: "Your Name",
+          contact_form_email_placeholder: "Your Email",
+          contact_form_subject_placeholder: "Subject",
+          contact_form_msg_placeholder: "Your Message",
+          contact_form_submit_btn: "Send Message",
+          footer_desc: "Trusted partner for developing secure, fast, and efficient professional digital solutions for Indonesian MSMEs.",
+          footer_services_title: "Our Services",
+          footer_serv1: "Website Development",
+          footer_serv2: "Google SEO Service",
+          footer_serv3: "Hosting & Domain",
+          footer_serv4: "MSME Landing Page",
+          footer_serv5: "Web Maintenance",
+          footer_links_title: "Quick Links",
+          footer_link_about: "About Us",
+          footer_link_pricing: "Price List",
+          footer_newsletter_title: "Newsletter",
+          footer_newsletter_desc: "Get the latest promo information and digital marketing tips from us.",
+          footer_email_placeholder: "Your Email",
+          footer_copy: "All rights reserved"
+        }
+      };
+
+      function updateWhatsAppLinks(lang) {
+          // 1. Navigation consultation link
+          const navConsultBtn = document.getElementById("navConsultBtn");
+          if (navConsultBtn) {
+              const textVal = lang === 'en' 
+                  ? "Hello aDGo, I would like to consult about website creation" 
+                  : "Halo aDGo, saya ingin konsultasi pembuatan website";
+              navConsultBtn.href = "https://api.whatsapp.com/send/?phone=6283180667700&text=" + encodeURIComponent(textVal) + "&type=phone_number&app_absent=0";
+          }
+
+          // 2. CTA Section consultation link
+          const ctaConsultBtn = document.getElementById("ctaConsultBtn");
+          if (ctaConsultBtn) {
+              const textVal = lang === 'en' 
+                  ? "Hello aDGo, I would like to consult about website creation" 
+                  : "Halo aDGo, saya ingin konsultasi pembuatan website";
+              ctaConsultBtn.href = "https://api.whatsapp.com/send/?phone=6283180667700&text=" + encodeURIComponent(textVal) + "&type=phone_number&app_absent=0";
+          }
+
+          // 3. Pricing cards order buttons
+          const priceBtn1 = document.getElementById("priceBtn1");
+          if (priceBtn1) {
+              const textVal = lang === 'en'
+                  ? "I want to order Landing Page package Rp 50K"
+                  : "Saya mau pesan paket Landing Page Rp 50K";
+              priceBtn1.href = "https://api.whatsapp.com/send/?phone=6283180667700&text=" + encodeURIComponent(textVal) + "&type=phone_number&app_absent=0";
+          }
+
+          const priceBtn2 = document.getElementById("priceBtn2");
+          if (priceBtn2) {
+              const textVal = lang === 'en'
+                  ? "I want to order UMKM Start package Rp 150K"
+                  : "Saya mau pesan paket UMKM Start Rp 150K";
+              priceBtn2.href = "https://api.whatsapp.com/send/?phone=6283180667700&text=" + encodeURIComponent(textVal) + "&type=phone_number&app_absent=0";
+          }
+
+          const priceBtn3 = document.getElementById("priceBtn3");
+          if (priceBtn3) {
+              const textVal = lang === 'en'
+                  ? "I want to order Business Custom package Rp 500K+"
+                  : "Saya mau pesan paket Business Custom Rp 500K+";
+              priceBtn3.href = "https://api.whatsapp.com/send/?phone=6283180667700&text=" + encodeURIComponent(textVal) + "&type=phone_number&app_absent=0";
+          }
+      }
+
+      function switchLang(lang) {
+          if (!translations[lang]) return;
+          currentLang = lang;
+          localStorage.setItem('adgo_lang', lang);
+
+          // Update elements with data-translate
+          document.querySelectorAll('[data-translate]').forEach(el => {
+              const key = el.getAttribute('data-translate');
+              if (translations[lang][key]) {
+                  el.innerHTML = translations[lang][key];
+              }
+          });
+
+          // Update elements with data-translate-placeholder
+          document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+              const key = el.getAttribute('data-translate-placeholder');
+              if (translations[lang][key]) {
+                  el.setAttribute('placeholder', translations[lang][key]);
+              }
+          });
+
+          // Update document title
+          if (translations[lang]['page_title']) {
+              document.title = translations[lang]['page_title'];
+          }
+
+          // Update contactForm subject hidden input value
+          const mailSubject = document.getElementById("mailSubjectHidden");
+          if (mailSubject) {
+              mailSubject.value = lang === 'en' ? "New Message from WHS Website!" : "Pesan Baru dari Website WHS!";
+          }
+
+          // Update WhatsApp consultation and order buttons hrefs
+          updateWhatsAppLinks(lang);
+
+          // Update switcher indicators
+          const currentTextEl = document.getElementById("currentLangText");
+          const currentIconEl = document.getElementById("currentLangIcon");
+          if (lang === 'en') {
+              if (currentTextEl) currentTextEl.innerText = "EN";
+              if (currentIconEl) currentIconEl.innerHTML = '<img src="https://flagcdn.com/w20/gb.png" alt="EN" style="width: 18px; vertical-align: middle; margin-right: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border-radius: 1px;">';
+              document.getElementById("langOptId").classList.remove("active");
+              document.getElementById("langOptEn").classList.add("active");
+          } else {
+              if (currentTextEl) currentTextEl.innerText = "ID";
+              if (currentIconEl) currentIconEl.innerHTML = '<img src="https://flagcdn.com/w20/id.png" alt="ID" style="width: 18px; vertical-align: middle; margin-right: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border-radius: 1px;">';
+              document.getElementById("langOptEn").classList.remove("active");
+              document.getElementById("langOptId").classList.add("active");
+          }
+      }
+
       function sendFormWhatsapp() {
           var phoneNumber = "6283180667700";
           var name = document.getElementById("clientName").value;
           var phone = document.getElementById("clientPhone").value;
-          var packageChosen = document.getElementById("packageSelect").value;
+          
+          var selectEl = document.getElementById("packageSelect");
+          var packageChosen = selectEl.options[selectEl.selectedIndex].text;
           var note = document.getElementById("clientNote").value;
 
           if (!name || !phone) {
-              alert("Mohon isi Nama Lengkap dan Nomor WhatsApp Anda.");
+              const alertMsg = currentLang === 'en' 
+                  ? "Please fill in your Full Name and WhatsApp Number." 
+                  : "Mohon isi Nama Lengkap dan Nomor WhatsApp Anda.";
+              alert(alertMsg);
               return;
           }
 
-          var baseMessage = "Halo aDGo, saya ingin memesan website:\n" +
+          var baseMessage = "";
+          if (currentLang === 'en') {
+              baseMessage = "Hello aDGo, I want to order a website:\n" +
+                            "- Name: " + name + "\n" +
+                            "- WA: " + phone + "\n" +
+                            "- Package: " + packageChosen;
+          } else {
+              baseMessage = "Halo aDGo, saya ingin memesan website:\n" +
                             "- Nama: " + name + "\n" +
                             "- WA: " + phone + "\n" +
                             "- Paket: " + packageChosen;
+          }
           
           if (note.trim() !== "") {
-              baseMessage += "\n- Catatan: " + note;
+              baseMessage += currentLang === 'en' ? "\n- Note: " + note : "\n- Catatan: " + note;
           }
 
           var waUrl = "https://api.whatsapp.com/send/?phone=" + phoneNumber + "&text=" + encodeURIComponent(baseMessage) + "&type=phone_number&app_absent=0";
@@ -1034,7 +1491,7 @@
           const originalText = btn.innerHTML;
           const formData = new FormData(this);
           
-          btn.innerHTML = "Mengirim...";
+          btn.innerHTML = currentLang === 'en' ? "Sending..." : "Mengirim...";
           btn.disabled = true;
 
           // Kirim via FormSubmit ke afansurifan@gmail.com
@@ -1045,15 +1502,15 @@
           .then(response => response.json())
           .then(data => {
               if(data.success === "true" || data.success === true) {
-                  alert("Pesan berhasil dikirim! Terima kasih.");
+                  alert(currentLang === 'en' ? "Message sent successfully! Thank you." : "Pesan berhasil dikirim! Terima kasih.");
                   document.getElementById("contactForm").reset(); 
               } else {
-                  alert("Maaf, ada kesalahan sistem saat mengirim pesan.");
+                  alert(currentLang === 'en' ? "Sorry, a system error occurred while sending the message." : "Maaf, ada kesalahan sistem saat mengirim pesan.");
               }
           })
           .catch(error => {
               console.error('Error:', error);
-              alert("Gagal mengirim pesan. Mohon periksa koneksi internet Anda.");
+              alert(currentLang === 'en' ? "Failed to send message. Please check your internet connection." : "Gagal mengirim pesan. Mohon periksa koneksi internet Anda.");
           })
           .finally(() => {
               btn.innerHTML = originalText;
@@ -1061,8 +1518,11 @@
           });
       });
 
-      // Ad Popup Logic
+      // Ad Popup Logic & Language Loader
       document.addEventListener("DOMContentLoaded", function() {
+          // Initialize active language
+          switchLang(currentLang);
+
           // Show popup after 1.5 seconds delay for a smooth entrance
           setTimeout(function() {
               var popup = document.getElementById("adPopup");
