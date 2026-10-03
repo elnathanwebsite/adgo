@@ -356,8 +356,13 @@
     <div id="adPopup" class="ad-popup-overlay">
       <div class="ad-popup-container">
         <span class="ad-popup-close" id="adPopupClose">&times;</span>
-        <a href="#contact" id="adPopupLink">
-          <img src="img/iklan.png" alt="Promo Spesial aDGo" class="ad-popup-img">
+        <!-- Ad Slide 1: Digitalisasi -->
+        <a href="#services" id="adPopupLink" class="ad-slide active">
+          <img src="img/iklan digitalisasi.png" alt="Iklan Digitalisasi – aDGo Digital Agency" class="ad-popup-img">
+        </a>
+        <!-- Ad Slide 2: Pengembangan Sistem -->
+        <a href="#services" class="ad-slide" style="display:none;">
+          <img src="img/Pengembangan Sistem Internal untuk Bisnis.png" alt="Pengembangan Sistem Internal untuk Bisnis – aDGo" class="ad-popup-img">
         </a>
       </div>
     </div>
@@ -1815,6 +1820,17 @@
           var popup = document.getElementById("adPopup");
           var popupLink = document.getElementById("adPopupLink");
           
+          // Auto-cycle between ad slides every 3 seconds
+          var adSlides = document.querySelectorAll(".ad-slide");
+          if (adSlides.length > 1) {
+              var currentSlide = 0;
+              setInterval(function() {
+                  adSlides[currentSlide].style.display = "none";
+                  currentSlide = (currentSlide + 1) % adSlides.length;
+                  adSlides[currentSlide].style.display = "block";
+              }, 3000);
+          }
+
           if (closeBtn && popup) {
               function closePopup() {
                   popup.classList.remove("active");
