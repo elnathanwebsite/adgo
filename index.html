@@ -72,15 +72,45 @@
 
         #navLinks.mobile-drawer {
             position: fixed;
-            inset: 0 0 0 auto;
-            display: none;
-            width: min(88vw, 23rem);
-            height: 100dvh;
-            translate: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: #f5f4ed;
+            border-bottom: 2px solid #1d2521;
+            box-shadow: 0 25px 50px -12px rgba(29, 37, 33, 0.35);
+            transform: translateY(-100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
         }
 
         #navLinks.mobile-drawer.is-open {
-            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #navScrim {
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 23, 19, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 90;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #navScrim.is-open {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         @media (min-width: 64rem) {
@@ -89,9 +119,18 @@
             #navLinks.mobile-drawer.is-open {
                 position: static;
                 inset: auto;
+                transform: none;
+                opacity: 1;
+                pointer-events: auto;
                 display: flex;
+                flex-direction: row;
                 width: auto;
-                height: auto;
+                max-height: none;
+                overflow: visible;
+                background: transparent;
+                border: 0;
+                box-shadow: none;
+                z-index: auto;
             }
         }
 
@@ -130,11 +169,11 @@
             data-en="Helping local businesses take their next step. Let's start with digital.">Bikin bisnis lokal siap
             melangkah lebih jauh. Kita mulai dari digitalnya.</span>
         <a href="#contact"
-            class="ml-2 inline-flex items-center gap-1 font-bold text-[#d7ff4f] underline underline-offset-4"
-            data-id="Ngobrol yuk" data-en="Let's talk">Ngobrol yuk <span aria-hidden="true">↗</span></a>
+            class="ml-2 inline-flex items-center gap-1 font-bold text-[#d7ff4f] underline underline-offset-4"><span
+                data-id="Ngobrol yuk" data-en="Let's talk">Ngobrol yuk</span> <span aria-hidden="true">↗</span></a>
     </div>
 
-    <header class="sticky top-0 z-40 border-b border-[#d9ddd4] bg-[#f5f4ed]/95 backdrop-blur-md">
+    <header class="sticky top-0 z-50 border-b border-[#d9ddd4] bg-[#f5f4ed]/95 backdrop-blur-md">
         <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8" aria-label="Main navigation">
             <a href="#home" class="flex items-center gap-2.5" aria-label="aDGo home"><span
                     class="grid size-9 place-items-center rounded-[10px] bg-[#d7ff4f] font-bold tracking-tight">aD</span><span
@@ -143,23 +182,34 @@
                 class="fixed inset-0 z-[60] hidden bg-[#111713]/50 backdrop-blur-sm lg:hidden"
                 aria-label="Close menu"></button>
             <div id="navLinks"
-                class="mobile-drawer z-[70] flex flex-col gap-1 border-l border-[#d9ddd4] bg-[#f5f4ed] px-6 pb-8 pt-5 shadow-2xl lg:z-auto lg:flex-row lg:items-center lg:gap-7 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
-                <div class="mb-5 flex items-center justify-between border-b border-[#d9ddd4] pb-5 lg:hidden">
-                    <span class="display-font text-lg font-bold">Menu<span class="text-[#f07861]">.</span></span>
+                class="mobile-drawer flex flex-col gap-1 px-6 pb-6 pt-5 lg:flex-row lg:items-center lg:gap-7 lg:p-0">
+                <div class="mb-4 flex items-center justify-between border-b border-[#d9ddd4] pb-4 lg:hidden">
+                    <div class="flex items-center gap-2">
+                        <span class="grid size-8 place-items-center rounded-lg bg-[#d7ff4f] text-xs font-bold">aD</span>
+                        <span class="display-font text-lg font-bold">aDGo Menu<span
+                                class="text-[#f07861]">.</span></span>
+                    </div>
                     <button id="drawerCloseButton" type="button"
-                        class="grid size-10 place-items-center rounded-full border border-[#d9ddd4]"
+                        class="grid size-10 place-items-center rounded-full border border-[#d9ddd4] text-[#1d2521] hover:bg-black/5"
                         aria-label="Close menu"><i data-lucide="x" class="size-5"></i></button>
                 </div>
-                <a class="nav-link block border-b border-[#d9ddd4] py-4 text-lg font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
+                <a class="nav-link block border-b border-[#d9ddd4]/60 py-3 text-base font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
                     href="#work" data-id="Karya" data-en="Work">Karya</a>
-                <a class="nav-link block border-b border-[#d9ddd4] py-4 text-lg font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
+                <a class="nav-link block border-b border-[#d9ddd4]/60 py-3 text-base font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
                     href="#services" data-id="Layanan" data-en="Services">Layanan</a>
-                <a class="nav-link block border-b border-[#d9ddd4] py-4 text-lg font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
+                <a class="nav-link block border-b border-[#d9ddd4]/60 py-3 text-base font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
                     href="#about" data-id="Tentang" data-en="About">Tentang</a>
-                <a class="nav-link block border-b border-[#d9ddd4] py-4 text-lg font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
+                <a class="nav-link block border-b border-[#d9ddd4]/60 py-3 text-base font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
                     href="#pricing" data-id="Harga" data-en="Pricing">Harga</a>
-                <a class="nav-link block border-b border-[#d9ddd4] py-4 text-lg font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
+                <a class="nav-link block border-b border-[#d9ddd4]/60 py-3 text-base font-semibold text-[#58615b] hover:text-[#1d2521] lg:border-0 lg:py-0 lg:text-sm"
                     href="#contact" data-id="Kontak" data-en="Contact">Kontak</a>
+                <div class="mt-4 flex flex-col gap-3 pt-2 lg:hidden">
+                    <a href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank" rel="noreferrer"
+                        class="flex items-center justify-center gap-2 rounded-full bg-[#1d2521] py-3 text-sm font-bold text-white shadow-md">
+                        <span data-id="Konsultasi Sekarang" data-en="Let's talk">Konsultasi Sekarang</span>
+                        <i data-lucide="arrow-up-right" class="size-4 text-[#d7ff4f]"></i>
+                    </a>
+                </div>
             </div>
             <div class="flex items-center gap-3">
                 <div class="flex items-center rounded-full border border-[#d9ddd4] p-1 text-xs font-bold"
@@ -187,14 +237,15 @@
                 <p
                     class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#d9ddd4] bg-white/60 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-[#59625b]">
                     <span class="size-2 rounded-full bg-[#f07861]"></span><span
-                        data-id="Digital studio untuk bisnis lokal" data-en="Digital studio for local business">Digital
-                        Digitalisasi Bisnis di Era Digital</span>
+                        data-id="Digital Studio untuk Bisnis Lokal" data-en="Digital Studio for Local Business">Digital
+                        Studio untuk Bisnis Lokal</span>
                 </p>
                 <h1
                     class="display-font max-w-3xl text-[3.4rem] font-bold leading-[.99] tracking-[-.055em] sm:text-7xl lg:text-[5.4rem]">
-                    <span data-id="Bisnis lokal," data-en="Local business,">Digitalisassikan Bisnismu,</span><br><span
-                        class="relative inline-block"><span class="relative z-10" data-id="level digital."
-                            data-en="next-level digital.">dan Maju Bersama untuk Bersaing.</span><span
+                    <span data-id="Digitalisasikan Bisnismu," data-en="Digitalize Your Business,">Digitalisasikan
+                        Bisnismu,</span><br><span class="relative inline-block"><span class="relative z-10"
+                            data-id="Maju Bersama & Bersaing." data-en="Grow & Compete Digitally.">Maju Bersama &
+                            Bersaing.</span><span
                             class="absolute -bottom-1 left-0 -z-0 h-5 w-full -rotate-2 bg-[#d7ff4f] sm:h-7"></span></span>
                 </h1>
                 <p class="mt-7 max-w-xl text-base leading-8 text-[#68716b] sm:text-lg"
@@ -228,19 +279,47 @@
                     class="paper-grid absolute -right-4 -top-5 h-28 w-28 opacity-60 sm:-right-7 sm:-top-7 sm:h-36 sm:w-36">
                 </div>
                 <div class="relative overflow-hidden rounded-[1.8rem] bg-[#d7ff4f] p-3 sm:rounded-[2.4rem] sm:p-4">
-                    <div class="relative overflow-hidden rounded-[1.35rem] bg-[#1d2521] sm:rounded-[1.9rem]"><iframe
-                            src="https://muhammadarifanalfahri.howto.rocks"
-                            title="Live preview website Dapoer Gen Z Ricebowl" loading="eager"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
-                            class="pointer-events-none aspect-[4/4.15] w-full border-0 bg-white">
-                        </iframe>
+                    <div
+                        class="relative aspect-[4/4.15] w-full overflow-hidden rounded-[1.35rem] bg-[#1d2521] sm:rounded-[1.9rem]">
+                        <!-- macOS style browser header -->
                         <div
-                            class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#111713]/90 via-[#111713]/25 to-transparent p-6 pt-24 text-white sm:p-8 sm:pt-32">
+                            class="flex items-center justify-between border-b border-white/10 bg-[#161d19] px-4 py-2.5 text-white">
+                            <div class="flex items-center gap-1.5">
+                                <span class="size-2.5 rounded-full bg-[#f07861]"></span>
+                                <span class="size-2.5 rounded-full bg-[#d7ff4f]"></span>
+                                <span class="size-2.5 rounded-full bg-[#52c41a]"></span>
+                            </div>
+                            <div
+                                class="flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs text-white/80">
+                                <i data-lucide="lock" class="size-3 text-[#d7ff4f]"></i>
+                                <span class="font-mono text-[11px]">muhammadarifanalfahri.howto.rocks</span>
+                            </div>
+                            <span
+                                class="flex items-center gap-1.5 rounded-full bg-[#d7ff4f]/20 px-2 py-0.5 text-[10px] font-bold text-[#d7ff4f]">
+                                <span class="size-1.5 rounded-full bg-[#d7ff4f] animate-pulse"></span>
+                                <span>LIVE</span>
+                            </span>
+                        </div>
+
+                        <!-- Open portfolio directly to avoid the third-party cookie error -->
+                        <div class="relative h-[calc(100%-41px)] w-full overflow-hidden bg-white">
+                            <a href="https://muhammadarifanalfahri.howto.rocks/" target="_blank"
+                                rel="noopener noreferrer"
+                                class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#f5f4ed] p-6 text-center text-[#1d2521]">
+                                <i data-lucide="external-link" class="size-7 text-[#c74e3d]"></i>
+                                <span class="text-sm font-semibold" data-id="Buka portofolio di tab baru"
+                                    data-en="Open portfolio in a new tab">Buka portofolio di tab baru</span>
+                            </a>
+                        </div>
+
+                        <div
+                            class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#111713]/95 via-[#111713]/50 to-transparent p-6 pt-20 text-white sm:p-8 sm:pt-28">
                             <p class="mb-2 text-xs font-bold uppercase tracking-[.16em] text-[#d7ff4f]"
                                 data-id="Pilihan karya · 01" data-en="Selected work · 01">Pilihan karya · 01</p>
-                            <h2 class="display-font text-2xl font-bold sm:text-3xl">Portofolio</h2>
-                            <p class="mt-1 text-sm text-white/75">Portofolio · Skill&amp;Project</p>
+                            <h2 class="display-font text-2xl font-bold sm:text-3xl" data-id="Portofolio"
+                                data-en="Portfolio">Portofolio</h2>
+                            <p class="mt-1 text-sm text-white/75" data-id="Portofolio Digital"
+                                data-en="Digital Portfolio">Portofolio Digital</p>
                         </div>
                     </div>
                 </div>
@@ -626,86 +705,237 @@
         </div>
     </footer>
 
-    <section id="cookieBanner"
-        class="fixed inset-x-4 bottom-4 z-[80] mx-auto hidden max-w-3xl rounded-2xl border border-[#d9ddd4] bg-white p-5 shadow-[0_24px_80px_rgba(29,37,33,.2)] sm:inset-x-6 sm:p-6"
-        aria-label="Cookie consent">
-        <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div class="max-w-xl">
-                <p class="display-font font-bold" data-id="Pilihan cookie kamu" data-en="Your cookie choice">Pilihan
-                    cookie kamu</p>
-                <p class="mt-1 text-sm leading-6 text-[#68716b]"
-                    data-id="Kami memakai penyimpanan lokal untuk mengingat bahasa dan memastikan iklan promosi hanya muncul satu kali."
-                    data-en="We use local storage to remember your language and make sure promotional ads appear only once.">
-                    Kami memakai penyimpanan lokal untuk mengingat bahasa dan memastikan iklan promosi hanya muncul satu
-                    kali.</p>
-            </div>
-            <div class="flex shrink-0 gap-2">
-                <button id="cookieReject" type="button"
-                    class="rounded-full border border-[#d9ddd4] px-4 py-3 text-sm font-bold" data-id="Tolak"
-                    data-en="Decline">Tolak</button>
-                <button id="cookieAccept" type="button"
-                    class="rounded-full bg-[#1d2521] px-4 py-3 text-sm font-bold text-white" data-id="Setuju"
-                    data-en="Accept">Setuju</button>
-            </div>
-        </div>
-    </section>
-
-    <div id="adsModal"
-        class="fixed inset-0 z-[90] hidden items-center justify-center bg-[#111713]/75 p-3 backdrop-blur-sm sm:p-6"
-        role="dialog" aria-modal="true" aria-labelledby="adsTitle" aria-hidden="true">
-        <div
-            class="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto rounded-[1.5rem] bg-[#f5f4ed] p-4 shadow-2xl sm:max-h-[calc(100dvh-3rem)] sm:rounded-[2rem] sm:p-7">
-            <div class="mb-4 flex items-start justify-between gap-4 sm:mb-6">
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-[.16em] text-[#c74e3d]"
-                        data-id="Kenalan dengan layanan kami" data-en="Discover what we do">Kenalan dengan layanan kami
-                    </p>
-                    <h2 id="adsTitle" class="display-font mt-1 text-2xl font-bold sm:text-3xl"
-                        data-id="Solusi digital untuk bisnis yang berkembang."
-                        data-en="Digital solutions for growing businesses.">Solusi digital untuk bisnis yang berkembang.
-                    </h2>
-                </div>
-                <button id="adsClose" type="button"
-                    class="grid size-10 shrink-0 place-items-center rounded-full border border-[#d9ddd4]"
-                    aria-label="Close promotion"><i data-lucide="x" class="size-5"></i></button>
-            </div>
-            <div class="grid gap-4 md:grid-cols-2">
-                <a href="https://api.whatsapp.com/send/?phone=6283180667700&amp;text=Halo%20aDGo%2C%20saya%20ingin%20konsultasi%20sistem%20internal"
-                    target="_blank" rel="noreferrer" class="overflow-hidden rounded-xl bg-white">
-                    <img src="img/Pengembangan%20Sistem%20Internal%20untuk%20Bisnis.png"
-                        alt="Iklan pengembangan sistem internal untuk bisnis"
-                        class="max-h-[48vh] w-full object-contain">
-                    <span class="flex items-center justify-between px-4 py-3 text-sm font-bold"><span
-                            data-id="Konsultasi sistem internal" data-en="Ask about internal systems">Konsultasi sistem
-                            internal</span><i data-lucide="arrow-up-right" class="size-4"></i></span>
-                </a>
-                <a href="https://api.whatsapp.com/send/?phone=6283180667700&amp;text=Halo%20aDGo%2C%20saya%20ingin%20konsultasi%20digitalisasi%20bisnis"
-                    target="_blank" rel="noreferrer" class="overflow-hidden rounded-xl bg-white">
-                    <img src="img/iklan%20digitalisasi.png" alt="Iklan layanan digitalisasi bisnis aDGo"
-                        class="max-h-[48vh] w-full object-contain">
-                    <span class="flex items-center justify-between px-4 py-3 text-sm font-bold"><span
-                            data-id="Konsultasi digitalisasi bisnis"
-                            data-en="Ask about business digitalization">Konsultasi digitalisasi bisnis</span><i
-                            data-lucide="arrow-up-right" class="size-4"></i></span>
-                </a>
-            </div>
-            <button id="adsDismiss" type="button"
-                class="mt-5 w-full rounded-full bg-[#1d2521] px-5 py-3.5 text-sm font-bold text-white sm:w-auto"
-                data-id="Lanjut ke website" data-en="Continue to website">Lanjut ke website</button>
-        </div>
-    </div>
-
     <script>
         const menuButton = document.getElementById("menuButton");
         const navLinks = document.getElementById("navLinks");
         const navScrim = document.getElementById("navScrim");
         const drawerCloseButton = document.getElementById("drawerCloseButton");
         const langButtons = document.querySelectorAll(".lang-button");
-        let currentLang = localStorage.getItem("adgo_lang") || "id";
+        const projectGrid = document.getElementById("projectGrid");
+        const savedLanguageCookie = document.cookie.split("; ").find((cookie) => cookie.startsWith("adgo_lang="));
+        const savedLanguage = savedLanguageCookie ? decodeURIComponent(savedLanguageCookie.slice("adgo_lang=".length)) : "id";
+        let currentLang = savedLanguage === "en" ? "en" : "id";
+
+        const projects = [
+            {
+                url: "https://dapoergenzricebowl.biz.id/",
+                title: "Dapoer Gen Z Ricebowl",
+                categoryId: "E-commerce · Kuliner",
+                categoryEn: "E-commerce · Food & Beverage",
+                descriptionId: "Website pemesanan ricebowl modern untuk brand kuliner lokal.",
+                descriptionEn: "Modern online ordering website for a local culinary brand."
+            },
+            {
+                url: "https://hubumkbangkabelitung.id/",
+                title: "Hub UMKM Bangka Belitung",
+                categoryId: "Komunitas · Direktori UMKM",
+                categoryEn: "Community · MSME Directory",
+                descriptionId: "Direktori digital untuk menghubungkan dan memajukan UMKM daerah.",
+                descriptionEn: "A digital directory connecting and empowering local small businesses."
+            },
+            {
+                url: "https://sman1lubukbesar.likesyou.org/?i=1",
+                title: "SMA Negeri 1 Lubuk Besar",
+                embed: false,
+                categoryId: "Pendidikan · Profil Sekolah",
+                categoryEn: "Education · School Profile",
+                descriptionId: "Pusat informasi dan kegiatan sekolah dalam tampilan web yang modern dan mudah diakses.",
+                descriptionEn: "School information hub with an accessible, modern web experience."
+            },
+            {
+                url: "https://tokocamp.22web.org/?i=1",
+                title: "Toko Camp",
+                embed: false,
+                categoryId: "E-commerce · Perlengkapan Outdoor",
+                categoryEn: "E-commerce · Outdoor Gear",
+                descriptionId: "Katalog produk dan sistem belanja online untuk perlengkapan camping dan outdoor.",
+                descriptionEn: "Online catalog and shopping system for camping and outdoor adventure gear."
+            },
+            {
+                url: "https://warkopkm9sungailiat.vercel.app/",
+                title: "Warkop KM 9",
+                categoryId: "Bisnis Lokal · Kafe & Menu Online",
+                categoryEn: "Local Business · Cafe & Online Menu",
+                descriptionId: "Website kedai kopi lokal dengan menu digital, galeri suasana, dan pemesanan online.",
+                descriptionEn: "Local coffee shop website featuring digital menu, atmosphere gallery, and online orders."
+            },
+            {
+                url: "https://ppecompliancecontrolsystem.infinityfree.io/?i=1",
+                title: "PPE Compliance Control System",
+                embed: false,
+                categoryId: "PT Trakindo · Sistem Manajemen APD",
+                categoryEn: "PT Trakindo · Safety & PPE System",
+                descriptionId: "Sistem kontrol kepatuhan APD, pemantauan inspeksi rutin & kesiapan audit di PT Trakindo.",
+                descriptionEn: "PPE readiness, inspection compliance and audit readiness system at PT Trakindo."
+            },
+            {
+                url: "https://rumahbumn-acehutara.iblogger.org/?i=1",
+                title: "Rumah BUMN Aceh Utara",
+                embed: false,
+                categoryId: "Komunitas · Pemberdayaan UMKM BUMN",
+                categoryEn: "Community · MSME Empowerment",
+                descriptionId: "Platform digital Rumah BUMN untuk pembinaan dan promosi produk pelaku usaha daerah.",
+                descriptionEn: "Rumah BUMN digital hub for regional small business development and promotion."
+            },
+            {
+                url: "https://tiketkita.vercel.app/",
+                title: "TiketKita",
+                categoryId: "Pariwisata · Pemesanan Tiket",
+                categoryEn: "Travel · Ticket Booking",
+                descriptionId: "Platform pemesanan tiket online dengan pengalaman digital yang praktis.",
+                descriptionEn: "An online ticket booking platform with a straightforward digital experience."
+            },
+            {
+                url: "https://pasarumkm.vercel.app/",
+                title: "PasarUMKM",
+                categoryId: "E-commerce · Pasar UMKM",
+                categoryEn: "E-commerce · MSME Marketplace",
+                descriptionId: "Pasar digital untuk membantu produk UMKM menjangkau lebih banyak pelanggan.",
+                descriptionEn: "A digital marketplace helping small business products reach more customers."
+            },
+            {
+                url: "https://abunbumbubangka.infinityfreeapp.com/",
+                title: "ABUN Bumbu",
+                embed: false,
+                categoryId: "E-commerce · Terasi & Sambal",
+                categoryEn: "E-commerce · Shrimp Paste & Sambal",
+                descriptionId: "Toko online produk terasi asli Bangka dan sambal terasi.",
+                descriptionEn: "Online store for authentic Bangka shrimp paste and shrimp paste sambal."
+            }
+        ];
+
+        // ── Screenshot helper via Microlink API ──────────────────────────────
+        function screenshotUrl(pageUrl) {
+            return `https://api.microlink.io/?url=${encodeURIComponent(pageUrl)}&screenshot=true&meta=false&embed=screenshot.url`;
+        }
+
+        // ── Iframe fallback: if iframe blocked, swap to screenshot ────────────
+        function handleIframeLoad(iframe) {
+            try {
+                // If we can access contentDocument it loaded fine
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                if (!doc || doc.URL === "about:blank") throw new Error("blank");
+            } catch (e) {
+                swapToScreenshot(iframe, iframe.dataset.pageUrl, iframe.dataset.pageTitle);
+            }
+        }
+
+        function handleIframeError(iframe) {
+            swapToScreenshot(iframe, iframe.dataset.pageUrl, iframe.dataset.pageTitle);
+        }
+
+        function swapToScreenshot(el, pageUrl, title) {
+            const container = el.closest(".preview-container");
+            if (!container || container.dataset.swapped) return;
+            container.dataset.swapped = "1";
+            const lang = currentLang;
+            const visitText = lang === "id" ? "Buka Website" : "Visit Website";
+            container.innerHTML = `
+                <div class="relative h-full w-full overflow-hidden bg-[#161d19]">
+                    <img
+                        src="${screenshotUrl(pageUrl)}"
+                        alt="Preview ${title}"
+                        class="h-full w-full object-cover object-top transition-opacity duration-500"
+                        loading="lazy"
+                        onerror="this.parentElement.innerHTML='<a href=\\'${pageUrl}\\' target=\\'_blank\\' rel=\\'noopener noreferrer\\' class=\\'flex h-full flex-col items-center justify-center gap-3 bg-[#f5f4ed] px-5 text-center text-[#1d2521]\\'><svg xmlns=\\'http://www.w3.org/2000/svg\\' class=\\'size-7 text-[#c74e3d]\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\'><path d=\\'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\\'/><polyline points=\\'15 3 21 3 21 9\\'/><line x1=\\'10\\' y1=\\'14\\' x2=\\'21\\' y2=\\'3\\'/></svg><span class=\\'text-sm font-semibold\\'>${lang === "id" ? "Buka situs ini di tab baru." : "Open this site in a new tab."}</span><span class=\\'text-xs font-bold underline underline-offset-4\\'>${visitText}</span></a>'"
+                    />
+                    <a href="${pageUrl}" target="_blank" rel="noopener noreferrer"
+                       class="absolute inset-0 flex items-end justify-center p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200">
+                        <span class="rounded-full bg-[#d7ff4f] px-4 py-1.5 text-xs font-bold text-[#1d2521]">${visitText} ↗</span>
+                    </a>
+                </div>`;
+        }
+
+        function renderProjects() {
+            if (!projectGrid) return;
+            projectGrid.innerHTML = projects.map((project) => {
+                const domain = new URL(project.url).hostname;
+                const catText = currentLang === "id" ? project.categoryId : project.categoryEn;
+                const descText = currentLang === "id" ? project.descriptionId : project.descriptionEn;
+                const visitText = currentLang === "id" ? "Buka Website" : "Visit Website";
+                // All cards show LIVE badge; blocked ones fall back gracefully
+                const statusText = "LIVE";
+
+                // Always try iframe first. For known-blocked sites, use screenshot directly.
+                const previewContent = project.embed === false
+                    ? `<div class="preview-container h-full w-full relative overflow-hidden bg-[#161d19]">
+                           <img
+                               src="${screenshotUrl(project.url)}"
+                               alt="Preview ${project.title}"
+                               class="h-full w-full object-cover object-top"
+                               loading="lazy"
+                               onerror="this.parentElement.innerHTML='<a href=\\'${project.url}\\' target=\\'_blank\\' rel=\\'noopener noreferrer\\' class=\\'flex h-full flex-col items-center justify-center gap-3 bg-[#f5f4ed] px-5 text-center text-[#1d2521]\\'><svg xmlns=\\'http://www.w3.org/2000/svg\\' class=\\'size-7 text-[#c74e3d]\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\'><path d=\\'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\\'/><polyline points=\\'15 3 21 3 21 9\\'/><line x1=\\'10\\' y1=\\'14\\' x2=\\'21\\' y2=\\'3\\'/></svg><span class=\\'text-sm font-semibold\\'>${currentLang === "id" ? "Buka situs ini di tab baru." : "Open this site in a new tab."}</span><span class=\\'text-xs font-bold underline underline-offset-4\\'>${visitText}</span></a>'"
+                           />
+                           <a href="${project.url}" target="_blank" rel="noopener noreferrer"
+                              class="absolute inset-0 flex items-end justify-center p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200">
+                               <span class="rounded-full bg-[#d7ff4f] px-4 py-1.5 text-xs font-bold text-[#1d2521]">${visitText} ↗</span>
+                           </a>
+                       </div>`
+                    : `<div class="preview-container h-full w-full">
+                           <iframe
+                               src="${project.url}"
+                               title="Live preview ${project.title}"
+                               loading="lazy"
+                               class="h-full w-full border-0 bg-white"
+                               allow="fullscreen"
+                               data-page-url="${project.url}"
+                               data-page-title="${project.title}"
+                               onload="(function(f){try{var d=f.contentDocument||f.contentWindow.document;if(!d||d.URL==='about:blank')throw 1;}catch(e){swapToScreenshot(f,'${project.url}','${project.title}')}})(this)"
+                               onerror="swapToScreenshot(this,'${project.url}','${project.title}')"
+                           ></iframe>
+                       </div>`;
+                return `<article class="group flex flex-col overflow-hidden rounded-[1.4rem] border border-white/10 bg-[#253029] transition duration-300 hover:-translate-y-1 hover:border-[#d7ff4f]/40 hover:shadow-[0_16px_36px_rgba(0,0,0,0.35)]">
+                    <!-- Browser Window Mockup -->
+                    <div class="w-full overflow-hidden bg-[#161d19]">
+                        <!-- macOS style top bar -->
+                        <div class="flex items-center justify-between border-b border-white/10 bg-[#1a231e] px-3.5 py-2">
+                            <div class="flex items-center gap-1.5">
+                                <span class="size-2 rounded-full bg-[#f07861]"></span>
+                                <span class="size-2 rounded-full bg-[#d7ff4f]"></span>
+                                <span class="size-2 rounded-full bg-[#52c41a]"></span>
+                            </div>
+                            <div class="flex max-w-[62%] items-center gap-1.5 truncate rounded-md bg-white/5 px-2.5 py-0.5 text-[11px] text-white/70">
+                                <i data-lucide="lock" class="size-3 text-[#d7ff4f]"></i>
+                                <span class="truncate font-mono text-[10px] sm:text-[11px]">${domain}</span>
+                            </div>
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-[#d7ff4f]">
+                                <span class="size-1.5 rounded-full bg-[#d7ff4f] animate-pulse"></span>
+                                <span>${statusText}</span>
+                            </span>
+                        </div>
+                        
+                        <!-- Interactive live website embed -->
+                        <div class="aspect-[4/3] w-full bg-[#161d19]">
+                            ${previewContent}
+                        </div>
+                    </div>
+
+                    <!-- Project Info -->
+                    <div class="flex flex-1 flex-col justify-between p-5 text-white">
+                        <div>
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="rounded-full bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-[#d7ff4f]">${catText}</span>
+                                <span class="font-mono text-[10px] text-white/40">${domain}</span>
+                            </div>
+                            <h3 class="display-font mt-2.5 text-lg font-bold leading-snug tracking-tight text-white group-hover:text-[#d7ff4f] transition-colors">${project.title}</h3>
+                            <p class="mt-2 text-xs leading-5 text-white/70">${descText}</p>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
+                            <span class="text-[11px] font-medium text-white/50">${visitText}</span>
+                            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="inline-flex size-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#d7ff4f] hover:text-[#1d2521]" aria-label="Open ${project.title}">
+                                <i data-lucide="arrow-up-right" class="size-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>`;
+            }).join("");
+            lucide.createIcons();
+        }
 
         function setLanguage(lang) {
             currentLang = lang;
-            localStorage.setItem("adgo_lang", lang);
+            const secureCookie = window.location.protocol === "https:" ? "; Secure" : "";
+            document.cookie = `adgo_lang=${encodeURIComponent(lang)}; Max-Age=31536000; Path=/; SameSite=Lax${secureCookie}`;
             document.documentElement.lang = lang;
             document.querySelectorAll("[data-id][data-en]").forEach((element) => {
                 element.innerHTML = element.dataset[lang];
@@ -720,100 +950,18 @@
                 button.classList.toggle("text-white", active);
                 button.classList.toggle("text-[#68716b]", !active);
             });
-            document.title = lang === "id" ? "aDGo — Agensi Digital Go Online" : "aDGo — Agency Digital Go Online";
+            document.title = "aDGo — Agency Digital Go Online";
+            renderProjects();
         }
 
-        const projects = [
-            {
-                url: "https://dapoergenzricebowl.biz.id/",
-                title: "Dapoer Gen Z Ricebowl",
-                categoryId: "E-commerce · F&B",
-                categoryEn: "E-commerce · F&B",
-                descriptionId: "Website pemesanan ricebowl untuk brand kuliner lokal.",
-                descriptionEn: "An online ordering website for a local ricebowl brand."
-            },
-            {
-                url: "https://hubumkbangkabelitung.id/",
-                title: "Hub UMKM Bangka Belitung",
-                categoryId: "Community · Directory",
-                categoryEn: "Community · Directory",
-                descriptionId: "Direktori digital untuk menghubungkan UMKM daerah.",
-                descriptionEn: "A digital directory connecting local small businesses.",
-                embedBlocked: true
-            },
-            {
-                url: "https://sman1lubukbesar.likesyou.org/?i=1",
-                title: "SMA Negeri 1 Lubuk Besar",
-                categoryId: "Pendidikan · Sekolah",
-                categoryEn: "Education · School",
-                descriptionId: "Informasi sekolah dalam pengalaman web yang mudah diakses.",
-                descriptionEn: "School information in an accessible web experience."
-            },
-            {
-                url: "https://tokocamp.22web.org/?i=1",
-                title: "Toko Camp",
-                categoryId: "E-commerce · Outdoor",
-                categoryEn: "E-commerce · Outdoor",
-                descriptionId: "Katalog dan pengalaman belanja untuk perlengkapan outdoor.",
-                descriptionEn: "A catalog and shopping experience for outdoor gear."
-            },
-            {
-                url: "https://warkopkm9sungailiat.vercel.app/",
-                title: "Warkop KM 9",
-                categoryId: "Bisnis lokal · F&B",
-                categoryEn: "Local business · F&B",
-                descriptionId: "Website untuk mengenalkan menu dan suasana kedai kopi lokal.",
-                descriptionEn: "A website introducing a local coffee shop's menu and atmosphere."
-            },
-            {
-                url: "https://ppecompliancecontrolsystem.infinityfree.io/?i=1",
-                title: "PPE Compliance Control System",
-                categoryId: "PT Trakindo · Pangkal Pinang",
-                categoryEn: "PT Trakindo · Pangkal Pinang",
-                descriptionId: "Ensuring PPE Readiness, Inspection Compliance & Audit Readiness.",
-                descriptionEn: "Ensuring PPE Readiness, Inspection Compliance & Audit Readiness."
-            },
-            {
-                url: "https://rumahbumn-acehutara.iblogger.org/?i=1",
-                title: "Rumah BUMN Aceh Utara",
-                categoryId: "Community · UMKM",
-                categoryEn: "Community · Small business",
-                descriptionId: "Platform digital Rumah BUMN untuk pelaku usaha Aceh Utara.",
-                descriptionEn: "A Rumah BUMN digital platform for businesses in North Aceh."
-            }
-        ];
-
-        const projectGrid = document.getElementById("projectGrid");
-        projectGrid.innerHTML = projects.map((project, index) => {
-            const domain = new URL(project.url).hostname;
-            const preview = project.embedBlocked
-                ? `<div class="grid h-full place-content-center gap-3 bg-[#eef1e8] p-6 text-center text-[#1d2521]"><span class="mx-auto grid size-12 place-items-center rounded-2xl bg-[#d7ff4f]"><i data-lucide="external-link" class="size-5"></i></span><p class="text-sm font-bold" data-id="Situs ini membatasi preview embed." data-en="This site restricts embedded previews.">Situs ini membatasi preview embed.</p><span class="text-xs text-[#68716b]">${domain}</span></div>`
-                : `<iframe src="${project.url}" title="Live preview ${project.title}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-forms allow-same-origin allow-popups" class="pointer-events-none absolute left-0 top-0 h-[200%] w-[200%] max-w-none origin-top-left scale-50 border-0 bg-white"></iframe>`;
-
-            return `<article class="group overflow-hidden rounded-[1.4rem] bg-[#303a33]">
-                <div class="relative aspect-[1.28] overflow-hidden bg-white">
-                    ${preview}
-                    <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-10" aria-label="Open ${project.title} website"></a>
-                    <span class="pointer-events-none absolute bottom-3 left-3 z-20 rounded-full bg-[#1d2521]/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.12em] text-[#d7ff4f]" data-id="Pratinjau website" data-en="Website preview">Pratinjau website</span>
-                </div>
-                <div class="flex items-start justify-between gap-3 p-5 text-white">
-                    <div class="min-w-0">
-                        <h3 class="display-font text-base font-bold leading-snug">${project.title}</h3>
-                        <p class="mt-1 text-xs text-white/65" data-id="${project.categoryId}" data-en="${project.categoryEn}">${project.categoryId}</p>
-                        <p class="mt-3 text-xs leading-5 text-white/75" data-id="${project.descriptionId}" data-en="${project.descriptionEn}">${project.descriptionId}</p>
-                    </div>
-                    <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="grid size-10 shrink-0 place-items-center rounded-full border border-white/20 transition group-hover:border-[#d7ff4f] group-hover:bg-[#d7ff4f] group-hover:text-[#1d2521]" aria-label="Open ${project.title} website"><i data-lucide="arrow-up-right" class="size-4"></i></a>
-                </div>
-            </article>`;
-        }).join("");
-
         langButtons.forEach((button) => button.addEventListener("click", () => setLanguage(button.dataset.lang)));
+
         function setMenuOpen(isOpen) {
             menuButton.setAttribute("aria-expanded", String(isOpen));
             menuButton.setAttribute("aria-label", isOpen ? (currentLang === "id" ? "Tutup menu" : "Close menu") : (currentLang === "id" ? "Buka menu" : "Open menu"));
             navLinks.classList.toggle("is-open", isOpen);
+            navScrim.classList.toggle("is-open", isOpen);
             navScrim.classList.toggle("hidden", !isOpen);
-            document.body.classList.toggle("overflow-hidden", isOpen || !adsModal.classList.contains("hidden"));
             menuButton.innerHTML = isOpen ? '<i data-lucide="x" class="size-5"></i>' : '<i data-lucide="menu" class="size-5"></i>';
             lucide.createIcons();
         }
@@ -823,52 +971,10 @@
         navScrim.addEventListener("click", () => setMenuOpen(false));
         document.querySelectorAll(".nav-link").forEach((link) => link.addEventListener("click", () => setMenuOpen(false)));
         document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") {
-                if (!adsModal.classList.contains("hidden")) closeAds();
-                else setMenuOpen(false);
-            }
+            if (event.key === "Escape") setMenuOpen(false);
         });
         document.getElementById("year").textContent = new Date().getFullYear();
         setLanguage(currentLang);
-
-        const cookieBanner = document.getElementById("cookieBanner");
-        const adsModal = document.getElementById("adsModal");
-
-        function showAdsOnce() {
-            if (localStorage.getItem("adgo_ads_seen_v1")) return;
-            localStorage.setItem("adgo_ads_seen_v1", "true");
-            adsModal.classList.remove("hidden");
-            adsModal.classList.add("flex");
-            adsModal.setAttribute("aria-hidden", "false");
-            document.body.classList.add("overflow-hidden");
-            document.getElementById("adsClose").focus();
-        }
-
-        function closeAds() {
-            adsModal.classList.add("hidden");
-            adsModal.classList.remove("flex");
-            adsModal.setAttribute("aria-hidden", "true");
-            document.body.classList.toggle("overflow-hidden", menuButton.getAttribute("aria-expanded") === "true");
-        }
-
-        function saveCookieChoice(choice) {
-            localStorage.setItem("adgo_cookie_consent", choice);
-            cookieBanner.classList.add("hidden");
-            window.setTimeout(showAdsOnce, 500);
-        }
-
-        document.getElementById("cookieAccept").addEventListener("click", () => saveCookieChoice("accepted"));
-        document.getElementById("cookieReject").addEventListener("click", () => saveCookieChoice("declined"));
-        document.getElementById("adsClose").addEventListener("click", closeAds);
-        document.getElementById("adsDismiss").addEventListener("click", closeAds);
-        adsModal.addEventListener("click", (event) => {
-            if (event.target === adsModal) closeAds();
-        });
-        if (!localStorage.getItem("adgo_cookie_consent")) {
-            cookieBanner.classList.remove("hidden");
-        } else {
-            window.setTimeout(showAdsOnce, 1200);
-        }
 
         document.getElementById("contactForm").addEventListener("submit", async (event) => {
             event.preventDefault();
