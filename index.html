@@ -43,7 +43,6 @@
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 88px;
-            /* fallback untuk browser lama, clip untuk yang modern */
             overflow-x: hidden;
             overflow-x: clip;
             -webkit-text-size-adjust: 100%;
@@ -61,7 +60,6 @@
             word-break: normal;
         }
 
-        /* Semua media tidak boleh melebihi container-nya */
         img,
         svg,
         iframe,
@@ -100,28 +98,23 @@
             background-size: 18px 18px;
         }
 
-        /* ── Judul hero: ukuran fluid agar tidak pernah terpotong ── */
+        /* ── Judul hero: dibuat tetap besar, minimum dinaikkan ── */
         .hero-title {
-            font-size: clamp(1.95rem, 6.4vw, 4.2rem);
-            line-height: 1.03;
+            font-size: clamp(4rem, 9vw, 8rem);
+            line-height: 1.02;
             letter-spacing: -0.045em;
         }
 
-        /* ── Grid karya: 1 kolom di HP, 2 di tablet, 3 di desktop ── */
+        /* ── Project grid: selalu 2 kolom di semua device ── */
         #projectGrid {
             display: grid;
-            grid-template-columns: minmax(0, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem;
         }
 
-        @media (min-width: 30rem) {
+        @media (min-width: 40rem) {
             #projectGrid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        @media (min-width: 64rem) {
-            #projectGrid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 1.25rem;
             }
         }
 
@@ -299,10 +292,9 @@
                         Studio untuk Bisnis Lokal</span>
                 </p>
                 <h1 class="display-font hero-title max-w-3xl font-bold">
-                    <span data-id="Digitalisasikan Bisnismu," data-en="Digitalize Your Business,">Digitalisasikan
+                    <span data-id="Bisnismu," data-en="Digitalize Your Business,">Digitalisasikan
                         Bisnismu,</span><br><span class="relative inline-block"><span class="relative z-10"
-                            data-id="Bersama Kami." data-en="Grow & Compete Digitally.">Maju Bersama &amp;
-                            Bersaing.</span><span
+                            data-id="Go Digital." data-en="Grow & Compete Digitally.">Go Digital.</span><span
                             class="absolute -bottom-1 left-0 -z-0 h-5 w-full -rotate-2 bg-[#d7ff4f] sm:h-7"></span></span>
                 </h1>
                 <p class="mt-7 max-w-xl text-base leading-8 text-[#68716b] sm:text-lg"
@@ -338,7 +330,6 @@
                 <div class="relative overflow-hidden rounded-[1.8rem] bg-[#d7ff4f] p-3 sm:rounded-[2.4rem] sm:p-4">
                     <div
                         class="relative aspect-[4/4.15] w-full overflow-hidden rounded-[1.35rem] bg-[#1d2521] sm:rounded-[1.9rem]">
-                        <!-- macOS style browser header -->
                         <div
                             class="flex items-center justify-between gap-2 border-b border-white/10 bg-[#161d19] px-3 py-2.5 text-white sm:px-4">
                             <div class="flex shrink-0 items-center gap-1.5">
@@ -349,7 +340,8 @@
                             <div
                                 class="flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs text-white/80">
                                 <i data-lucide="lock" class="size-3 shrink-0 text-[#d7ff4f]"></i>
-                                <span class="truncate font-mono text-[10px] sm:text-[11px]">muhammadarifanalfahri.howto.rocks</span>
+                                <span
+                                    class="truncate font-mono text-[10px] sm:text-[11px]">muhammadarifanalfahri.howto.rocks</span>
                             </div>
                             <span
                                 class="hidden shrink-0 items-center gap-1.5 rounded-full bg-[#d7ff4f]/20 px-2 py-0.5 text-[10px] font-bold text-[#d7ff4f] sm:flex">
@@ -405,8 +397,7 @@
         </section>
 
         <section class="border-y border-[#d9ddd4] bg-white/55">
-            <div
-                class="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-[#d9ddd4] px-5 py-2 sm:grid-cols-4 lg:px-8">
+            <div class="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-[#d9ddd4] px-5 py-2 sm:grid-cols-4 lg:px-8">
                 <div class="px-3 py-5 sm:px-7">
                     <p class="display-font text-2xl font-bold sm:text-3xl">150<span class="text-[#f07861]">+</span></p>
                     <p class="mt-1 text-xs font-semibold text-[#68716b] sm:text-sm" data-id="Website diluncurkan"
@@ -498,7 +489,7 @@
                         data-en="Every project has its own story and challenge. Here are a few we're proud of.">Setiap
                         proyek punya cerita dan tantangannya sendiri. Ini beberapa yang kami banggakan.</p>
                 </div>
-                <div id="projectGrid" class="grid gap-3 sm:gap-5"></div>
+                <div id="projectGrid" class="grid"></div>
                 <div
                     class="mt-6 flex flex-col gap-4 rounded-[1.4rem] bg-[#d7ff4f] p-6 text-[#1d2521] sm:flex-row sm:items-center sm:justify-between sm:p-8">
                     <div>
@@ -567,7 +558,8 @@
             <div class="mx-auto max-w-5xl px-5 text-center">
                 <p class="mb-7 text-xs font-bold uppercase tracking-[.18em] text-[#c74e3d]" data-id="Dari klien kami"
                     data-en="From our clients">Dari klien kami</p>
-                <blockquote class="display-font text-xl font-semibold leading-snug tracking-[-.025em] sm:text-2xl md:text-4xl">
+                <!-- Quote tetap besar, tidak dikecilkan -->
+                <blockquote class="display-font text-9xl font-semibold leading-snug tracking-[-.025em] sm:text-4xl">
                     “<span
                         data-id="Desainnya estetik dan kekinian banget, pas sama brand skincare aku. Loading website juga cepat, jadi customer nggak kabur pas mau checkout."
                         data-en="The design is so current and fits my skincare brand perfectly. The site loads fast too, so customers don't leave at checkout.">Desainnya
@@ -704,11 +696,13 @@
                         untuk bisnismu.</p>
                     <div class="mt-8 space-y-4 text-sm font-semibold"><a class="flex items-center gap-3"
                             href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank"
-                            rel="noreferrer"><span class="grid size-10 shrink-0 place-items-center rounded-full bg-white/60"><i
+                            rel="noreferrer"><span
+                                class="grid size-10 shrink-0 place-items-center rounded-full bg-white/60"><i
                                     data-lucide="message-circle" class="size-4"></i></span>+62 831 8066 7700</a><a
                             class="flex items-center gap-3" href="mailto:afansurifan@gmail.com"><span
-                                class="grid size-10 shrink-0 place-items-center rounded-full bg-white/60"><i data-lucide="mail"
-                                    class="size-4"></i></span><span class="truncate">afansurifan@gmail.com</span></a>
+                                class="grid size-10 shrink-0 place-items-center rounded-full bg-white/60"><i
+                                    data-lucide="mail" class="size-4"></i></span><span
+                                class="truncate">afansurifan@gmail.com</span></a>
                         <p class="flex items-center gap-3"><span
                                 class="grid size-10 shrink-0 place-items-center rounded-full bg-white/60"><i
                                     data-lucide="map-pin" class="size-4"></i></span>Selindung Baru, Pangkal Pinang</p>
@@ -871,24 +865,8 @@
             }
         ];
 
-        // ── Screenshot helper via Microlink API ──────────────────────────────
         function screenshotUrl(pageUrl) {
             return `https://api.microlink.io/?url=${encodeURIComponent(pageUrl)}&screenshot=true&meta=false&embed=screenshot.url`;
-        }
-
-        // ── Iframe fallback: if iframe blocked, swap to screenshot ────────────
-        function handleIframeLoad(iframe) {
-            try {
-                // If we can access contentDocument it loaded fine
-                const doc = iframe.contentDocument || iframe.contentWindow.document;
-                if (!doc || doc.URL === "about:blank") throw new Error("blank");
-            } catch (e) {
-                swapToScreenshot(iframe, iframe.dataset.pageUrl, iframe.dataset.pageTitle);
-            }
-        }
-
-        function handleIframeError(iframe) {
-            swapToScreenshot(iframe, iframe.dataset.pageUrl, iframe.dataset.pageTitle);
         }
 
         function swapToScreenshot(el, pageUrl, title) {
@@ -920,10 +898,8 @@
                 const catText = currentLang === "id" ? project.categoryId : project.categoryEn;
                 const descText = currentLang === "id" ? project.descriptionId : project.descriptionEn;
                 const visitText = currentLang === "id" ? "Buka Website" : "Visit Website";
-                // All cards show LIVE badge; blocked ones fall back gracefully
                 const statusText = "LIVE";
 
-                // Always try iframe first. For known-blocked sites, use screenshot directly.
                 const previewContent = project.embed === false
                     ? `<div class="preview-container h-full w-full relative overflow-hidden bg-[#161d19]">
                            <img
@@ -952,18 +928,16 @@
                            ></iframe>
                        </div>`;
                 return `<article class="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-white/10 bg-[#253029] transition duration-300 hover:-translate-y-1 hover:border-[#d7ff4f]/40 hover:shadow-[0_16px_36px_rgba(0,0,0,0.35)] sm:rounded-[1.4rem]">
-                    <!-- Browser Window Mockup -->
                     <div class="w-full overflow-hidden bg-[#161d19]">
-                        <!-- macOS style top bar -->
-                        <div class="flex items-center justify-between gap-2 border-b border-white/10 bg-[#1a231e] px-3 py-2 sm:px-3.5 sm:py-2">
+                        <div class="flex items-center justify-between gap-2 border-b border-white/10 bg-[#1a231e] px-2 py-1.5 sm:px-3.5 sm:py-2">
                             <div class="flex shrink-0 items-center gap-1.5">
                                 <span class="size-1.5 rounded-full bg-[#f07861] sm:size-2"></span>
                                 <span class="size-1.5 rounded-full bg-[#d7ff4f] sm:size-2"></span>
                                 <span class="size-1.5 rounded-full bg-[#52c41a] sm:size-2"></span>
                             </div>
-                            <div class="flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-md bg-white/5 px-2.5 py-0.5 text-[11px] text-white/70">
+                            <div class="flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-md bg-white/5 px-2 py-0.5 text-[11px] text-white/70">
                                 <i data-lucide="lock" class="hidden size-3 shrink-0 text-[#d7ff4f] sm:block"></i>
-                                <span class="min-w-0 max-w-full truncate font-mono text-[9px] sm:text-[11px]">${domain}</span>
+                                <span class="min-w-0 max-w-full truncate font-mono text-[8px] sm:text-[11px]">${domain}</span>
                             </div>
                             <span class="hidden shrink-0 items-center gap-1 text-[10px] font-bold text-[#d7ff4f] sm:flex">
                                 <span class="size-1.5 rounded-full bg-[#d7ff4f] animate-pulse"></span>
@@ -971,25 +945,23 @@
                             </span>
                         </div>
                         
-                        <!-- Interactive live website embed -->
                         <div class="aspect-[4/3] w-full bg-[#161d19]">
                             ${previewContent}
                         </div>
                     </div>
 
-                    <!-- Project Info -->
-                    <div class="flex flex-1 flex-col justify-between p-3 text-white sm:p-4 lg:p-5">
+                    <div class="flex flex-1 flex-col justify-between p-2 text-white sm:p-4 lg:p-5">
                         <div>
                             <div class="flex min-w-0 items-center justify-between gap-2">
-                                <span class="min-w-0 max-w-full rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold leading-tight text-[#d7ff4f] sm:px-2.5 sm:text-[11px]">${catText}</span>
+                                <span class="min-w-0 max-w-full rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] font-semibold leading-tight text-[#d7ff4f] sm:px-2.5 sm:text-[11px]">${catText}</span>
                             </div>
-                            <h3 class="display-font mt-2 text-sm font-bold leading-snug tracking-tight text-white transition-colors group-hover:text-[#d7ff4f] sm:mt-2.5 sm:text-lg">${project.title}</h3>
-                            <p class="mt-2 hidden text-xs leading-5 text-white/70 sm:block">${descText}</p>
+                            <h3 class="display-font mt-1.5 text-xs font-bold leading-snug tracking-tight text-white transition-colors group-hover:text-[#d7ff4f] sm:mt-2.5 sm:text-lg">${project.title}</h3>
+                            <p class="mt-1.5 hidden text-xs leading-5 text-white/70 sm:block">${descText}</p>
                         </div>
-                        <div class="mt-3 flex items-center justify-between border-t border-white/10 pt-3">
+                        <div class="mt-2 flex items-center justify-between border-t border-white/10 pt-2 sm:mt-4 sm:pt-3">
                             <span class="hidden text-[11px] font-medium text-white/50 sm:inline">${visitText}</span>
-                            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="ml-auto inline-flex size-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#d7ff4f] hover:text-[#1d2521]" aria-label="Open ${project.title}">
-                                <i data-lucide="arrow-up-right" class="size-4"></i>
+                            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="ml-auto inline-flex size-7 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#d7ff4f] hover:text-[#1d2521] sm:size-8" aria-label="Open ${project.title}">
+                                <i data-lucide="arrow-up-right" class="size-3.5 sm:size-4"></i>
                             </a>
                         </div>
                     </div>
