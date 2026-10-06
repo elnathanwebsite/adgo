@@ -42,6 +42,7 @@
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 88px;
+            overflow-x: hidden;
             overflow-x: clip;
         }
 
@@ -60,6 +61,50 @@
             letter-spacing: 0;
         }
 
+        /* Teks panjang selalu turun baris, tidak pernah keluar kotak */
+        h1,
+        h2,
+        h3,
+        blockquote {
+            text-wrap: balance;
+        }
+
+        p,
+        li,
+        h1,
+        h2,
+        h3,
+        blockquote,
+        a,
+        span {
+            overflow-wrap: break-word;
+        }
+
+        img,
+        svg,
+        video,
+        canvas,
+        iframe {
+            max-width: 100%;
+        }
+
+        input,
+        textarea,
+        select,
+        button {
+            font: inherit;
+        }
+
+        /* Cegah iOS zoom otomatis saat input difokuskan */
+        @media (max-width: 40rem) {
+
+            input,
+            textarea,
+            select {
+                font-size: 16px !important;
+            }
+        }
+
         ::selection {
             background: var(--lime);
             color: var(--ink);
@@ -70,13 +115,29 @@
             background-size: 18px 18px;
         }
 
-        #projectGrid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* ===== HERO: judul fluid, tidak pernah kepotong ===== */
+        #home h1 {
+            font-size: clamp(2rem, 8.5vw, 5.4rem);
         }
 
-        @media (min-width: 25rem) and (max-width: 39.999rem) {
+        @media (min-width: 64rem) {
+            #home h1 {
+                font-size: clamp(2.6rem, 4.6vw, 5.1rem);
+            }
+        }
+
+        /* ===== GRID PROYEK: 1 kolom di layar sempit, naik bertahap ===== */
+        #projectGrid {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        #projectGrid>* {
+            min-width: 0;
+        }
+
+        @media (min-width: 26rem) {
             #projectGrid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
@@ -86,6 +147,42 @@
             }
         }
 
+        /* ===== STATISTIK: garis pemisah rapi di semua ukuran ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .stats-grid>div {
+            min-width: 0;
+            border-top: 1px solid var(--line);
+            border-left: 1px solid var(--line);
+        }
+
+        .stats-grid>div:nth-child(-n + 2) {
+            border-top: 0;
+        }
+
+        .stats-grid>div:nth-child(odd) {
+            border-left: 0;
+        }
+
+        @media (min-width: 40rem) {
+            .stats-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            .stats-grid>div {
+                border-top: 0;
+                border-left: 1px solid var(--line);
+            }
+
+            .stats-grid>div:first-child {
+                border-left: 0;
+            }
+        }
+
+        /* ===== DRAWER MENU MOBILE ===== */
         #navLinks.mobile-drawer {
             position: fixed;
             top: 0;
@@ -112,16 +209,21 @@
             pointer-events: auto;
         }
 
+        /* Scrim: sepenuhnya diatur CSS, diletakkan di luar header agar selelu memenuhi layar */
         #navScrim {
             position: fixed;
             inset: 0;
-            background: rgba(17, 23, 19, 0.6);
-            backdrop-filter: blur(4px);
+            z-index: 40;
+            display: block;
+            width: 100%;
+            border: 0;
+            padding: 0;
+            background: rgba(17, 23, 19, 0.55);
             -webkit-backdrop-filter: blur(4px);
-            z-index: 90;
-            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
             opacity: 0;
             pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         #navScrim.is-open {
@@ -130,6 +232,9 @@
         }
 
         @media (min-width: 64rem) {
+            #navScrim {
+                display: none;
+            }
 
             #navLinks.mobile-drawer,
             #navLinks.mobile-drawer.is-open {
@@ -180,6 +285,9 @@
 </head>
 
 <body>
+    <!-- Scrim menu mobile (di luar header agar selalu full screen) -->
+    <button id="navScrim" type="button" aria-hidden="true" tabindex="-1" aria-label="Tutup menu"></button>
+
     <div class="bg-[#1d2521] px-4 py-2.5 text-center text-xs font-medium text-white sm:text-sm">
         <span data-id="Bikin bisnis lokal siap melangkah lebih jauh. Kita mulai dari digitalnya."
             data-en="Helping local businesses take their next step. Let's start with digital.">Bikin bisnis lokal siap
@@ -191,12 +299,9 @@
 
     <header class="sticky top-0 z-50 border-b border-[#d9ddd4] bg-[#f5f4ed]/95 backdrop-blur-md">
         <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8" aria-label="Main navigation">
-            <a href="#home" class="flex items-center gap-2.5" aria-label="aDGo home"><span
+            <a href="#home" class="flex shrink-0 items-center gap-2.5" aria-label="aDGo home"><span
                     class="grid size-9 place-items-center rounded-[10px] bg-[#d7ff4f] font-bold tracking-tight">aD</span><span
                     class="display-font text-xl font-bold">aDGo<span class="text-[#f07861]">.</span></span></a>
-            <button id="navScrim" type="button"
-                class="fixed inset-0 z-[60] hidden bg-[#111713]/50 backdrop-blur-sm lg:hidden"
-                aria-label="Close menu"></button>
             <div id="navLinks"
                 class="mobile-drawer flex flex-col gap-1 px-6 pb-6 pt-5 lg:flex-row lg:items-center lg:gap-7 lg:p-0">
                 <div class="mb-4 flex items-center justify-between border-b border-[#d9ddd4] pb-4 lg:hidden">
@@ -227,12 +332,12 @@
                     </a>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex shrink-0 items-center gap-3">
                 <div class="flex items-center rounded-full border border-[#d9ddd4] p-1 text-xs font-bold"
                     aria-label="Choose language"><button type="button"
-                        class="lang-button rounded-full bg-[#1d2521] px-2.5 py-1.5 text-white" data-lang="id"
+                        class="lang-button rounded-full bg-[#1d2521] px-2.5 py-1.5 text-white transition" data-lang="id"
                         aria-pressed="true">ID</button><button type="button"
-                        class="lang-button rounded-full px-2.5 py-1.5 text-[#68716b]" data-lang="en"
+                        class="lang-button rounded-full px-2.5 py-1.5 text-[#68716b] transition" data-lang="en"
                         aria-pressed="false">EN</button></div>
                 <a href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank" rel="noreferrer"
                     class="hidden items-center gap-2 rounded-full bg-[#1d2521] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#38423b] sm:inline-flex"><span
@@ -249,18 +354,17 @@
     <main>
         <section id="home"
             class="mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 pt-14 md:pb-28 md:pt-20 lg:grid-cols-[1.02fr_.98fr] lg:gap-8 lg:px-8">
-            <div class="reveal relative z-10">
+            <div class="reveal relative z-10 min-w-0">
                 <p
                     class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#d9ddd4] bg-white/60 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-[#59625b]">
                     <span class="size-2 rounded-full bg-[#f07861]"></span><span
                         data-id="Digital Studio untuk Bisnis Lokal" data-en="Digital Studio for Local Business">Digital
                         Studio untuk Bisnis Lokal</span>
                 </p>
-                <h1
-                    class="display-font max-w-3xl text-[3.4rem] font-bold leading-[.99] tracking-[-.055em] sm:text-7xl lg:text-[5.4rem]">
+                <h1 class="display-font max-w-3xl font-bold leading-[.99] tracking-[-.055em]">
                     <span data-id="Digitalisasikan Bisnismu," data-en="Digitalize Your Business,">Digitalisasikan
                         Bisnismu,</span><br><span class="relative inline-block"><span class="relative z-10"
-                            data-id="Bersama Kami." data-en="Grow & Compete Digitally.">Maju Bersama &
+                            data-id="Maju Bersama & Bersaing." data-en="Grow & Compete Digitally.">Maju Bersama &amp;
                             Bersaing.</span><span
                             class="absolute -bottom-1 left-0 -z-0 h-5 w-full -rotate-2 bg-[#d7ff4f] sm:h-7"></span></span>
                 </h1>
@@ -277,12 +381,12 @@
                         class="px-4 py-3 text-sm font-bold text-[#1d2521] underline decoration-[#f07861] decoration-2 underline-offset-4"
                         data-id="Atau ngobrol dulu" data-en="Or just say hi">Atau ngobrol dulu</a></div>
                 <div class="mt-12 flex items-center gap-4 border-t border-[#d9ddd4] pt-6">
-                    <div class="flex -space-x-2" aria-hidden="true"><span
+                    <div class="flex shrink-0 -space-x-2" aria-hidden="true"><span
                             class="grid size-9 place-items-center rounded-full border-2 border-[#f5f4ed] bg-[#f07861] text-xs font-bold text-white">a</span><span
                             class="grid size-9 place-items-center rounded-full border-2 border-[#f5f4ed] bg-[#d7ff4f] text-xs font-bold">D</span><span
                             class="grid size-9 place-items-center rounded-full border-2 border-[#f5f4ed] bg-[#a9c5b0] text-xs font-bold">G</span>
                     </div>
-                    <p class="text-sm leading-5 text-[#68716b]"><strong class="text-[#1d2521]"
+                    <p class="min-w-0 text-sm leading-5 text-[#68716b]"><strong class="text-[#1d2521]"
                             data-id="Dibuat bareng, bukan asal jadi."
                             data-en="Built together, never off-the-shelf.">Dibuat bareng, bukan asal
                             jadi.</strong><br><span data-id="Partner digital untuk bisnis yang mau tumbuh."
@@ -290,34 +394,34 @@
                             tumbuh.</span></p>
                 </div>
             </div>
-            <div class="relative mx-auto w-full max-w-[570px] lg:ml-auto">
+            <div class="relative mx-auto w-full min-w-0 max-w-[570px] lg:ml-auto">
                 <div
                     class="paper-grid absolute -right-4 -top-5 h-28 w-28 opacity-60 sm:-right-7 sm:-top-7 sm:h-36 sm:w-36">
                 </div>
                 <div class="relative overflow-hidden rounded-[1.8rem] bg-[#d7ff4f] p-3 sm:rounded-[2.4rem] sm:p-4">
                     <div
                         class="relative aspect-[4/4.15] w-full overflow-hidden rounded-[1.35rem] bg-[#1d2521] sm:rounded-[1.9rem]">
-                        <!-- macOS style browser header -->
+                        <!-- Header browser gaya macOS -->
                         <div
-                            class="flex items-center justify-between border-b border-white/10 bg-[#161d19] px-4 py-2.5 text-white">
-                            <div class="flex items-center gap-1.5">
+                            class="flex items-center justify-between gap-2 border-b border-white/10 bg-[#161d19] px-3 py-2.5 text-white sm:px-4">
+                            <div class="flex shrink-0 items-center gap-1.5">
                                 <span class="size-2.5 rounded-full bg-[#f07861]"></span>
                                 <span class="size-2.5 rounded-full bg-[#d7ff4f]"></span>
                                 <span class="size-2.5 rounded-full bg-[#52c41a]"></span>
                             </div>
                             <div
-                                class="flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs text-white/80">
-                                <i data-lucide="lock" class="size-3 text-[#d7ff4f]"></i>
-                                <span class="font-mono text-[11px]">muhammadarifanalfahri.howto.rocks</span>
+                                class="hidden min-w-0 max-w-[52%] items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs text-white/80 min-[430px]:flex">
+                                <i data-lucide="lock" class="size-3 shrink-0 text-[#d7ff4f]"></i>
+                                <span class="truncate font-mono text-[10px] sm:text-[11px]">muhammadarifanalfahri.howto.rocks</span>
                             </div>
                             <span
-                                class="flex items-center gap-1.5 rounded-full bg-[#d7ff4f]/20 px-2 py-0.5 text-[10px] font-bold text-[#d7ff4f]">
-                                <span class="size-1.5 rounded-full bg-[#d7ff4f] animate-pulse"></span>
+                                class="flex shrink-0 items-center gap-1.5 rounded-full bg-[#d7ff4f]/20 px-2 py-0.5 text-[10px] font-bold text-[#d7ff4f]">
+                                <span class="size-1.5 animate-pulse rounded-full bg-[#d7ff4f]"></span>
                                 <span>LIVE</span>
                             </span>
                         </div>
 
-                        <div class="relative h-[calc(100%-41px)] w-full overflow-hidden bg-white">
+                        <div class="relative h-[calc(100%-45px)] w-full overflow-hidden bg-white">
                             <img src="https://api.microlink.io/?url=https%3A%2F%2Fmuhammadarifanalfahri.howto.rocks%2F&amp;screenshot=true&amp;meta=false&amp;embed=screenshot.url"
                                 alt="Tampilan halaman awal portofolio Muhammad Arifan Alfahri"
                                 class="h-full w-full object-cover object-top" loading="lazy"
@@ -331,7 +435,7 @@
                             </a>
                             <a href="https://muhammadarifanalfahri.howto.rocks/" target="_blank"
                                 rel="noopener noreferrer"
-                                class="absolute inset-0 hidden flex flex-col items-center justify-center gap-3 bg-[#f5f4ed] p-6 text-center text-[#1d2521]">
+                                class="absolute inset-0 hidden flex-col items-center justify-center gap-3 bg-[#f5f4ed] p-6 text-center text-[#1d2521]">
                                 <i data-lucide="external-link" class="size-7 text-[#c74e3d]"></i>
                                 <span class="text-sm font-semibold" data-id="Buka portofolio di tab baru"
                                     data-en="Open portfolio in a new tab">Buka portofolio di tab baru</span>
@@ -350,10 +454,10 @@
                     </div>
                 </div>
                 <div
-                    class="absolute -bottom-7 -left-4 flex items-center gap-3 rounded-2xl border border-[#d9ddd4] bg-white px-4 py-3 shadow-[0_12px_30px_rgba(29,37,33,.1)] sm:-left-8 sm:px-5 sm:py-4">
-                    <span class="grid size-10 place-items-center rounded-xl bg-[#f07861]/15 text-[#c74e3d]"><i
+                    class="absolute -bottom-7 -left-4 flex items-center gap-3 rounded-2xl border border-[#d9ddd4] bg-white px-4 py-3 shadow-[0_12px_30px_rgba(29,37,33,.1)] sm:-left-6 sm:px-5 sm:py-4">
+                    <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-[#f07861]/15 text-[#c74e3d]"><i
                             data-lucide="sparkles" class="size-5"></i></span>
-                    <p class="text-xs leading-5 text-[#68716b]"><strong class="block text-sm text-[#1d2521]"
+                    <p class="min-w-0 text-xs leading-5 text-[#68716b]"><strong class="block text-sm text-[#1d2521]"
                             data-id="Strategi + kreativitas" data-en="Strategy + creativity">Strategi +
                             kreativitas</strong><span data-id="satu pengalaman yang nyambung"
                             data-en="in one connected experience">satu pengalaman yang nyambung</span></p>
@@ -364,8 +468,7 @@
         </section>
 
         <section class="border-y border-[#d9ddd4] bg-white/55">
-            <div
-                class="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-y divide-[#d9ddd4] px-5 py-2 sm:grid-cols-4 sm:divide-y-0 lg:px-8">
+            <div class="stats-grid mx-auto max-w-7xl px-5 py-2 lg:px-8">
                 <div class="px-4 py-5 sm:px-7">
                     <p class="display-font text-3xl font-bold">150<span class="text-[#f07861]">+</span></p>
                     <p class="mt-1 text-xs font-semibold text-[#68716b] sm:text-sm" data-id="Website diluncurkan"
@@ -406,7 +509,7 @@
                     transparan dan praktis.</p>
             </div>
             <div class="grid gap-4 md:grid-cols-3">
-                <article class="rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8"><span
+                <article class="min-w-0 rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8"><span
                         class="mb-8 grid size-12 place-items-center rounded-2xl bg-[#d7ff4f]"><i
                             data-lucide="panels-top-left" class="size-5"></i></span>
                     <p class="mb-2 text-xs font-bold uppercase tracking-[.14em] text-[#68716b]">01</p>
@@ -417,7 +520,7 @@
                         data-en="Custom websites that connect your brand identity, customer needs, and business goals.">
                         Website custom yang memadukan identitas brand, kebutuhan pelanggan, dan tujuan bisnis.</p>
                 </article>
-                <article class="rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8"><span
+                <article class="min-w-0 rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8"><span
                         class="mb-8 grid size-12 place-items-center rounded-2xl bg-[#f07861]/20 text-[#c74e3d]"><i
                             data-lucide="search-check" class="size-5"></i></span>
                     <p class="mb-2 text-xs font-bold uppercase tracking-[.14em] text-[#68716b]">02</p>
@@ -428,7 +531,7 @@
                         data-en="A fast, secure technical foundation that helps the right people find you on Google.">
                         Fondasi teknis yang cepat, aman, dan mudah ditemukan calon pelanggan di Google.</p>
                 </article>
-                <article class="rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8"><span
+                <article class="min-w-0 rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8"><span
                         class="mb-8 grid size-12 place-items-center rounded-2xl bg-[#d8e6d8]"><i data-lucide="life-buoy"
                             class="size-5"></i></span>
                     <p class="mb-2 text-xs font-bold uppercase tracking-[.14em] text-[#68716b]">03</p>
@@ -473,14 +576,13 @@
                             data-id="Ceritakan idemu" data-en="Tell us about it">Ceritakan idemu</span><i
                             data-lucide="arrow-up-right" class="size-4"></i></a>
                 </div>
-
             </div>
         </section>
 
         <section id="about"
             class="mx-auto grid max-w-7xl gap-12 px-5 py-20 md:py-28 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-8">
-            <div class="relative"><img src="img/tentang.jpg" alt="Tim aDGo mendampingi bisnis lokal" loading="lazy"
-                    class="aspect-[1.08] w-full rounded-[1.6rem] object-cover">
+            <div class="relative min-w-0"><img src="img/tentang.jpg" alt="Tim aDGo mendampingi bisnis lokal"
+                    loading="lazy" class="aspect-[1.08] w-full rounded-[1.6rem] object-cover">
                 <div
                     class="absolute -bottom-5 -right-3 rounded-2xl bg-[#f07861] px-5 py-4 text-white shadow-lg sm:-right-5">
                     <p class="display-font text-2xl font-bold">aDGo</p>
@@ -488,7 +590,7 @@
                         data-en="Agency Digital Go Online">Agency Digital Go Online</p>
                 </div>
             </div>
-            <div class="pt-3 lg:pl-10">
+            <div class="min-w-0 pt-3 lg:pl-10">
                 <p class="mb-3 text-xs font-bold uppercase tracking-[.18em] text-[#c74e3d]" data-id="Kenalan dulu"
                     data-en="A little about us">Kenalan dulu</p>
                 <h2 class="display-font text-4xl font-bold leading-tight tracking-[-.04em] sm:text-5xl"
@@ -555,7 +657,7 @@
                     Detail kebutuhan bisa kita sesuaikan bareng.</p>
             </div>
             <div class="grid gap-4 lg:grid-cols-3">
-                <article class="flex flex-col rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8">
+                <article class="flex min-w-0 flex-col rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8">
                     <p class="text-sm font-bold text-[#68716b]">01 / Starter</p>
                     <h3 class="display-font mt-4 text-2xl font-bold" data-id="Landing Page" data-en="Landing Page">
                         Landing Page</h3>
@@ -566,11 +668,12 @@
                     <p class="display-font mt-6 text-4xl font-bold">Rp 50K</p>
                     <p class="mt-1 text-xs text-[#68716b]" data-id="mulai dari" data-en="starting at">mulai dari</p>
                     <ul class="my-7 space-y-3 border-t border-[#d9ddd4] pt-6 text-sm">
-                        <li class="flex gap-2"><span class="text-[#558047]">✓</span>HTML5 &amp; CSS3 modern</li>
-                        <li class="flex gap-2"><span class="text-[#558047]">✓</span>Responsive HP &amp; desktop</li>
-                        <li class="flex gap-2"><span class="text-[#558047]">✓</span><span data-id="Revisi ringan"
+                        <li class="flex gap-2"><span class="shrink-0 text-[#558047]">✓</span>HTML5 &amp; CSS3 modern</li>
+                        <li class="flex gap-2"><span class="shrink-0 text-[#558047]">✓</span>Responsive HP &amp;
+                            desktop</li>
+                        <li class="flex gap-2"><span class="shrink-0 text-[#558047]">✓</span><span data-id="Revisi ringan"
                                 data-en="Light revisions">Revisi ringan</span></li>
-                        <li class="flex gap-2"><span class="text-[#558047]">✓</span><span
+                        <li class="flex gap-2"><span class="shrink-0 text-[#558047]">✓</span><span
                                 data-id="Hosting & domain .my.id" data-en="Hosting & .my.id domain">Hosting &amp; domain
                                 .my.id</span></li>
                     </ul><a id="priceBtn1"
@@ -581,7 +684,7 @@
                             data-lucide="arrow-up-right" class="size-4"></i></a>
                 </article>
                 <article
-                    class="relative flex flex-col rounded-[1.4rem] border-2 border-[#1d2521] bg-[#d7ff4f] p-6 sm:p-8">
+                    class="relative flex min-w-0 flex-col rounded-[1.4rem] border-2 border-[#1d2521] bg-[#d7ff4f] p-6 sm:p-8">
                     <span
                         class="absolute right-5 top-5 rounded-full bg-[#1d2521] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.12em] text-[#d7ff4f]"
                         data-id="Favorit" data-en="Popular">Favorit</span>
@@ -595,14 +698,14 @@
                     <p class="display-font mt-6 text-4xl font-bold">Rp 150K</p>
                     <p class="mt-1 text-xs text-[#45513c]" data-id="mulai dari" data-en="starting at">mulai dari</p>
                     <ul class="my-7 space-y-3 border-t border-[#1d2521]/20 pt-6 text-sm">
-                        <li class="flex gap-2"><span>✓</span>HTML, CSS &amp; JavaScript</li>
-                        <li class="flex gap-2"><span>✓</span><span data-id="Backend & database"
+                        <li class="flex gap-2"><span class="shrink-0">✓</span>HTML, CSS &amp; JavaScript</li>
+                        <li class="flex gap-2"><span class="shrink-0">✓</span><span data-id="Backend & database"
                                 data-en="Backend & database">Backend &amp; database</span></li>
-                        <li class="flex gap-2"><span>✓</span><span data-id="Dashboard admin"
+                        <li class="flex gap-2"><span class="shrink-0">✓</span><span data-id="Dashboard admin"
                                 data-en="Admin dashboard">Dashboard admin</span></li>
-                        <li class="flex gap-2"><span>✓</span><span data-id="Hosting & domain .biz.id"
+                        <li class="flex gap-2"><span class="shrink-0">✓</span><span data-id="Hosting & domain .biz.id"
                                 data-en="Hosting & .biz.id domain">Hosting &amp; domain .biz.id</span></li>
-                        <li class="flex gap-2"><span>✓</span><span data-id="Prioritas support"
+                        <li class="flex gap-2"><span class="shrink-0">✓</span><span data-id="Prioritas support"
                                 data-en="Priority support">Prioritas support</span></li>
                     </ul><a id="priceBtn2"
                         href="https://api.whatsapp.com/send/?phone=6283180667700&amp;text=Saya%20mau%20pesan%20paket%20UMKM%20Start%20Rp%20150K"
@@ -611,7 +714,7 @@
                             data-id="Pilih paket" data-en="Choose package">Pilih paket</span><i
                             data-lucide="arrow-up-right" class="size-4"></i></a>
                 </article>
-                <article class="flex flex-col rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8">
+                <article class="flex min-w-0 flex-col rounded-[1.4rem] border border-[#d9ddd4] bg-white p-6 sm:p-8">
                     <p class="text-sm font-bold text-[#68716b]">03 / Custom</p>
                     <h3 class="display-font mt-4 text-2xl font-bold" data-id="Business Custom"
                         data-en="Business Custom">Business Custom</h3>
@@ -623,15 +726,15 @@
                     <p class="mt-1 text-xs text-[#68716b]" data-id="sesuai kebutuhan" data-en="based on scope">sesuai
                         kebutuhan</p>
                     <ul class="my-7 space-y-3 border-t border-[#d9ddd4] pt-6 text-sm">
-                        <li class="flex gap-2"><span class="text-[#558047]">✓</span>Custom / WordPress</li>
-                        <li class="flex gap-2"><span class="text-[#558047]">✓</span><span
+                        <li class="flex gap-2"><span class="shrink-0 text-[#558047]">✓</span>Custom / WordPress</li>
+                        <li class="flex gap-2"><span class="shrink-0 text-[#558047]">✓</span><span
                                 data-id="Fitur sesuai kebutuhan" data-en="Features built to fit">Fitur sesuai
                                 kebutuhan</span></li>
-                        <li class="flex gap-2"><span class="text-[#558047]">✓</span><span
+                        <li class="flex gap-2"><span class="shrink-0 text-[#558047]">✓</span><span
                                 data-id="Database & maintenance" data-en="Database & maintenance">Database &amp;
                                 maintenance</span></li>
-                        <li class="flex gap-2"><span class="text-[#558047]">✓</span><span data-id="Konsultasi langsung"
-                                data-en="Direct consultation">Konsultasi langsung</span></li>
+                        <li class="flex gap-2"><span class="shrink-0 text-[#558047]">✓</span><span
+                                data-id="Konsultasi langsung" data-en="Direct consultation">Konsultasi langsung</span></li>
                     </ul><a id="priceBtn3"
                         href="https://api.whatsapp.com/send/?phone=6283180667700&amp;text=Halo%20aDGo%2C%20saya%20ingin%20konsultasi%20paket%20Business%20Custom"
                         target="_blank" rel="noreferrer"
@@ -645,12 +748,11 @@
                 data-en="* Packages include the listed hosting and domain. Custom domains or hosting are available at adjusted pricing.">
                 * Paket termasuk hosting dan domain yang tercantum. Domain atau hosting custom tersedia dengan
                 penyesuaian harga.</p>
-
         </section>
 
         <section id="contact" class="bg-[#d7ff4f] py-20 md:py-28">
             <div class="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[.82fr_1.18fr] lg:items-start lg:px-8">
-                <div>
+                <div class="min-w-0">
                     <p class="mb-3 text-xs font-bold uppercase tracking-[.18em] text-[#45513c]"
                         data-id="Gas, ngobrol dulu" data-en="Let's make a plan">Gas, ngobrol dulu</p>
                     <h2 class="display-font text-4xl font-bold leading-tight tracking-[-.04em] sm:text-5xl"
@@ -663,17 +765,18 @@
                         untuk bisnismu.</p>
                     <div class="mt-8 space-y-4 text-sm font-semibold"><a class="flex items-center gap-3"
                             href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank"
-                            rel="noreferrer"><span class="grid size-10 place-items-center rounded-full bg-white/60"><i
+                            rel="noreferrer"><span
+                                class="grid size-10 shrink-0 place-items-center rounded-full bg-white/60"><i
                                     data-lucide="message-circle" class="size-4"></i></span>+62 831 8066 7700</a><a
                             class="flex items-center gap-3" href="mailto:afansurifan@gmail.com"><span
-                                class="grid size-10 place-items-center rounded-full bg-white/60"><i data-lucide="mail"
-                                    class="size-4"></i></span>afansurifan@gmail.com</a>
+                                class="grid size-10 shrink-0 place-items-center rounded-full bg-white/60"><i
+                                    data-lucide="mail" class="size-4"></i></span>afansurifan@gmail.com</a>
                         <p class="flex items-center gap-3"><span
-                                class="grid size-10 place-items-center rounded-full bg-white/60"><i
+                                class="grid size-10 shrink-0 place-items-center rounded-full bg-white/60"><i
                                     data-lucide="map-pin" class="size-4"></i></span>Selindung Baru, Pangkal Pinang</p>
                     </div>
                 </div>
-                <form id="contactForm" class="rounded-[1.4rem] bg-[#f5f4ed] p-5 sm:p-8"
+                <form id="contactForm" class="min-w-0 rounded-[1.4rem] bg-[#f5f4ed] p-5 sm:p-8"
                     action="https://formsubmit.co/afansurifan@gmail.com" method="POST"><input type="hidden"
                         name="_subject" value="Pesan Baru dari Website aDGo"><input type="hidden" name="_captcha"
                         value="false"><input type="hidden" name="_template" value="table">
@@ -701,339 +804,214 @@
                             data-placeholder-id="Tulis pesanmu di sini..."
                             data-placeholder-en="Write your message here..." required></textarea></label>
                     <button id="btnSubmit" type="submit"
-                        class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1d2521] px-6 py-4 text-sm font-bold text-white transition hover:bg-[#38423b] sm:w-auto"><span
-                            data-id="Kirim pesan" data-en="Send message">Kirim pesan</span><i
-                            data-lucide="arrow-up-right" class="size-4 text-[#d7ff4f]"></i></button>
-                    <p id="formStatus" class="mt-4 hidden text-sm font-semibold" role="status" aria-live="polite"></p>
-
+                        class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1d2521] px-6 py-4 text-sm font-bold text-white transition hover:bg-[#38423b]">
+                        <span id="submitLabel" data-id="Kirim pesan" data-en="Send message">Kirim pesan</span>
+                        <i data-lucide="send" class="size-4 text-[#d7ff4f]"></i>
+                    </button>
                 </form>
             </div>
         </section>
-
     </main>
 
-    <footer class="bg-[#1d2521] py-10 text-white">
-        <div class="mx-auto flex max-w-7xl flex-col gap-7 px-5 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-            <a href="#home" class="display-font text-2xl font-bold">aDGo<span class="text-[#d7ff4f]">.</span></a>
-            <p class="max-w-md text-sm leading-6 text-white/60"
-                data-id="Mitra digital untuk bisnis Indonesia yang ingin tumbuh dengan percaya diri."
-                data-en="A digital partner for Indonesian businesses ready to grow with confidence.">Mitra digital untuk
-                bisnis Indonesia yang ingin tumbuh dengan percaya diri.</p>
-            <div class="flex gap-4 text-sm font-semibold"><a class="text-white/70 transition hover:text-[#d7ff4f]"
-                    href="https://www.instagram.com/elnathaners/" target="_blank" rel="noreferrer">Instagram ↗</a><a
-                    class="text-white/70 transition hover:text-[#d7ff4f]" href="https://github.com/elnathanwebsite"
-                    target="_blank" rel="noreferrer">GitHub ↗</a></div>
-        </div>
-        <div
-            class="mx-auto mt-8 flex max-w-7xl flex-col gap-2 border-t border-white/10 px-5 pt-5 text-xs text-white/45 sm:flex-row sm:justify-between lg:px-8">
-            <span>© <span id="year"></span> aDGo Digital Solution</span><span>Muhammad Arifan Alfahri · Pangkal Pinang,
-                Indonesia</span>
+    <footer class="bg-[#1d2521] text-white">
+        <div class="mx-auto max-w-7xl px-5 pb-8 pt-14 lg:px-8">
+            <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
+                <div class="min-w-0">
+                    <a href="#home" class="flex items-center gap-2.5" aria-label="aDGo home">
+                        <span
+                            class="grid size-9 place-items-center rounded-[10px] bg-[#d7ff4f] font-bold tracking-tight text-[#1d2521]">aD</span>
+                        <span class="display-font text-xl font-bold">aDGo<span class="text-[#f07861]">.</span></span>
+                    </a>
+                    <p class="mt-4 max-w-xs text-sm leading-6 text-white/60"
+                        data-id="Digital yang bikin bisnis lokal bergerak — strategi jelas, desain niat, dan teknologi yang tepat."
+                        data-en="Digital that gets local businesses moving — clear strategy, intentional design, and the right technology.">
+                        Digital yang bikin bisnis lokal bergerak — strategi jelas, desain niat, dan teknologi yang
+                        tepat.</p>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs font-bold uppercase tracking-[.16em] text-white/40" data-id="Navigasi"
+                        data-en="Menu">Navigasi</p>
+                    <ul class="mt-4 space-y-2.5 text-sm">
+                        <li><a class="text-white/70 transition hover:text-[#d7ff4f]" href="#work"
+                                data-id="Karya" data-en="Work">Karya</a></li>
+                        <li><a class="text-white/70 transition hover:text-[#d7ff4f]" href="#services"
+                                data-id="Layanan" data-en="Services">Layanan</a></li>
+                        <li><a class="text-white/70 transition hover:text-[#d7ff4f]" href="#about"
+                                data-id="Tentang" data-en="About">Tentang</a></li>
+                        <li><a class="text-white/70 transition hover:text-[#d7ff4f]" href="#pricing"
+                                data-id="Harga" data-en="Pricing">Harga</a></li>
+                        <li><a class="text-white/70 transition hover:text-[#d7ff4f]" href="#contact"
+                                data-id="Kontak" data-en="Contact">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs font-bold uppercase tracking-[.16em] text-white/40" data-id="Kontak"
+                        data-en="Contact">Kontak</p>
+                    <ul class="mt-4 space-y-2.5 text-sm text-white/70">
+                        <li><a class="transition hover:text-[#d7ff4f]"
+                                href="https://api.whatsapp.com/send/?phone=6283180667700" target="_blank"
+                                rel="noreferrer">+62 831 8066 7700</a></li>
+                        <li><a class="break-all transition hover:text-[#d7ff4f]"
+                                href="mailto:afansurifan@gmail.com">afansurifan@gmail.com</a></li>
+                        <li data-id="Selindung Baru, Pangkal Pinang" data-en="Selindung Baru, Pangkal Pinang">Selindung
+                            Baru, Pangkal Pinang</li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-center text-xs text-white/45 sm:flex-row sm:text-left">
+                <p>© <span id="year">2025</span> aDGo — <span data-id="Semua hak dilindungi."
+                        data-en="All rights reserved.">Semua hak dilindungi.</span></p>
+                <a href="#home"
+                    class="font-semibold text-white/70 underline-offset-4 transition hover:text-white hover:underline"><span
+                        data-id="Kembali ke atas" data-en="Back to top">Kembali ke atas</span> ↑</a>
+            </div>
         </div>
     </footer>
 
     <script>
-        const menuButton = document.getElementById("menuButton");
-        const navLinks = document.getElementById("navLinks");
-        const navScrim = document.getElementById("navScrim");
-        const drawerCloseButton = document.getElementById("drawerCloseButton");
-        const langButtons = document.querySelectorAll(".lang-button");
-        const projectGrid = document.getElementById("projectGrid");
-        const savedLanguageCookie = document.cookie.split("; ").find((cookie) => cookie.startsWith("adgo_lang="));
-        const savedLanguage = savedLanguageCookie ? decodeURIComponent(savedLanguageCookie.slice("adgo_lang=".length)) : "id";
-        let currentLang = savedLanguage === "en" ? "en" : "id";
+        (function () {
+            'use strict';
 
-        const projects = [
-            {
-                url: "https://dapoergenzricebowl.biz.id/",
-                title: "Dapoer Gen Z Ricebowl",
-                categoryId: "E-commerce · Kuliner",
-                categoryEn: "E-commerce · Food & Beverage",
-                descriptionId: "Website pemesanan ricebowl modern untuk brand kuliner lokal.",
-                descriptionEn: "Modern online ordering website for a local culinary brand."
-            },
-            {
-                url: "https://hubumkbangkabelitung.id/",
-                title: "Hub UMKM Bangka Belitung",
-                categoryId: "Komunitas · Direktori UMKM",
-                categoryEn: "Community · MSME Directory",
-                descriptionId: "Direktori digital untuk menghubungkan dan memajukan UMKM daerah.",
-                descriptionEn: "A digital directory connecting and empowering local small businesses."
-            },
-            {
-                url: "https://sman1lubukbesar.likesyou.org/?i=1",
-                title: "SMA Negeri 1 Lubuk Besar",
-                embed: false,
-                categoryId: "Pendidikan · Profil Sekolah",
-                categoryEn: "Education · School Profile",
-                descriptionId: "Pusat informasi dan kegiatan sekolah dalam tampilan web yang modern dan mudah diakses.",
-                descriptionEn: "School information hub with an accessible, modern web experience."
-            },
-            {
-                url: "https://tokocamp.22web.org/?i=1",
-                title: "Toko Camp",
-                embed: false,
-                categoryId: "E-commerce · Perlengkapan Outdoor",
-                categoryEn: "E-commerce · Outdoor Gear",
-                descriptionId: "Katalog produk dan sistem belanja online untuk perlengkapan camping dan outdoor.",
-                descriptionEn: "Online catalog and shopping system for camping and outdoor adventure gear."
-            },
-            {
-                url: "https://warkopkm9sungailiat.vercel.app/",
-                title: "Warkop KM 9",
-                categoryId: "Bisnis Lokal · Kafe & Menu Online",
-                categoryEn: "Local Business · Cafe & Online Menu",
-                descriptionId: "Website kedai kopi lokal dengan menu digital, galeri suasana, dan pemesanan online.",
-                descriptionEn: "Local coffee shop website featuring digital menu, atmosphere gallery, and online orders."
-            },
-            {
-                url: "https://ppecompliancecontrolsystem.infinityfree.io/?i=1",
-                title: "PPE Compliance Control System",
-                embed: false,
-                categoryId: "PT Trakindo · Sistem Manajemen APD",
-                categoryEn: "PT Trakindo · Safety & PPE System",
-                descriptionId: "Sistem kontrol kepatuhan APD, pemantauan inspeksi rutin & kesiapan audit di PT Trakindo.",
-                descriptionEn: "PPE readiness, inspection compliance and audit readiness system at PT Trakindo."
-            },
-            {
-                url: "https://rumahbumn-acehutara.iblogger.org/?i=1",
-                title: "Rumah BUMN Aceh Utara",
-                embed: false,
-                categoryId: "Komunitas · Pemberdayaan UMKM BUMN",
-                categoryEn: "Community · MSME Empowerment",
-                descriptionId: "Platform digital Rumah BUMN untuk pembinaan dan promosi produk pelaku usaha daerah.",
-                descriptionEn: "Rumah BUMN digital hub for regional small business development and promotion."
-            },
-            {
-                url: "https://tiketkita.vercel.app/",
-                title: "TiketKita",
-                categoryId: "Pariwisata · Pemesanan Tiket",
-                categoryEn: "Travel · Ticket Booking",
-                descriptionId: "Platform pemesanan tiket online dengan pengalaman digital yang praktis.",
-                descriptionEn: "An online ticket booking platform with a straightforward digital experience."
-            },
-            {
-                url: "https://pasarumkm.vercel.app/",
-                title: "PasarUMKM",
-                categoryId: "E-commerce · Pasar UMKM",
-                categoryEn: "E-commerce · MSME Marketplace",
-                descriptionId: "Pasar digital untuk membantu produk UMKM menjangkau lebih banyak pelanggan.",
-                descriptionEn: "A digital marketplace helping small business products reach more customers."
-            },
-            {
-                url: "https://abunbumbubangka.infinityfreeapp.com/",
-                title: "ABUN Bumbu",
-                embed: false,
-                categoryId: "E-commerce · Terasi & Sambal",
-                categoryEn: "E-commerce · Shrimp Paste & Sambal",
-                descriptionId: "Toko online produk terasi asli Bangka dan sambal terasi.",
-                descriptionEn: "Online store for authentic Bangka shrimp paste and shrimp paste sambal."
+            function refreshIcons() {
+                if (window.lucide) lucide.createIcons();
             }
-        ];
 
-        // ── Screenshot helper via Microlink API ──────────────────────────────
-        function screenshotUrl(pageUrl) {
-            return `https://api.microlink.io/?url=${encodeURIComponent(pageUrl)}&screenshot=true&meta=false&embed=screenshot.url`;
-        }
+            /* ================= DATA PROYEK ================= */
+            /* Sesuaikan judul, kategori, dan path gambar dengan punyamu.
+               Gambar: img/portfolio-1.jpg s/d img/portfolio-6.jpg */
+            var projects = [
+                { img: 'img/portfolio-1.jpg', title: { id: 'Glow Skin', en: 'Glow Skin' }, tag: { id: 'Skincare · Landing Page', en: 'Skincare · Landing Page' } },
+                { img: 'img/portfolio-2.jpg', title: { id: 'Kopi Sambal', en: 'Kopi Sambal' }, tag: { id: 'Kafe · Website UMKM', en: 'Café · SME Website' } },
+                { img: 'img/portfolio-3.jpg', title: { id: 'Batik Nusantara', en: 'Batik Nusantara' }, tag: { id: 'Fashion · Toko Online', en: 'Fashion · Online Store' } },
+                { img: 'img/portfolio-4.jpg', title: { id: 'Portofolio Arifan', en: 'Arifan Portfolio' }, tag: { id: 'Personal · Portofolio', en: 'Personal · Portfolio' } },
+                { img: 'img/portfolio-5.jpg', title: { id: 'Bunda Catering', en: 'Bunda Catering' }, tag: { id: 'Kuliner · Company Profile', en: 'Culinary · Company Profile' } },
+                { img: 'img/portfolio-6.jpg', title: { id: 'ServisKu', en: 'ServisKu' }, tag: { id: 'Jasa · Sistem Booking', en: 'Services · Booking System' } }
+            ];
 
-        // ── Iframe fallback: if iframe blocked, swap to screenshot ────────────
-        function handleIframeLoad(iframe) {
-            try {
-                // If we can access contentDocument it loaded fine
-                const doc = iframe.contentDocument || iframe.contentWindow.document;
-                if (!doc || doc.URL === "about:blank") throw new Error("blank");
-            } catch (e) {
-                swapToScreenshot(iframe, iframe.dataset.pageUrl, iframe.dataset.pageTitle);
+            function renderProjects(lang) {
+                var grid = document.getElementById('projectGrid');
+                if (!grid) return;
+                grid.innerHTML = projects.map(function (p) {
+                    return '<article class="group relative flex min-w-0 flex-col overflow-hidden rounded-[1.4rem] bg-[#26312a] ring-1 ring-white/10">' +
+                        '<div class="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-[#33403a] to-[#1d2521]">' +
+                        '<img src="' + p.img + '" alt="' + p.title[lang] + '" loading="lazy" ' +
+                        'class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" ' +
+                        'onerror="this.remove()">' +
+                        '<span class="absolute left-4 top-4 rounded-full bg-[#d7ff4f] px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em] text-[#1d2521]">' + p.tag[lang] + '</span>' +
+                        '</div>' +
+                        '<div class="flex items-center justify-between gap-3 p-5">' +
+                        '<div class="min-w-0"><h3 class="display-font truncate text-lg font-bold">' + p.title[lang] + '</h3></div>' +
+                        '<span class="grid size-9 shrink-0 place-items-center rounded-full bg-white/10 transition group-hover:bg-[#d7ff4f] group-hover:text-[#1d2521]">' +
+                        '<i data-lucide="arrow-up-right" class="size-4"></i></span>' +
+                        '</div></article>';
+                }).join('');
+                refreshIcons();
             }
-        }
 
-        function handleIframeError(iframe) {
-            swapToScreenshot(iframe, iframe.dataset.pageUrl, iframe.dataset.pageTitle);
-        }
+            /* ================= GANTI BAHASA ================= */
+            var priceHrefs = {
+                id: {
+                    priceBtn1: 'https://api.whatsapp.com/send/?phone=6283180667700&text=Saya%20mau%20pesan%20paket%20Landing%20Page%20Rp%2050K',
+                    priceBtn2: 'https://api.whatsapp.com/send/?phone=6283180667700&text=Saya%20mau%20pesan%20paket%20UMKM%20Start%20Rp%20150K',
+                    priceBtn3: 'https://api.whatsapp.com/send/?phone=6283180667700&text=Halo%20aDGo%2C%20saya%20ingin%20konsultasi%20paket%20Business%20Custom'
+                },
+                en: {
+                    priceBtn1: 'https://api.whatsapp.com/send/?phone=6283180667700&text=Hi%20aDGo%2C%20I%27d%20like%20to%20order%20the%20Landing%20Page%20package%20%28IDR%2050K%29',
+                    priceBtn2: 'https://api.whatsapp.com/send/?phone=6283180667700&text=Hi%20aDGo%2C%20I%27d%20like%20to%20order%20the%20UMKM%20Start%20package%20%28IDR%20150K%29',
+                    priceBtn3: 'https://api.whatsapp.com/send/?phone=6283180667700&text=Hi%20aDGo%2C%20I%27d%20like%20to%20discuss%20a%20custom%20project'
+                }
+            };
 
-        function swapToScreenshot(el, pageUrl, title) {
-            const container = el.closest(".preview-container");
-            if (!container || container.dataset.swapped) return;
-            container.dataset.swapped = "1";
-            const lang = currentLang;
-            const visitText = lang === "id" ? "Buka Website" : "Visit Website";
-            container.innerHTML = `
-                <div class="relative h-full w-full overflow-hidden bg-[#161d19]">
-                    <img
-                        src="${screenshotUrl(pageUrl)}"
-                        alt="Preview ${title}"
-                        class="h-full w-full object-cover object-top transition-opacity duration-500"
-                        loading="lazy"
-                        onerror="this.parentElement.innerHTML='<a href=\\'${pageUrl}\\' target=\\'_blank\\' rel=\\'noopener noreferrer\\' class=\\'flex h-full flex-col items-center justify-center gap-3 bg-[#f5f4ed] px-5 text-center text-[#1d2521]\\'><svg xmlns=\\'http://www.w3.org/2000/svg\\' class=\\'size-7 text-[#c74e3d]\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\'><path d=\\'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\\'/><polyline points=\\'15 3 21 3 21 9\\'/><line x1=\\'10\\' y1=\\'14\\' x2=\\'21\\' y2=\\'3\\'/></svg><span class=\\'text-sm font-semibold\\'>${lang === "id" ? "Buka situs ini di tab baru." : "Open this site in a new tab."}</span><span class=\\'text-xs font-bold underline underline-offset-4\\'>${visitText}</span></a>'"
-                    />
-                    <a href="${pageUrl}" target="_blank" rel="noopener noreferrer"
-                       class="absolute inset-0 flex items-end justify-center p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200">
-                        <span class="rounded-full bg-[#d7ff4f] px-4 py-1.5 text-xs font-bold text-[#1d2521]">${visitText} ↗</span>
-                    </a>
-                </div>`;
-        }
+            function setLang(lang) {
+                document.documentElement.lang = (lang === 'en') ? 'en' : 'id';
 
-        function renderProjects() {
-            if (!projectGrid) return;
-            projectGrid.innerHTML = projects.map((project) => {
-                const domain = new URL(project.url).hostname;
-                const catText = currentLang === "id" ? project.categoryId : project.categoryEn;
-                const descText = currentLang === "id" ? project.descriptionId : project.descriptionEn;
-                const visitText = currentLang === "id" ? "Buka Website" : "Visit Website";
-                // All cards show LIVE badge; blocked ones fall back gracefully
-                const statusText = "LIVE";
-
-                // Always try iframe first. For known-blocked sites, use screenshot directly.
-                const previewContent = project.embed === false
-                    ? `<div class="preview-container h-full w-full relative overflow-hidden bg-[#161d19]">
-                           <img
-                               src="${screenshotUrl(project.url)}"
-                               alt="Preview ${project.title}"
-                               class="h-full w-full object-cover object-top"
-                               loading="lazy"
-                               onerror="this.parentElement.innerHTML='<a href=\\'${project.url}\\' target=\\'_blank\\' rel=\\'noopener noreferrer\\' class=\\'flex h-full flex-col items-center justify-center gap-3 bg-[#f5f4ed] px-5 text-center text-[#1d2521]\\'><svg xmlns=\\'http://www.w3.org/2000/svg\\' class=\\'size-7 text-[#c74e3d]\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\'><path d=\\'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\\'/><polyline points=\\'15 3 21 3 21 9\\'/><line x1=\\'10\\' y1=\\'14\\' x2=\\'21\\' y2=\\'3\\'/></svg><span class=\\'text-sm font-semibold\\'>${currentLang === "id" ? "Buka situs ini di tab baru." : "Open this site in a new tab."}</span><span class=\\'text-xs font-bold underline underline-offset-4\\'>${visitText}</span></a>'"
-                           />
-                           <a href="${project.url}" target="_blank" rel="noopener noreferrer"
-                              class="absolute inset-0 flex items-end justify-center p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200">
-                               <span class="rounded-full bg-[#d7ff4f] px-4 py-1.5 text-xs font-bold text-[#1d2521]">${visitText} ↗</span>
-                           </a>
-                       </div>`
-                    : `<div class="preview-container h-full w-full">
-                           <iframe
-                               src="${project.url}"
-                               title="Live preview ${project.title}"
-                               loading="lazy"
-                               class="h-full w-full border-0 bg-white"
-                               allow="fullscreen"
-                               data-page-url="${project.url}"
-                               data-page-title="${project.title}"
-                               onload="(function(f){try{var d=f.contentDocument||f.contentWindow.document;if(!d||d.URL==='about:blank')throw 1;}catch(e){swapToScreenshot(f,'${project.url}','${project.title}')}})(this)"
-                               onerror="swapToScreenshot(this,'${project.url}','${project.title}')"
-                           ></iframe>
-                       </div>`;
-                return `<article class="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-white/10 bg-[#253029] transition duration-300 hover:-translate-y-1 hover:border-[#d7ff4f]/40 hover:shadow-[0_16px_36px_rgba(0,0,0,0.35)] sm:rounded-[1.4rem]">
-                    <!-- Browser Window Mockup -->
-                    <div class="w-full overflow-hidden bg-[#161d19]">
-                        <!-- macOS style top bar -->
-                        <div class="flex items-center justify-between border-b border-white/10 bg-[#1a231e] px-2 py-1.5 sm:px-3.5 sm:py-2">
-                            <div class="flex items-center gap-1.5">
-                                <span class="size-1.5 rounded-full bg-[#f07861] sm:size-2"></span>
-                                <span class="size-1.5 rounded-full bg-[#d7ff4f] sm:size-2"></span>
-                                <span class="size-1.5 rounded-full bg-[#52c41a] sm:size-2"></span>
-                            </div>
-                            <div class="flex max-w-[62%] items-center gap-1.5 truncate rounded-md bg-white/5 px-2.5 py-0.5 text-[11px] text-white/70">
-                                <i data-lucide="lock" class="hidden size-3 text-[#d7ff4f] sm:block"></i>
-                                <span class="max-w-full truncate font-mono text-[9px] sm:text-[11px]">${domain}</span>
-                            </div>
-                            <span class="hidden items-center gap-1 text-[10px] font-bold text-[#d7ff4f] sm:flex">
-                                <span class="size-1.5 rounded-full bg-[#d7ff4f] animate-pulse"></span>
-                                <span>${statusText}</span>
-                            </span>
-                        </div>
-                        
-                        <!-- Interactive live website embed -->
-                        <div class="aspect-[4/3] w-full bg-[#161d19]">
-                            ${previewContent}
-                        </div>
-                    </div>
-
-                    <!-- Project Info -->
-                    <div class="flex flex-1 flex-col justify-between p-2 text-white sm:p-4 lg:p-5">
-                        <div>
-                            <div class="flex min-w-0 items-center justify-between gap-2">
-                                <span class="min-w-0 max-w-full rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] font-semibold leading-tight text-[#d7ff4f] sm:px-2.5 sm:text-[11px]">${catText}</span>
-                            </div>
-                            <h3 class="display-font mt-2 text-xs font-bold leading-snug tracking-tight text-white transition-colors group-hover:text-[#d7ff4f] sm:mt-2.5 sm:text-lg">${project.title}</h3>
-                            <p class="mt-2 hidden text-xs leading-5 text-white/70 sm:block">${descText}</p>
-                        </div>
-                        <div class="mt-2 flex items-center justify-between border-t border-white/10 pt-2 sm:mt-4 sm:pt-3">
-                            <span class="hidden text-[11px] font-medium text-white/50 sm:inline">${visitText}</span>
-                            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="ml-auto inline-flex size-7 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#d7ff4f] hover:text-[#1d2521] sm:size-8" aria-label="Open ${project.title}">
-                                <i data-lucide="arrow-up-right" class="size-3.5 sm:size-4"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>`;
-            }).join("");
-            lucide.createIcons();
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            const secureCookie = window.location.protocol === "https:" ? "; Secure" : "";
-            document.cookie = `adgo_lang=${encodeURIComponent(lang)}; Max-Age=31536000; Path=/; SameSite=Lax${secureCookie}`;
-            document.documentElement.lang = lang;
-            document.querySelectorAll("[data-id][data-en]").forEach((element) => {
-                element.innerHTML = element.dataset[lang];
-            });
-            document.querySelectorAll("[data-placeholder-id]").forEach((element) => {
-                element.placeholder = element.dataset[`placeholder${lang === "id" ? "Id" : "En"}`];
-            });
-            langButtons.forEach((button) => {
-                const active = button.dataset.lang === lang;
-                button.setAttribute("aria-pressed", String(active));
-                button.classList.toggle("bg-[#1d2521]", active);
-                button.classList.toggle("text-white", active);
-                button.classList.toggle("text-[#68716b]", !active);
-            });
-            document.title = "aDGo — Agency Digital Go Online";
-            renderProjects();
-        }
-
-        langButtons.forEach((button) => button.addEventListener("click", () => setLanguage(button.dataset.lang)));
-
-        function setMenuOpen(isOpen) {
-            menuButton.setAttribute("aria-expanded", String(isOpen));
-            menuButton.setAttribute("aria-label", isOpen ? (currentLang === "id" ? "Tutup menu" : "Close menu") : (currentLang === "id" ? "Buka menu" : "Open menu"));
-            navLinks.classList.toggle("is-open", isOpen);
-            navScrim.classList.toggle("is-open", isOpen);
-            navScrim.classList.toggle("hidden", !isOpen);
-            menuButton.innerHTML = isOpen ? '<i data-lucide="x" class="size-5"></i>' : '<i data-lucide="menu" class="size-5"></i>';
-            lucide.createIcons();
-        }
-
-        menuButton.addEventListener("click", () => setMenuOpen(menuButton.getAttribute("aria-expanded") !== "true"));
-        drawerCloseButton.addEventListener("click", () => setMenuOpen(false));
-        navScrim.addEventListener("click", () => setMenuOpen(false));
-        document.querySelectorAll(".nav-link").forEach((link) => link.addEventListener("click", () => setMenuOpen(false)));
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") setMenuOpen(false);
-        });
-        document.getElementById("year").textContent = new Date().getFullYear();
-        setLanguage(currentLang);
-
-        document.getElementById("contactForm").addEventListener("submit", async (event) => {
-            event.preventDefault();
-            const form = event.currentTarget;
-            const button = document.getElementById("btnSubmit");
-            const status = document.getElementById("formStatus");
-            button.disabled = true;
-            button.querySelector("span").textContent = currentLang === "id" ? "Mengirim..." : "Sending...";
-            try {
-                const response = await fetch("https://formsubmit.co/ajax/afansurifan@gmail.com", {
-                    method: "POST",
-                    headers: { Accept: "application/json" },
-                    body: new FormData(form)
+                document.querySelectorAll('[data-id]').forEach(function (el) {
+                    var value = el.getAttribute('data-' + lang);
+                    if (value !== null) el.textContent = value;
                 });
-                const result = await response.json();
-                if (!response.ok || !(result.success === true || result.success === "true")) throw new Error("Submission failed");
-                status.textContent = currentLang === "id" ? "Pesan terkirim. Terima kasih, kami akan segera menghubungi kamu." : "Message sent. Thanks, we'll be in touch soon.";
-                status.classList.remove("hidden", "text-[#c74e3d]");
-                status.classList.add("text-[#426d35]");
-                form.reset();
-            } catch (error) {
-                status.textContent = currentLang === "id" ? "Pesan belum terkirim. Coba lagi atau hubungi kami lewat WhatsApp." : "Your message wasn't sent. Please try again or contact us on WhatsApp.";
-                status.classList.remove("hidden", "text-[#426d35]");
-                status.classList.add("text-[#c74e3d]");
-            } finally {
-                button.disabled = false;
-                button.querySelector("span").textContent = currentLang === "id" ? "Kirim pesan" : "Send message";
+                document.querySelectorAll('[data-placeholder-id]').forEach(function (el) {
+                    var value = el.getAttribute('data-placeholder-' + lang);
+                    if (value !== null) el.setAttribute('placeholder', value);
+                });
+
+                document.querySelectorAll('.lang-button').forEach(function (btn) {
+                    var active = btn.getAttribute('data-lang') === lang;
+                    btn.classList.toggle('bg-[#1d2521]', active);
+                    btn.classList.toggle('text-white', active);
+                    btn.classList.toggle('text-[#68716b]', !active);
+                    btn.setAttribute('aria-pressed', String(active));
+                });
+
+                Object.keys(priceHrefs[lang]).forEach(function (id) {
+                    var link = document.getElementById(id);
+                    if (link) link.setAttribute('href', priceHrefs[lang][id]);
+                });
+
+                renderProjects(lang);
+
+                try { localStorage.setItem('adgo-lang', lang); } catch (e) { }
             }
-        });
 
-        lucide.createIcons();
+            document.querySelectorAll('.lang-button').forEach(function (btn) {
+                btn.addEventListener('click', function () { setLang(btn.getAttribute('data-lang')); });
+            });
+
+            var savedLang = null;
+            try { savedLang = localStorage.getItem('adgo-lang'); } catch (e) { }
+            setLang(savedLang === 'en' ? 'en' : 'id');
+
+            /* ================= MENU MOBILE ================= */
+            var menuBtn = document.getElementById('menuButton');
+            var drawer = document.getElementById('navLinks');
+            var scrim = document.getElementById('navScrim');
+            var closeBtn = document.getElementById('drawerCloseButton');
+
+            function setMenu(open) {
+                if (drawer) drawer.classList.toggle('is-open', open);
+                if (scrim) {
+                    scrim.classList.toggle('is-open', open);
+                    scrim.setAttribute('aria-hidden', String(!open));
+                }
+                if (menuBtn) menuBtn.setAttribute('aria-expanded', String(open));
+                document.documentElement.style.overflow = open ? 'hidden' : '';
+            }
+
+            if (menuBtn) menuBtn.addEventListener('click', function () { setMenu(true); });
+            if (closeBtn) closeBtn.addEventListener('click', function () { setMenu(false); });
+            if (scrim) scrim.addEventListener('click', function () { setMenu(false); });
+            if (drawer) {
+                drawer.querySelectorAll('a').forEach(function (link) {
+                    link.addEventListener('click', function () { setMenu(false); });
+                });
+            }
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') setMenu(false);
+            });
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 1024) setMenu(false);
+            });
+
+            /* ================= FORM ================= */
+            var form = document.getElementById('contactForm');
+            if (form) {
+                form.addEventListener('submit', function () {
+                    var btn = document.getElementById('btnSubmit');
+                    var label = document.getElementById('submitLabel');
+                    if (btn) btn.disabled = true;
+                    if (btn) btn.style.opacity = '0.7';
+                    if (label) label.textContent = document.documentElement.lang === 'en'
+                        ? 'Sending...' : 'Mengirim...';
+                });
+            }
+
+            /* ================= TAHUN OTOMATIS ================= */
+            var yearEl = document.getElementById('year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+            refreshIcons();
+        })();
     </script>
-
 </body>
-
 
 </html>
