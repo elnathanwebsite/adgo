@@ -105,7 +105,7 @@
             letter-spacing: -0.045em;
         }
 
-        /* ── Project grid: selalu 2 kolom di semua device ── */
+        /* ── Project grid: 2 kolom mobile, 4 kolom desktop ── */
         #projectGrid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -115,6 +115,12 @@
         @media (min-width: 40rem) {
             #projectGrid {
                 gap: 1.25rem;
+            }
+        }
+
+        @media (min-width: 64rem) {
+            #projectGrid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
             }
         }
 
@@ -558,8 +564,8 @@
             <div class="mx-auto max-w-5xl px-5 text-center">
                 <p class="mb-7 text-xs font-bold uppercase tracking-[.18em] text-[#c74e3d]" data-id="Dari klien kami"
                     data-en="From our clients">Dari klien kami</p>
-                <!-- Quote tetap besar, tidak dikecilkan -->
-                <blockquote class="display-font text-9xl font-semibold leading-snug tracking-[-.025em] sm:text-4xl">
+                <!-- Quote tetap besar, tidak terpengaruh .hero-title -->
+                <blockquote class="display-font text-2xl font-semibold leading-snug tracking-[-.025em] sm:text-4xl">
                     “<span
                         data-id="Desainnya estetik dan kekinian banget, pas sama brand skincare aku. Loading website juga cepat, jadi customer nggak kabur pas mau checkout."
                         data-en="The design is so current and fits my skincare brand perfectly. The site loads fast too, so customers don't leave at checkout.">Desainnya
