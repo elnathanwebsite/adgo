@@ -70,6 +70,22 @@
             background-size: 18px 18px;
         }
 
+        #projectGrid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media (min-width: 25rem) and (max-width: 39.999rem) {
+            #projectGrid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 64rem) {
+            #projectGrid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
         #navLinks.mobile-drawer {
             position: fixed;
             top: 0;
@@ -441,7 +457,7 @@
                         data-en="Every project has its own story and challenge. Here are a few we're proud of.">Setiap
                         proyek punya cerita dan tantangannya sendiri. Ini beberapa yang kami banggakan.</p>
                 </div>
-                <div id="projectGrid" class="grid grid-cols-3 gap-2 md:grid-cols-2 md:gap-5 lg:grid-cols-3"></div>
+                <div id="projectGrid" class="grid gap-3 sm:gap-5"></div>
                 <div
                     class="mt-6 flex flex-col gap-4 rounded-[1.4rem] bg-[#d7ff4f] p-6 text-[#1d2521] sm:flex-row sm:items-center sm:justify-between sm:p-8">
                     <div>
@@ -921,11 +937,10 @@
                     </div>
 
                     <!-- Project Info -->
-                    <div class="flex flex-1 flex-col justify-between p-2 text-white sm:p-5">
+                    <div class="flex flex-1 flex-col justify-between p-2 text-white sm:p-4 lg:p-5">
                         <div>
                             <div class="flex min-w-0 items-center justify-between gap-2">
-                                <span class="max-w-full rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] font-semibold leading-tight text-[#d7ff4f] sm:px-2.5 sm:text-[11px]">${catText}</span>
-                                <span class="hidden font-mono text-[10px] text-white/40 sm:inline">${domain}</span>
+                                <span class="min-w-0 max-w-full rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] font-semibold leading-tight text-[#d7ff4f] sm:px-2.5 sm:text-[11px]">${catText}</span>
                             </div>
                             <h3 class="display-font mt-2 text-xs font-bold leading-snug tracking-tight text-white transition-colors group-hover:text-[#d7ff4f] sm:mt-2.5 sm:text-lg">${project.title}</h3>
                             <p class="mt-2 hidden text-xs leading-5 text-white/70 sm:block">${descText}</p>
